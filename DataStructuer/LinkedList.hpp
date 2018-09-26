@@ -15,21 +15,21 @@ public:
     T data;
     LLNode * next;
     LLNode * prev;
-    LLNode(void);
     LLNode(T data);
+    LLNode(void);
     ~LLNode();
 };
 
 template <class T>
-LLNode<T>::LLNode(void){
-    data=NULL;
+LLNode<T>::LLNode(T data){
+    this->data=data;
     next=NULL;
     prev=NULL;
 }
 
 template <class T>
-LLNode<T>::LLNode(T data_input){
-    data=data_input;
+LLNode<T>::LLNode(){
+    data=NULL;
     next=NULL;
     prev=NULL;
 }
@@ -40,26 +40,29 @@ private:
     LLNode<T> * head;
     LLNode<T> * tail;
 public:
-    //void test(void);    // 测试函数
+    void test(void);    // 测试函数
     LinkedList(void);
-    LinkedList(T data_input);
+    LinkedList(T data);
     void AddtoHead(T data); // 添加到头部
     void AddtoTail(T data); // 添加到尾部
     T RemoveFromHead(void); // 从头部删除
     T RemoveFromTail(void); // 从尾部删除
+    T GetHead(void);    // 获取头部数据
+    T GetTail(void);    // 获取尾部数据
     bool Search(T key); // 判断 key 是否在链表内
     bool Empty(void);   // 判断链表是否为空
+    int size(void); // 返回链表大小
     ~LinkedList(void);
 };
 
 template <class T>
-LinkedList<T>::LinkedList(void){
-    head=tail=new LLNode<T>();
+LinkedList<T>::LinkedList(){
+    head=tail=NULL;
 }
 
 template <class T>
-LinkedList<T>::LinkedList(T data_input){
-    head=tail=new LLNode<T>(data_input);
+LinkedList<T>::LinkedList(T data){
+    head=tail=new LLNode<T>(data);
 }
 
 template <class T>
@@ -89,7 +92,7 @@ void LinkedList<T>::AddtoTail(T data){
 template <class T>
 T LinkedList<T>::RemoveFromHead(void){
     if(Empty()){    // 如果链表为空
-        return 0xCCCC;
+        throw ("Linked List is empty!");
     } else if ((head==tail)&&(head!=NULL)){ // 仅有一个元素
         T tmp=head->data;
         head=tail=NULL;
@@ -105,7 +108,7 @@ T LinkedList<T>::RemoveFromHead(void){
 template <class T>
 T LinkedList<T>::RemoveFromTail(void){
     if(Empty()){    // 如果链表为空
-        return 0xCCCC;
+        return 0xCDCD;
     } else if ((head==tail)&&(tail!=NULL)){ // 仅有一个元素
         T tmp=tail->data;
         head=tail=NULL;
@@ -117,6 +120,23 @@ T LinkedList<T>::RemoveFromTail(void){
         return tmp;
     }
 }
+
+template <class T>
+T LinkedList<T>::GetHead(){
+    if(Empty())
+        return 0xCDCD;
+    else
+        return head->data;
+}
+
+template <class T>
+T LinkedList<T>::GetTail(){
+    if(Empty())
+        return 0xCDCD;
+    else
+        return tail->data;
+}
+
 
 template <class T>
 bool LinkedList<T>::Search(T key){
@@ -135,6 +155,17 @@ bool LinkedList<T>::Empty(void){
 }
 
 template <class T>
+int LinkedList<T>::size(){
+    int count=1;
+    LLNode<T> * tmp=head;
+    while(tmp->next!=NULL){
+        count+=1;
+        tmp=tmp->next;
+    }
+    return count;
+}
+
+template <class T>
 LinkedList<T>::~LinkedList(void){
     while(!Empty()){
         LLNode<T> * tmp=head->next;
@@ -142,16 +173,16 @@ LinkedList<T>::~LinkedList(void){
         head=tmp;
     }
 }
-//
-//#include "iostream"
-//using namespace std;
-//template <class T>
-//void LinkedList<T>::test(void){
-//    LLNode<T>*tmp=head;
-//    while(tmp!=NULL){
-//        cout<<tmp->data<<endl;
-//        tmp=tmp->next;
-//    }
-//}
+
+#include "iostream"
+using namespace std;
+template <class T>
+void LinkedList<T>::test(void){
+    LLNode<T>*tmp=head;
+    while(tmp!=NULL){
+        cout<<tmp->data<<endl;
+        tmp=tmp->next;
+    }
+}
 
 #endif /* LinkedList_h */
