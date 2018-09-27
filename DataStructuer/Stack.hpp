@@ -5,6 +5,7 @@
 //  Created by Zone.Niuzh on 2018/9/25.
 //  Copyright © 2018 MRNIU. All rights reserved.
 //
+// 栈的链表实现
 
 #ifndef Stack_h
 #define Stack_h
@@ -17,18 +18,18 @@ private:
 public:
     void test(void);    // 测试函数
     Stack(void);
-    Stack(T data);
+    Stack(const T data);
     ~Stack();
-    T Top(void);    // 返回栈顶数据
-    T Bottom(void); // 返回栈底数据
+    T Top(void) const;    // 返回栈顶数据
+    T Bottom(void) const; // 返回栈底数据
     T Pop(void);    // 出栈
-    void Push(T data);  // 压栈
-    int Size(void); // 返回栈的大小
-    bool Empty(void);   // 判断栈是否为空
+    void Push(const T data);  // 压栈
+    int Size(void) const; // 返回栈的大小
+    bool Empty(void) const;   // 判断栈是否为空
 };
 
 template <class T>
-Stack<T>::Stack(T data){
+Stack<T>::Stack(const T data){
     LL.AddtoHead(data);
 }
 
@@ -38,12 +39,12 @@ Stack<T>::Stack(){
 }
 
 template <class T>
-T Stack<T>::Top(){
+T Stack<T>::Top() const{
     return LL.GetHead();
 }
 
 template <class T>
-T Stack<T>::Bottom(){
+T Stack<T>::Bottom() const{
     return LL.GetTail();
 }
 
@@ -53,18 +54,18 @@ T Stack<T>::Pop(){
 }
 
 template <class T>
-void Stack<T>::Push(T data_input){
+void Stack<T>::Push(const T data_input){
     LL.AddtoHead(data_input);
     return;
 }
 
 template <class T>
-bool Stack<T>::Empty(){
+bool Stack<T>::Empty() const{
     return LL.Empty();
 }
 
 template <class T>
-int Stack<T>::Size(){
+int Stack<T>::Size() const{
     return LL.size();
 }
 
