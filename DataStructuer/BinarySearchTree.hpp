@@ -56,6 +56,7 @@ private:
     void DepthFirstTraversal_LVR(BSTN<T> * bstn) const; // 深度优先遍历 中序
     void DepthFirstTraversal_LRV(BSTN<T> * bstn) const; // 深度优先遍历 后序
     const string DisplayInfo(BSTN<T> * bstn, string msg) const;
+    const BSTN<T> * ConverttoBST(T * arr);  // 将数组转换为 BST 算法见 IA 3e 中文版 p84
 public:
     BinarySearchTree(void);
     BinarySearchTree(const T data);
