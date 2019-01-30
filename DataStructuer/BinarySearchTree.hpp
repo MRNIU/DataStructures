@@ -6,14 +6,11 @@
 //  Copyright © 2018 Zone.N. All rights reserved.
 //
 
-#ifndef BinaryTree_h
-#define BinaryTree_h
+#ifndef BinaryTree_hpp
+#define BinaryTree_hpp
 
 #include "Queue.hpp"
 
-// Binary search tree node
-// 节点：BSTN
-// 左，右，数据
 template <class T>
 class BSTN {
 public:
@@ -52,7 +49,6 @@ template <class T>
 class BinarySearchTree {
 protected:
     BSTN<T> * root; // 保存树根节点
-    int height; // 保存树高
     int ipl(BSTN<T> * bstn) const; // Internal Path Length 内部路径长度
     virtual void visit(BSTN<T> * bstn) const;   // ok
     void bfs(BSTN<T> * bstn) const; // 广度优先遍历 ok
@@ -63,12 +59,12 @@ protected:
     virtual void dfs_lvr(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
     void dfs_lrv(BSTN<T> * bstn) const; // LRV ok
     virtual void dfs_lrv(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
-//    virtual void display_tree(BSTN<T> * bstn) const; // 打印树结构
-//    virtual const BSTN<T> * array_to_bst(T * arr);  // 将数组转换为 BST 算法见 IA 3e 中文版 p84
+    virtual void display_tree(BSTN<T> * bstn) const; // 打印树结构
+    virtual const BSTN<T> * array_to_bst(T * arr);  // 将数组转换为 BST 算法见 IA 3e 中文版 p84
     virtual void clear(BSTN<T> *bstn);  // 删除以指定节点为根的树 ok
-    int get_height(BSTN<T> *bstn) const; // 返回指定树的树高
-    int get_leaf(BSTN<T> *bstn) const;  // 返回以指定节点为根的树的叶子结点数量
-    int get_nodes(BSTN<T> * bstn) const;    // 返回以指定节点为根的树的结点数量
+    virtual int get_height(BSTN<T> *bstn) const; // 返回指定树的树高 ok
+    virtual int get_leaf(BSTN<T> *bstn) const;  // 返回以指定节点为根的树的叶子结点数量 ok
+    virtual int get_nodes(BSTN<T> * bstn) const;    // 返回以指定节点为根的树的结点数量 ok
     virtual bool insert(BSTN<T> * bstn, const T data) const;  // 插入 ok
     bool search_in_sub_tree(BSTN<T> * bstn, const T data) const;   // 在指定子树中搜索 data ok
 public:
@@ -81,6 +77,7 @@ public:
     int GetHeight(void) const;  // 返回树高
     int GetLeaf(void) const;  // 返回树叶子节点数量
     int GetNodes(void) const;   // 返回树节点数量
+    void DisplayTree(void) const;   // 打印树结构
 };
 
 template <class T>
@@ -114,11 +111,10 @@ void BinarySearchTree<T>::clear(BSTN<T> * bstn){
 
 template <class T>
 int BinarySearchTree<T>::ipl(BSTN<T> * bstn) const{
+    int ipl=0;
     if(bstn==NULL) return 0;
-    else{
-        
-    }
-    return 0;
+    
+    return ipl;
 }
 
 template <class T>
@@ -201,11 +197,11 @@ int BinarySearchTree<T>::get_nodes(BSTN<T> * bstn) const{
 // 返回树高度
 template <class T>
 int BinarySearchTree<T>::get_height(BSTN<T> * bstn) const{
-    int height=0;
-    bfs(bstn, [&height](BSTN<T> * bstn){
-        height++;
-    });
-    return height;
+    if (bstn==NULL)
+        return 0;
+    int lh = get_height(bstn->left);
+    int rh = get_height(bstn->right);
+    return lh>=rh?++lh:++rh;
 }
 
 // 返回叶子结点数量
@@ -272,8 +268,8 @@ void BinarySearchTree<T>::dfs_lrv(BSTN<T> *bstn) const{
 template <class T>
 void BinarySearchTree<T>::dfs_lrv(BSTN<T> *bstn, std::function<void (BSTN<T>*)> fun) const{
     if(bstn!=NULL){
-        dfs_lrv(bstn->left);
-        dfs_lrv(bstn->right);
+        dfs_lrv(bstn->left, fun);
+        dfs_lrv(bstn->right, fun);
         fun(bstn);
         return;
     }
@@ -294,9 +290,9 @@ void BinarySearchTree<T>::dfs_lvr(BSTN<T> *bstn) const{
 template <class T>
 void BinarySearchTree<T>::dfs_lvr(BSTN<T> *bstn, std::function<void (BSTN<T>*)> fun) const{
     if(bstn!=NULL){
-        dfs_lvr(bstn->left);
+        dfs_lvr(bstn->left, fun);
         fun(bstn);
-        dfs_lvr(bstn->right);
+        dfs_lvr(bstn->right, fun);
         return;
     }
     return;
@@ -317,11 +313,30 @@ template <class T>
 void BinarySearchTree<T>::dfs_vlr(BSTN<T> *bstn, std::function<void (BSTN<T>*)> fun) const{
     if(bstn!=NULL){
         fun(bstn);
-        dfs_vlr(bstn->left);
-        dfs_vlr(bstn->right);
+        dfs_vlr(bstn->left, fun);
+        dfs_vlr(bstn->right, fun);
         return;
     }
     return;
 }
 
-#endif /* BinaryTree_h */
+
+
+template <class T>
+void BinarySearchTree<T>::DisplayTree() const{
+    display_tree(this->root);
+    return;
+}
+
+template <class T>
+void BinarySearchTree<T>::display_tree(BSTN<T> * bstn) const{
+    std::cout<<"display_tree"<<std::endl;
+    return;
+}
+
+template <class T>
+const BSTN<T>* BinarySearchTree<T>::array_to_bst(T * arr){
+    return 0;
+}
+
+#endif /* BinaryTree_hpp */

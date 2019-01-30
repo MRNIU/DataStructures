@@ -31,10 +31,16 @@ int main(int argc, const char * argv[]) {
     bt2.Insert(4);
     bt2.Insert(6);
     bt2.Insert(8);
+    bt2.Insert(9);
+    bt2.Insert(11);
+    bt2.Insert(10);
+    bt2.Insert(12);
     cout<<"search 66666 "<<bt2.Search(66666)<<endl;
     cout<<"search 77777 "<<bt2.Search(77777)<<endl;
     cout<<"GETHEIGHT: "<<bt2.GetHeight()<<endl;
-    cout<<"GETLEAF: "<<bt2.GetLeaf()<<endl;;
+    cout<<"GETLEAF: "<<bt2.GetLeaf()<<endl;
+    cout<<"GETNODES: "<<bt2.GetNodes()<<endl;
+    bt2.DisplayTree();
 
     
     
