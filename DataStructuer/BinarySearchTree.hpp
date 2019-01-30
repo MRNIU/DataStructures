@@ -112,8 +112,7 @@ void BinarySearchTree<T>::clear(BSTN<T> * bstn){
 template <class T>
 int BinarySearchTree<T>::ipl(BSTN<T> * bstn) const{
     int ipl=0;
-    if(bstn==NULL) return 0;
-    
+    // TODO
     return ipl;
 }
 
