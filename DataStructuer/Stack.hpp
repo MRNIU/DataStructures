@@ -31,11 +31,12 @@ public:
 template <class T>
 Stack<T>::Stack(const T data){
     LL.AddtoHead(data);
+    return;
 }
 
 template <class T>
 Stack<T>::Stack(){
-    LL;
+    return;
 }
 
 template <class T>
@@ -72,11 +73,13 @@ int Stack<T>::Size() const{
 template <class T>
 Stack<T>::~Stack(){
     LL.~LinkedList<T>();
+    return;
 }
 
 template <class T>
 void Stack<T>::test(void){
     LL.test();
+    return;
 }
 
 #endif /* Stack_h */

@@ -28,17 +28,19 @@ public:
 
 template <class T>
 Queue<T>::Queue(){
-    LL;
+    return;
 }
 
 template <class T>
 Queue<T>::Queue(const T data){
     LL.AddtoHead(data);
+    return;
 }
 
 template <class T>
 void Queue<T>::EnQueue(const T data){
     LL.AddtoHead(data);
+    return;
 }
 
 template <class T>
@@ -59,6 +61,7 @@ T Queue<T>::GetFirst() const{
 template <class T>
 Queue<T>::~Queue(){
     LL.~LinkedList<T>();
+    return;
 }
 
 

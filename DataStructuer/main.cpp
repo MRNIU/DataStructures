@@ -18,13 +18,26 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     BinarySearchTree<int> bt;
     BinarySearchTree<int> bt2(233);
-    //cout<<bt.Search(233)<<endl;
+    cout<<"search 233 "<<bt2.Search(233)<<endl;
+    bt2.Insert(66666);
+//    bt2.Insert(66666);
+//    bt2.Insert(77777);
+    bt2.Insert(77777);
+    bt2.Insert(5);
+    bt2.Insert(3);
+    bt2.Insert(7);
+    bt2.Insert(1);
+    bt2.Insert(2);
+    bt2.Insert(4);
+    bt2.Insert(6);
+    bt2.Insert(8);
+    cout<<"search 66666 "<<bt2.Search(66666)<<endl;
+    cout<<"search 77777 "<<bt2.Search(77777)<<endl;
+    cout<<"GETHEIGHT: "<<bt2.GetHeight()<<endl;
+    cout<<"GETLEAF: "<<bt2.GetLeaf()<<endl;;
+
     
-    int a[]={5,4,3,2,1,0,-1,-11,-2};
-    sort_bubble233(begin(a), end(a));
-    //for(auto i=0;i<sizeof(a)/sizeof(*a);i++)
-    for(auto i:a)
-        cout<<i<<endl;
+    
     
     cout << "Hello, World!\n" << endl;
     

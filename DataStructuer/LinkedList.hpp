@@ -26,6 +26,7 @@ LLNode<T>::LLNode(T data){
     this->data=data;
     next=NULL;
     prev=NULL;
+    return;
 }
 
 template <class T>
@@ -33,6 +34,7 @@ LLNode<T>::LLNode(){
     data=NULL;
     next=NULL;
     prev=NULL;
+    return;
 }
 
 template <class T>
@@ -59,11 +61,13 @@ public:
 template <class T>
 LinkedList<T>::LinkedList(){
     head=tail=NULL;
+    return;
 }
 
 template <class T>
 LinkedList<T>::LinkedList(const T data){
     head=tail=new LLNode<T>(data);
+    return;
 }
 
 template <class T>
@@ -109,7 +113,8 @@ T LinkedList<T>::RemoveFromHead(void){
 template <class T>
 T LinkedList<T>::RemoveFromTail(void){
     if(Empty()){    // 如果链表为空
-        return 0xCDCD;
+//        return 0xCDCD;
+        return NULL;
     } else if ((head==tail)&&(tail!=NULL)){ // 仅有一个元素
         T tmp=tail->data;
         head=tail=NULL;
@@ -173,17 +178,7 @@ LinkedList<T>::~LinkedList(void){
         head=NULL;
         head=tmp;
     }
-}
-
-#include "iostream"
-using namespace std;
-template <class T>
-void LinkedList<T>::test(void) const{
-    LLNode<T>*tmp=head;
-    while(tmp!=NULL){
-        cout<<tmp->data<<endl;
-        tmp=tmp->next;
-    }
+    return;
 }
 
 #endif /* LinkedList_h */
