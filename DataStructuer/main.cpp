@@ -11,36 +11,36 @@
 #include "LinkedList.hpp"
 #include "Queue.hpp"
 #include "BinarySearchTree.hpp"
+#include "CompleteBinaryTree.hpp"
 #include "SortAlgorithm.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    BinarySearchTree<int> bt;
-    BinarySearchTree<int> bt2(233);
-    cout<<"search 233 "<<bt2.Search(233)<<endl;
-    bt2.Insert(66666);
-//    bt2.Insert(66666);
-//    bt2.Insert(77777);
-    bt2.Insert(77777);
-    bt2.Insert(5);
-    bt2.Insert(3);
-    bt2.Insert(7);
-    bt2.Insert(1);
-    bt2.Insert(2);
-    bt2.Insert(4);
-    bt2.Insert(6);
-    bt2.Insert(8);
-    bt2.Insert(9);
-    bt2.Insert(11);
-    bt2.Insert(10);
-    bt2.Insert(12);
-    cout<<"search 66666 "<<bt2.Search(66666)<<endl;
-    cout<<"search 77777 "<<bt2.Search(77777)<<endl;
-    cout<<"GETHEIGHT: "<<bt2.GetHeight()<<endl;
-    cout<<"GETLEAF: "<<bt2.GetLeaf()<<endl;
-    cout<<"GETNODES: "<<bt2.GetNodes()<<endl;
-    bt2.DisplayTree();
+    BinarySearchTree<int> bt3(233);
+    cout<<"search 233 "<<bt3.Search(233)<<endl;
+    bt3.Insert(66666);
+//    bt3.Insert(66666);
+//    bt3.Insert(77777);
+    bt3.Insert(77777);
+    bt3.Insert(5);
+    bt3.Insert(3);
+    bt3.Insert(7);
+    bt3.Insert(1);
+    bt3.Insert(2);
+    bt3.Insert(4);
+    bt3.Insert(6);
+    bt3.Insert(8);
+    bt3.Insert(9);
+    bt3.Insert(11);
+    bt3.Insert(10);
+    bt3.Insert(12);
+    cout<<"search 66666 "<<bt3.Search(66666)<<endl;
+    cout<<"search 77777 "<<bt3.Search(77777)<<endl;
+    cout<<"GETHEIGHT: "<<bt3.GetHeight()<<endl;
+    cout<<"GETLEAF: "<<bt3.GetLeaf()<<endl;
+    cout<<"GETNODES: "<<bt3.GetNodes()<<endl;
+    bt3.DisplayTree();
 
     
     

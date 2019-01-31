@@ -1,13 +1,13 @@
 //
-//  BinaryTree.hpp
+//  BinarySearchTree.hpp
 //  DataStructuer
 //
 //  Created by Zone.N on 2018/10/29.
 //  Copyright © 2018 Zone.N. All rights reserved.
 //
 
-#ifndef BinaryTree_hpp
-#define BinaryTree_hpp
+#ifndef BinarySearchTree_hpp
+#define BinarySearchTree_hpp
 
 #include "Queue.hpp"
 
@@ -52,13 +52,13 @@ protected:
     int ipl(BSTN<T> * bstn) const; // Internal Path Length 内部路径长度
     virtual void visit(BSTN<T> * bstn) const;   // ok
     void bfs(BSTN<T> * bstn) const; // 广度优先遍历 ok
-    virtual void bfs(BSTN<T> *bstn, std::function<void (BSTN<T>*)> fun) const;
+    void bfs(BSTN<T> *bstn, std::function<void (BSTN<T>*)> fun) const;
     void dfs_vlr(BSTN<T> * bstn) const; // VLR ok
-    virtual void dfs_vlr(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
+    void dfs_vlr(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
     void dfs_lvr(BSTN<T> * bstn) const; // LVR ok
-    virtual void dfs_lvr(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
+    void dfs_lvr(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
     void dfs_lrv(BSTN<T> * bstn) const; // LRV ok
-    virtual void dfs_lrv(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
+    void dfs_lrv(BSTN<T> * bstn, std::function<void (BSTN<T>*)> fun) const;
     virtual void display_tree(BSTN<T> * bstn) const; // 打印树结构
     virtual const BSTN<T> * array_to_bst(T * arr);  // 将数组转换为 BST 算法见 IA 3e 中文版 p84
     virtual void clear(BSTN<T> *bstn);  // 删除以指定节点为根的树 ok
@@ -70,14 +70,14 @@ protected:
 public:
     BinarySearchTree(void);
     BinarySearchTree(const T data);
-    ~BinarySearchTree(void);
-    bool Search(const T data) const;   // 搜索 data
-    bool Empty(void) const; // 返回是否为空
-    bool Insert(const T data);  // 插入
-    int GetHeight(void) const;  // 返回树高
-    int GetLeaf(void) const;  // 返回树叶子节点数量
-    int GetNodes(void) const;   // 返回树节点数量
-    void DisplayTree(void) const;   // 打印树结构
+    virtual ~BinarySearchTree(void);
+    virtual bool Search(const T data) const;   // 搜索 data
+    virtual bool Empty(void) const; // 返回是否为空
+    virtual bool Insert(const T data);  // 插入
+    virtual int GetHeight(void) const;  // 返回树高
+    virtual int GetLeaf(void) const;  // 返回树叶子节点数量
+    virtual int GetNodes(void) const;   // 返回树节点数量
+    virtual void DisplayTree(void) const;   // 打印树结构
 };
 
 template <class T>
@@ -139,6 +139,8 @@ bool BinarySearchTree<T>::Empty(void) const{
 
 template <class T>
 bool BinarySearchTree<T>::insert(BSTN<T> * bstn, const T data) const{
+    if(search_in_sub_tree(bstn, data))
+        return false;
     if(bstn==NULL){
         bstn=new BSTN<T>(data);
         bstn->data=data;
@@ -216,6 +218,7 @@ int BinarySearchTree<T>::get_leaf(BSTN<T> *bstn) const{
 
 template <class T>
 void BinarySearchTree<T>::visit(BSTN<T> * bstn) const{
+    std::cout<<bstn->data<<std::endl;
     return;
 }
 
@@ -319,8 +322,6 @@ void BinarySearchTree<T>::dfs_vlr(BSTN<T> *bstn, std::function<void (BSTN<T>*)> 
     return;
 }
 
-
-
 template <class T>
 void BinarySearchTree<T>::DisplayTree() const{
     display_tree(this->root);
@@ -338,4 +339,4 @@ const BSTN<T>* BinarySearchTree<T>::array_to_bst(T * arr){
     return 0;
 }
 
-#endif /* BinaryTree_hpp */
+#endif /* BinarySearchTree_hpp */
