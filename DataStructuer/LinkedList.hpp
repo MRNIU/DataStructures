@@ -130,7 +130,7 @@ T LinkedList<T>::RemoveFromTail(void){
 template <class T>
 T LinkedList<T>::GetHead() const{
     if(Empty())
-        return 0xCDCD;
+        return 0;
     else
         return head->data;
 }
@@ -138,7 +138,7 @@ T LinkedList<T>::GetHead() const{
 template <class T>
 T LinkedList<T>::GetTail() const{
     if(Empty())
-        return 0xCDCD;
+        return 0;
     else
         return tail->data;
 }

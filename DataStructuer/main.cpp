@@ -7,46 +7,64 @@
 //
 
 #include <iostream>
+#include "time.h"
 #include "Stack.hpp"
 #include "LinkedList.hpp"
 #include "Queue.hpp"
 #include "BinarySearchTree.hpp"
-#include "CompleteBinaryTree.hpp"
+#include "AVLTree.hpp"
+#include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 
 using namespace std;
 
+clock_t startTime=clock(),
+        endTime;
 int main(int argc, const char * argv[]) {
-    BinarySearchTree<int> bt3(233);
-    cout<<"search 233 "<<bt3.Search(233)<<endl;
-    bt3.Insert(66666);
+//    AVLTree<int> bt3(233);
+////    BinarySearchTree<int> bt3(233);
+//    cout<<"search 233 "<<bt3.Search(233)<<endl;
 //    bt3.Insert(66666);
+////    bt3.Insert(66666);
+////    bt3.Insert(77777);
 //    bt3.Insert(77777);
-    bt3.Insert(77777);
-    bt3.Insert(5);
-    bt3.Insert(3);
-    bt3.Insert(7);
-    bt3.Insert(1);
-    bt3.Insert(2);
-    bt3.Insert(4);
-    bt3.Insert(6);
-    bt3.Insert(8);
-    bt3.Insert(9);
-    bt3.Insert(11);
-    bt3.Insert(10);
-    bt3.Insert(12);
-    cout<<"search 66666 "<<bt3.Search(66666)<<endl;
-    cout<<"search 77777 "<<bt3.Search(77777)<<endl;
-    cout<<"GETHEIGHT: "<<bt3.GetHeight()<<endl;
-    cout<<"GETLEAF: "<<bt3.GetLeaf()<<endl;
-    cout<<"GETNODES: "<<bt3.GetNodes()<<endl;
-    bt3.DisplayTree();
-
+//    bt3.Insert(5);
+//    bt3.Insert(3);
+//    bt3.Insert(7);
+//    bt3.Insert(1);
+//    bt3.Insert(2);
+//    bt3.Insert(4);
+//    bt3.Insert(6);
+//    bt3.Insert(8);
+//    bt3.Insert(9);
+//    int tmp666=10000;
+////    bt3.Insert(tmp666);
+//    bt3.Insert(11);
+//    bt3.Insert(10);
+//    bt3.Insert(12);
+//    cout<<"search 66666 "<<bt3.Search(66666)<<endl;
+//    cout<<"search 77777 "<<bt3.Search(77777)<<endl;
+//    cout<<"GETHEIGHT: "<<bt3.GetHeight()<<endl;
+//    cout<<"GETLEAF: "<<bt3.GetLeaf()<<endl;
+//    cout<<"GETNODES: "<<bt3.GetNodes()<<endl;
+//    bt3.DisplayTree();
+//    endTime = clock();
+//    cout << "Totle Time : " <<(long double)(endTime - startTime) / CLOCKS_PER_SEC << "s" << endl;
+//    cout << "Hello, World!\n" << endl;
+//    return 0;
+    BinarySearchTree<int> bst(5);
     
+    bst.Insert(15);
+    bst.Insert(20);
+    bst.Insert(28);
+    bst.Insert(23);
+    bst.Insert(25);
+    bst.Insert(40);
+    bst.Insert(10);
+    bst.Insert(30);
     
-    
-    cout << "Hello, World!\n" << endl;
-    
+//    bst.balance_dsw(NULL);
+    bst.DisplayTree();
     return 0;
 }
 
