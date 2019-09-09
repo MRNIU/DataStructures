@@ -52,19 +52,9 @@ int main(int argc, const char * argv[]) {
 //    cout << "Totle Time : " <<(long double)(endTime - startTime) / CLOCKS_PER_SEC << "s" << endl;
 //    cout << "Hello, World!\n" << endl;
 //    return 0;
-    BinarySearchTree<int> bst(5);
+    AVLTree<AVLN, int> avl;
     
-    bst.Insert(15);
-    bst.Insert(20);
-    bst.Insert(28);
-    bst.Insert(23);
-    bst.Insert(25);
-    bst.Insert(40);
-    bst.Insert(10);
-    bst.Insert(30);
-    
-//    bst.balance_dsw(NULL);
-    bst.DisplayTree();
+    avl.DisplayTree();
     return 0;
 }
 

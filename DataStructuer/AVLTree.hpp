@@ -11,104 +11,106 @@
 
 #include "BinarySearchTree.hpp"
 
-typedef enum{
-    left,
-    right
-} LR;
+#define BALANCE_FACTOR 2
 
 template <class T>
-class AVLTree: public BinarySearchTree<T> {
-private:
-    const bool insert(BSTN<T> * bstn, const T data) override final;  // 插入 ok
-//    const bool del(BSTN<T> *bstn) override final;
-    const LR is_balance(BSTN<T> * bstn) const;
-    void balance(BSTN<T> * bstn);
-//    void ll_rotation(BSTN<T> * bstn);
-//    void rr_rotation(BSTN<T> * bstn);
-//    void lr_rotation(BSTN<T> * bstn);
-//    void rl_rotation(BSTN<T> * bstn);
+class AVLN {
 public:
-    AVLTree(void);
-    AVLTree(const T data);
-    ~AVLTree(void);
-    const bool Insert(const T data) override final;  // 插入
-    const int GetLeaf(void) const override final;  // 返回树叶子节点数量
-//    const bool Delete(BSTN<T> *bstn) override final;
+    T data;
+    int balance_factor;
+    AVLN<T> * left;
+    AVLN<T> * right;
+    AVLN(void);
+    AVLN(T data, int factor = 0, AVLN<T> * left = NULL, AVLN<T> * right = NULL);
+    ~AVLN(void);
 };
 
 template <class T>
-AVLTree<T>::AVLTree(void){
-    this->root=NULL;
+AVLN<T>::AVLN(){
+    this->data = NULL;
+    this->right = NULL;
+    this->left = NULL;
     return;
 }
 
 template <class T>
-AVLTree<T>::AVLTree(const T data){
-    this->root=new BSTN<T>(data);
-    this->root->data=data;
+AVLN<T>::AVLN(T data, int factor, AVLN<T> * left, AVLN<T> * right){
+    this->data = data;
+    this->balance_factor = factor;
+    this->left = left;
+    this->right = right;
     return;
 }
 
 template <class T>
-AVLTree<T>::~AVLTree(void){
+AVLN<T>::~AVLN(){
+    delete this->left;
+    delete this->right;
     return;
 }
 
-template <class T>
-const bool AVLTree<T>::insert(BSTN<T> * bstn, const T data){
-    if(this->search_in_sub_tree(bstn, data))
-        return false;
-    if(bstn==NULL){
-        bstn=new BSTN<T>(data);
-        bstn->data=data;
-        return true;
-    }
-    else{
-        BSTN<T> * tmp = NULL;
-        while(bstn!=NULL){  // 找到要插入的位置的父节点
-            tmp=bstn;
-            if(data<bstn->data)
-                bstn=bstn->left;
-            else if(data>bstn->data)
-                bstn=bstn->right;
-            else
-                return false;
-        }
-        // 左子树还是右子树
-        if(data<tmp->data){
-            tmp->left=new BSTN<T>(data);
-            tmp=tmp->left;
-        }
-        else{
-            tmp->right=new BSTN<T>(data);
-            tmp=tmp->right;
-        }
-        this->balance(tmp);
-        return true;
-    }
+template <template<class> class N, class T>
+class AVLTree: public BinarySearchTree<N, T> {
+private:
+    const bool insert(N<T> * avln, const T data) override final;
+    const bool clean(N<T> * avln) override final;
+    const bool update_balance_factor(BSTN<T> * avln);
+    
+public:
+    AVLTree(void);
+    AVLTree(const T data);
+    AVLTree(const T * arr, const size_t begin, const size_t end);
+    ~AVLTree(void);
+    
+    const bool Insert(const T data) override final;  // 插入
+    const bool Delete(const T data) override final; // 删除
+};
+
+template <template<class> class N, class T>
+AVLTree<N, T>::AVLTree(void): BinarySearchTree<N, T>::BinarySearchTree(){
+    return;
 }
 
-template <class T>
-const bool AVLTree<T>::Insert(const T data){
+template <template<class> class N, class T>
+AVLTree<N, T>::AVLTree(const T data): BinarySearchTree<N, T>::BinarySearchTree(data){
+    return;
+}
+
+template <template<class> class N, class T>
+AVLTree<N, T>::AVLTree(const T * arr, const size_t begin, const size_t end): BinarySearchTree<N, T>::BinarySearchTree(arr, begin, end){
+    return;
+}
+
+template <template<class> class N, class T>
+AVLTree<N, T>::~AVLTree(void){
+    this->clean(this->root);
+    return;
+}
+
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
+    return true;
+}
+
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::Insert(const T data){
     return this->insert(this->root, data);
 }
 
-template <class T>
-const LR AVLTree<T>::is_balance(BSTN<T> * bstn) const{
-    int tmp=0;
-    tmp=this->get_height(bstn->left)-this->get_height(bstn->right);
-    return left;
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::clean(N<T> * avln){
+    return true;
 }
 
-template <class T>
-void AVLTree<T>::balance(BSTN<T> * bstn){
-    return;
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::Delete(const T data){
+    return true;
 }
 
-template <class T>
-const int AVLTree<T>::GetLeaf() const{
-    return 0;
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::update_balance_factor(BSTN<T> * avln){
+    
+    return true;
 }
-
 
 #endif /* AVLTree_hpp */
