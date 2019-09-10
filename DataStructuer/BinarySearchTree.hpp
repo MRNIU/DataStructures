@@ -525,7 +525,7 @@ void BinarySearchTree<N, T>::bsw_rotate_left(N<T> * ch, N<T> * par, N<T> * grand
         this->root = par->right;
     }
     if(grand != NULL) {
-        grand->right = ch;
+        grand->left = ch;
     }
     
     par->right = ch->left;

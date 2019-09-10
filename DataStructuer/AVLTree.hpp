@@ -207,35 +207,49 @@ N<T> * AVLTree<N, T>::get_balance_node(N<T> * ch, N<T> * par, N<T> * grand){
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::balance(N<T> * bn){
     if(bn->balance_factor == BALANCE_FACTOR){
+        // 插入的节点在右子树的右子树上
         if(bn->right->balance_factor == BALANCE_FACTOR - 1){
-            std::cout<<"bn: "<<bn->data<<std::endl;
+            std::cout<<"l: "<<bn->data<<std::endl;
             this->bsw_rotate_left(bn->right, bn, bn->parent);
-            this->update_balance_factor(this->root);
         }
-        
+        // 在右子树的左子树插入
+        else{
+            std::cout<<"rl: "<<bn->data<<std::endl;
+            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+        }
     }
+    // 对称情况，插入的节点在左子树的左子树上
     else if(bn->balance_factor == -BALANCE_FACTOR){
-        this->bsw_rotate_left(bn, bn->parent, bn->parent);
+        if(bn->left->balance_factor == -(BALANCE_FACTOR - 1)){
+            std::cout<<"r: "<<bn->data<<std::endl;
+            this->bsw_rotate_right(bn->left, bn, bn->parent);
+        }
+        // 对称情况，在左子树的右子树插入
+        else{
+            std::cout<<"lr: "<<bn->data<<std::endl;
+            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+        }
     }
-    else{
-        return true;
-    }
-
+    this->update_balance_factor(this->root);
     return true;
 }
 
 template <template<class> class N, class T>
 void AVLTree<N, T>::avl_rotate_lr(N<T> * ch, N<T> * par, N<T> * grand){
+    this->bsw_rotate_left(ch, par, grand);
+    this->bsw_rotate_right(ch, grand, grand->parent);
     return;
 }
 
 template <template<class> class N, class T>
 void AVLTree<N, T>::avl_rotate_rl(N<T> * ch, N<T> * par, N<T> * grand){
+    this->bsw_rotate_right(ch, par, grand);
+    this->bsw_rotate_left(ch, grand, grand->parent);
     return;
 }
 
 template <template<class> class N, class T>
-void AVLTree<N, T>::display_tree(N<T> * bstn) const {
+void AVLTree<N, T>::display_tree(N<T> * avln) const {
     std::cout<<"display_tree"<<std::endl;
     
     if(this->root != NULL)
@@ -244,22 +258,22 @@ void AVLTree<N, T>::display_tree(N<T> * bstn) const {
     std::cout<<std::endl;
     
     std::cout<<"lvr"<<std::endl;
-    this->dfs_lvr(bstn, [&](N<T>*bstn){
-        std::cout<<bstn->data<<" factor: "<<bstn->balance_factor<<std::endl;
+    this->dfs_lvr(avln, [&](N<T>*bstn){
+        std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
     std::cout<<std::endl;
     
     std::cout<<"lrv"<<std::endl;
-    this->dfs_lrv(bstn, [&](N<T>*bstn){
-        std::cout<<bstn->data<<" factor: "<<bstn->balance_factor<<std::endl;
+    this->dfs_lrv(avln, [&](N<T> * avln){
+        std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
     std::cout<<std::endl;
     
     std::cout<<"bfs"<<std::endl;
-    this->bfs(bstn, [&](N<T>*bstn){
-        std::cout<<bstn->data<<" factor: "<<bstn->balance_factor<<std::endl;
+    this->bfs(avln, [&](N<T> * avln){
+        std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
     std::cout<<std::endl;

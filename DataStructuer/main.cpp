@@ -52,11 +52,14 @@ int main(int argc, const char * argv[]) {
 //    cout << "Totle Time : " <<(long double)(endTime - startTime) / CLOCKS_PER_SEC << "s" << endl;
 //    cout << "Hello, World!\n" << endl;
 //    return 0;
-    AVLTree<AVLN, int> avl(10);
-    avl.Insert(5);
-    avl.Insert(15);
+    AVLTree<AVLN, int> avl(15);
+    avl.Insert(10);
     avl.Insert(20);
-    avl.Insert(23);
+    avl.Insert(5);
+    avl.Insert(13);
+    avl.Insert(12);
+//    avl.Insert(1);
+//    avl.Insert(17);
 //    avl.Insert(25);
 //    avl.Insert(30);
 //    avl.Insert(40);
