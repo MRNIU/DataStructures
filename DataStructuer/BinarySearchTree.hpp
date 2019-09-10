@@ -88,7 +88,7 @@ public:
     virtual const int GetHeight(void) const;  // 返回树高
     virtual const int GetLeaf(void) const;  // 返回树叶子节点数量
     virtual const int GetNodes(void) const;   // 返回树节点数量
-    virtual const void DisplayTree(void) const;   // 打印树结构
+    virtual void DisplayTree(void) const;   // 打印树结构
     
 };
 
@@ -100,8 +100,8 @@ BinarySearchTree<N, T>::BinarySearchTree(void){
 
 template <template<class> class N, class T>
 BinarySearchTree<N, T>::BinarySearchTree(const T data){
-    this->root=new N<T>(data);
-    this->root->data=data;
+    this->root = new N<T>(data);
+    this->root->data = data;
     return;
 }
 
@@ -459,15 +459,17 @@ template <template<class> class N, class T>
 void BinarySearchTree<N, T>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * grand) {
     int n = this->get_nodes(this->root);
     
-    // 节点数目小于3不用平衡
+    // 节点数目小于 3 不用平衡
     if(n < 3) {
         return;
     }
 
     int m = pow(2, ceil(log(n + 1))) - 1;
 
-    this->root = this->root->right; //修改root指针
-    // 第一阶段，处理多余节点，左旋n-m次
+    // 修改 root 指针
+    this->root = this->root->right;
+    
+    // 第一阶段，处理多余节点，左旋 n-m 次
     for(int i = 0; i < n - m; i++) {
         this->bsw_rotate_left(ch, par, grand);
         grand = ch;
@@ -532,7 +534,7 @@ void BinarySearchTree<N, T>::bsw_rotate_left(N<T> * ch, N<T> * par, N<T> * grand
 }
 
 template <template<class> class N, class T>
-const void BinarySearchTree<N, T>::DisplayTree() const{
+void BinarySearchTree<N, T>::DisplayTree() const{
     display_tree(this->root);
     return;
 }
