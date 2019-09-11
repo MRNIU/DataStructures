@@ -61,8 +61,10 @@ protected:
     const bool update_balance_factor_bottom_up(N<T> * avln);
     const bool balance_insert(N<T> * bn);
     const bool balance_delete(N<T> * bn);
-    void avl_rotate_lr(N<T> * ch, N<T> * par, N<T> * grand);
-    void avl_rotate_rl(N<T> * ch, N<T> * par, N<T> * grand);
+    void rotate_right(N<T> * ch, N<T> * par, N<T> * grand) override final; // 右旋 ok
+    void rotate_left(N<T> * ch, N<T> * par, N<T> * grand) override final; // 左旋 ok
+    void rotate_lr(N<T> * ch, N<T> * par, N<T> * grand);
+    void rotate_rl(N<T> * ch, N<T> * par, N<T> * grand);
     void display_tree(N<T> * bstn) const override final; // 打印树结构 ok
     
 public:
@@ -237,24 +239,24 @@ const bool AVLTree<N, T>::balance_insert(N<T> * bn){
         // 插入的节点在右子树的右子树上
         if(bn->right->balance_factor == BALANCE_FACTOR - 1){
             std::cout<<"l: "<<bn->data<<std::endl;
-            this->bsw_rotate_left(bn->right, bn, bn->parent);
+            this->rotate_left(bn->right, bn, bn->parent);
         }
         // 在右子树的左子树插入
         else{
             std::cout<<"rl: "<<bn->data<<std::endl;
-            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+            this->rotate_rl(bn->right->left, bn->right, bn);
         }
     }
     // 对称情况，插入的节点在左子树的左子树上
     else if(bn->balance_factor == -BALANCE_FACTOR){
         if(bn->left->balance_factor == -(BALANCE_FACTOR - 1)){
             std::cout<<"r: "<<bn->data<<std::endl;
-            this->bsw_rotate_right(bn->left, bn, bn->parent);
+            this->rotate_right(bn->left, bn, bn->parent);
         }
         // 对称情况，在左子树的右子树插入
         else{
             std::cout<<"lr: "<<bn->data<<std::endl;
-            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+            this->rotate_lr(bn->left->right, bn->left, bn);
         }
     }
     this->update_balance_factor(this->root);
@@ -277,7 +279,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //             n
         if(bn->right->balance_factor == BALANCE_FACTOR - 1){
             std::cout<<"1: "<<bn->data<<std::endl;
-            this->bsw_rotate_left(bn->right, bn, bn->parent);
+            this->rotate_left(bn->right, bn, bn->parent);
         }
         // 情况二，围绕 p 左旋 q
         //         p
@@ -287,7 +289,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //         n   n
         else if(bn->right->balance_factor == 0) {
             std::cout<<"2: "<<bn->data<<std::endl;
-            this->bsw_rotate_left(bn->right, bn, bn->parent);
+            this->rotate_left(bn->right, bn, bn->parent);
         }
         // 情况三，围绕 q 右旋 r，围绕 p 左旋 r
         //         p
@@ -299,7 +301,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //       n
         else if(bn->right->balance_factor == -(BALANCE_FACTOR - 1) && bn->right->left->balance_factor == -(BALANCE_FACTOR - 1)){
             std::cout<<"3: "<<bn->data<<std::endl;
-            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+            this->rotate_rl(bn->right->left, bn->right, bn);
         }
         // 情况四，围绕 q 右旋 r，围绕 p 左旋 r
         //         p
@@ -311,7 +313,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //           n
         else if(bn->right->balance_factor == -(BALANCE_FACTOR - 1) && bn->right->left->balance_factor == BALANCE_FACTOR - 1){
             std::cout<<"4: "<<bn->data<<std::endl;
-            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+            this->rotate_rl(bn->right->left, bn->right, bn);
         }
     }
     // 对称情况
@@ -324,7 +326,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //     n
         if(bn->left->balance_factor == -(BALANCE_FACTOR - 1)){
             std::cout<<"5: "<<bn->data<<std::endl;
-            this->bsw_rotate_right(bn->left, bn, bn->parent);
+            this->rotate_right(bn->left, bn, bn->parent);
         }
         // 情况六，围绕 p 右旋 q
         //         p
@@ -334,7 +336,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //     n   n
         else if(bn->left->balance_factor == 0) {
             std::cout<<"6: "<<bn->data<<std::endl;
-            this->bsw_rotate_right(bn->left, bn, bn->parent);
+            this->rotate_right(bn->left, bn, bn->parent);
         }
         // 情况七，围绕 q 左旋 r，围绕 p 右旋 r
         //         p
@@ -346,7 +348,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //           n
         else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == BALANCE_FACTOR - 1){
             std::cout<<"7: "<<bn->data<<std::endl;
-            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+            this->rotate_lr(bn->left->right, bn->left, bn);
         }
         // 情况八，围绕 q 左旋 r，围绕 p 右旋 r
         //         p
@@ -358,7 +360,7 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //       n
         else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == -(BALANCE_FACTOR - 1)){
             std::cout<<"8: "<<bn->data<<std::endl;
-            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+            this->rotate_lr(bn->left->right, bn->left, bn);
         }
     }
     this->update_balance_factor(this->root);
@@ -366,16 +368,57 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
 }
 
 template <template<class> class N, class T>
-void AVLTree<N, T>::avl_rotate_lr(N<T> * ch, N<T> * par, N<T> * grand){
-    this->bsw_rotate_left(ch, par, grand);
-    this->bsw_rotate_right(ch, grand, grand->parent);
+void AVLTree<N, T>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
+    if(grand == NULL){
+        this->root = par->right;
+        par->right->parent = NULL;
+    }
+    if(grand != NULL) {
+        grand->left = ch;
+        ch->parent = grand;
+    }
+    
+    par->right = ch->left;
+    if(ch->left != NULL){
+        ch->left->parent = par;
+    }
+    ch->left = par;
+    par->parent = ch;
     return;
 }
 
 template <template<class> class N, class T>
-void AVLTree<N, T>::avl_rotate_rl(N<T> * ch, N<T> * par, N<T> * grand){
-    this->bsw_rotate_right(ch, par, grand);
-    this->bsw_rotate_left(ch, grand, grand->parent);
+void AVLTree<N, T>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
+    if(grand == NULL){
+        this->root = par->left;
+        par->left->parent = NULL;
+    }
+    if(grand != NULL) {
+        grand->right = ch;
+        ch->parent = grand;
+    }
+    
+    par->left = ch->right;
+    if(ch->right != NULL){
+        ch->right->parent = par;
+    }
+    ch->right = par;
+    par->parent = ch;
+    return;
+}
+
+
+template <template<class> class N, class T>
+void AVLTree<N, T>::rotate_lr(N<T> * ch, N<T> * par, N<T> * grand){
+    this->rotate_left(ch, par, grand);
+    this->rotate_right(ch, grand, grand->parent);
+    return;
+}
+
+template <template<class> class N, class T>
+void AVLTree<N, T>::rotate_rl(N<T> * ch, N<T> * par, N<T> * grand){
+    this->rotate_right(ch, par, grand);
+    this->rotate_left(ch, grand, grand->parent);
     return;
 }
 

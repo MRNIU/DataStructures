@@ -23,10 +23,13 @@ clock_t startTime=clock(),
 int main(int argc, const char * argv[]) {
     AVLTree<AVLN, int> avl(15);
     avl.Insert(10);
+    avl.Insert(25);
+    avl.Insert(5);
     avl.Insert(20);
     avl.Insert(30);
+    avl.Insert(18);
     
-    avl.Delete(10);
+    avl.Delete(5);
     
     avl.DisplayTree();
     return 0;

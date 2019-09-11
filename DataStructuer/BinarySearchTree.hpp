@@ -66,8 +66,8 @@ protected:
     void balance_dsw(N<T> * bstn);   // DSW 平衡算法 ok
     void dsw_create_backbone(N<T> * ch, N<T> * bstn, N<T> * par); // dsw 算法，创建主链 ok
     void dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * grand);   // dsw 算法，重新生成树 ok
-    virtual void bsw_rotate_right(N<T> * ch, N<T> * par, N<T> * grand); // 右旋 ok
-    virtual void bsw_rotate_left(N<T> * ch, N<T> * par, N<T> * grand); // 左旋 ok
+    virtual void rotate_right(N<T> * ch, N<T> * par, N<T> * grand); // 右旋 ok
+    virtual void rotate_left(N<T> * ch, N<T> * par, N<T> * grand); // 左旋 ok
     
     virtual void display_tree(N<T> * bstn) const; // 打印树结构 ok
     const int ipl(N<T> * bstn) const; // Internal Path Length 内部路径长度
@@ -478,7 +478,7 @@ void BinarySearchTree<N, T>::dsw_create_backbone(N<T> * ch, N<T> * par, N<T> * g
     while(par != NULL) {
         ch = par->left;
         if(ch != NULL) {
-            this->bsw_rotate_right(ch, par, grand);
+            this->rotate_right(ch, par, grand);
             par = ch;
         }
         else {
@@ -505,7 +505,7 @@ void BinarySearchTree<N, T>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
     
     // 第一阶段，处理多余节点，左旋 n-m 次
     for(int i = 0; i < n - m; i++) {
-        this->bsw_rotate_left(ch, par, grand);
+        this->rotate_left(ch, par, grand);
         grand = ch;
         par = grand->right;
         
@@ -524,7 +524,7 @@ void BinarySearchTree<N, T>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
         ch = this->root->right;
         
         for(int i = 0; i < m; i++) {
-            this->bsw_rotate_left(ch, par, grand);
+            this->rotate_left(ch, par, grand);
             grand = ch;
             par = grand->right;
             
@@ -540,7 +540,7 @@ void BinarySearchTree<N, T>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
 }
 
 template <template<class> class N, class T>
-void BinarySearchTree<N, T>::bsw_rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
+void BinarySearchTree<N, T>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
     if(grand == NULL){
         this->root = par->left;
     }
@@ -554,7 +554,7 @@ void BinarySearchTree<N, T>::bsw_rotate_right(N<T> * ch, N<T> * par, N<T> * gran
 }
 
 template <template<class> class N, class T>
-void BinarySearchTree<N, T>::bsw_rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
+void BinarySearchTree<N, T>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
     if(grand == NULL){
         this->root = par->right;
     }
