@@ -161,24 +161,28 @@ const bool AVLTree<N, T>::clean(N<T> * avln){
 
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::Delete(const T data){
-    N<T> * node = this->get_node(data)->parent,
+    N<T> * par = this->get_node(data)->parent,
          * tmp = NULL;
     this->find_and_del_by_copy(data);
-    
-    while(node != NULL) {
-        std::cout<<"node: "<<node->data<<std::endl;
-        if(node != this->root){
-            tmp = this->get_balance_node(node, node->parent, node->parent->parent);
-            this->balance_delete(tmp);
+//    this->update_balance_factor(this->root);
+    while(par != NULL) {
+        std::cout<<"node: "<<par->data<<std::endl;
+        
+        if(par->parent != NULL){
+            tmp = this->get_balance_node(par, par->parent, par->parent->parent);
         }
         else{
-            this->balance_delete(this->root);
+            tmp = this->get_balance_node(par, NULL, par->parent->parent);
         }
         
-        node = node->parent;
+        if(tmp == NULL){
+            this->balance_delete(this->root);
+        }
+        else{
+            this->balance_delete(tmp);
+        }
+        par = par->parent;
     }
-    
-    
     return true;
 }
 
@@ -195,6 +199,10 @@ const bool AVLTree<N, T>::update_balance_factor(N<T> * avln){
 // 自底向上计算方法，需要节点中包含其父节点的信息
 template <template<class> class N, class T>
 N<T> * AVLTree<N, T>::get_balance_node(N<T> * ch, N<T> * par, N<T> * grand){
+    if(par == NULL){
+        return NULL;
+    }
+    
     if(ch == par->left){
         par->balance_factor--;
     }
@@ -256,6 +264,7 @@ const bool AVLTree<N, T>::balance_insert(N<T> * bn){
 
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::balance_delete(N<T> * bn){
+    std::cout<<"bn: "<<bn->balance_factor<<std::endl;
     if(bn->balance_factor == BALANCE_FACTOR){
         // 情况一，d 是被删除的节点，p 为 bn，围绕 p 左旋 q
         //         p
@@ -301,7 +310,53 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
             std::cout<<"4: "<<bn->data<<std::endl;
             this->avl_rotate_rl(bn->right->left, bn->right, bn);
         }
-        // 对称情况
+    }
+    // 对称情况
+    else if(bn->balance_factor == -BALANCE_FACTOR){
+        // 情况五，d 是被删除的节点，p 为 bn，围绕 p 右旋 q
+        //         p
+        //        / \
+        //       q   d
+        //      /
+        //     n
+        if(bn->left->balance_factor == -(BALANCE_FACTOR - 1)){
+            std::cout<<"5: "<<bn->data<<std::endl;
+            this->bsw_rotate_right(bn->left, bn, bn->parent);
+        }
+        // 情况六，围绕 p 右旋 q
+        //         p
+        //        / \
+        //       q   d
+        //      / \
+        //     n   n
+        else if(bn->left->balance_factor == 0) {
+            std::cout<<"6: "<<bn->data<<std::endl;
+            this->bsw_rotate_right(bn->left, bn, bn->parent);
+        }
+        // 情况七，围绕 q 左旋 r，围绕 p 右旋 r
+        //         p
+        //        / \
+        //       q   n
+        //      / \   \
+        //     n   r   d
+        //          \
+        //           n
+        else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == BALANCE_FACTOR - 1){
+            std::cout<<"7: "<<bn->data<<std::endl;
+            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+        }
+        // 情况八，围绕 q 左旋 r，围绕 p 右旋 r
+        //         p
+        //        / \
+        //       q   n
+        //      / \   \
+        //     n   r   d
+        //        /
+        //       n
+        else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == -(BALANCE_FACTOR - 1)){
+            std::cout<<"8: "<<bn->data<<std::endl;
+            this->avl_rotate_lr(bn->left->right, bn->left, bn);
+        }
     }
     this->update_balance_factor(this->root);
     return true;

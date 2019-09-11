@@ -24,9 +24,9 @@ int main(int argc, const char * argv[]) {
     AVLTree<AVLN, int> avl(15);
     avl.Insert(10);
     avl.Insert(20);
-    avl.Insert(5);
+    avl.Insert(30);
     
-    avl.Delete(20);
+    avl.Delete(10);
     
     avl.DisplayTree();
     return 0;
