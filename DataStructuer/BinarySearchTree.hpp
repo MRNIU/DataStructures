@@ -55,6 +55,8 @@ protected:
     virtual const bool del_copy(N<T> * &bstn);    // 复制删除 ok
     virtual const bool find_and_del_by_copy(const T data); // ok
     virtual const bool clean(N<T> * bstn);  // 删除以指定节点为根的树 ok
+    virtual N<T> * get_node(const T data) const; // 返回包含指定数据的节点
+    virtual N<T> * get_node_prev(const T data) const; // 返回包含指定数据的节点的父节点
     
     void bfs(N<T> *bstn, std::function<void (N<T>*)> fun) const;  // 广度优先遍历 ok
     void dfs_vlr(N<T> * bstn, std::function<void (N<T>*)> fun) const; // VLR 遍历 ok
@@ -182,6 +184,42 @@ const bool BinarySearchTree<N, T>::search(N<T> * bstn, const T data) const{
 }
 
 template <template<class> class N, class T>
+N<T> * BinarySearchTree<N, T>::get_node(const T data) const{
+    N<T> * node = this->root,
+         * prev = NULL;
+    while(node != NULL){
+        if(node->data == data){
+            break;
+        }
+        prev = node;
+        if(node->data < data) {
+            node = node->right;
+        } else {
+            node = node->left;
+        }
+    }
+    return node;
+}
+
+template <template<class> class N, class T>
+N<T> * BinarySearchTree<N, T>::get_node_prev(const T data) const{
+    N<T> * node = this->root,
+         * prev = NULL;
+    while(node != NULL){
+        if(node->data == data){
+            break;
+        }
+        prev = node;
+        if(node->data < data) {
+            node = node->right;
+        } else {
+            node = node->left;
+        }
+    }
+    return prev;
+}
+
+template <template<class> class N, class T>
 const bool BinarySearchTree<N, T>::Empty(void) const{
     return this->root == NULL;
 }
@@ -212,19 +250,8 @@ const bool BinarySearchTree<N, T>::del_merge(N<T> * &bstn){
 
 template <template<class> class N, class T>
 const bool BinarySearchTree<N, T>::find_and_del_by_merge(const T data){
-    N<T> * node = this->root,
-            * prev = NULL;
-    while(node != 0){
-        if(node->data == data){
-            break;
-        }
-        prev = node;
-        if(node->data < data) {
-            node = node->right;
-        } else {
-            node = node->left;
-        }
-    }
+    N<T> * node = this->get_node(data),
+         * prev = this->get_node_prev(data);
     if(node != 0 && node->data == data){
         if(node == this->root){
             this->del_merge(this->root);
@@ -245,7 +272,7 @@ const bool BinarySearchTree<N, T>::find_and_del_by_merge(const T data){
 template <template<class> class N, class T>
 const bool BinarySearchTree<N, T>::del_copy(N<T> * &bstn){
     N<T> * tmp = bstn,
-    * prev = NULL;
+         * prev = NULL;
     
     if(bstn == NULL) {
         return true;
@@ -281,21 +308,8 @@ const bool BinarySearchTree<N, T>::del_copy(N<T> * &bstn){
 
 template <template<class> class N, class T>
 const bool BinarySearchTree<N, T>::find_and_del_by_copy(const T data){
-    N<T> * node = this->root,
-            * prev = NULL;
-    while(node != NULL){
-        if(node->data == data){
-            break;
-        }
-        prev = node;
-        
-        if(node->data < data){
-            node = node->right;
-        }
-        else{
-            node = node->left;
-        }
-    }
+    N<T> * node = this->get_node(data),
+         * prev = this->get_node_prev(data);
     if(node != 0 && node->data == data) {
         if(node == this->root){
             this->del_copy(this->root);
