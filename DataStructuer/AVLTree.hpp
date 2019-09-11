@@ -48,6 +48,9 @@ AVLN<T>::AVLN(T data, int factor, AVLN<T> * left, AVLN<T> * right) {
 
 template <class T>
 AVLN<T>::~AVLN(){
+    delete left;
+    delete right;
+    delete parent;
     return;
 }
 
@@ -74,7 +77,6 @@ public:
     AVLTree(const T * arr, const size_t begin, const size_t end);
     ~AVLTree(void);
     
-    const bool Insert(const T data) override final;  // 插入
     const bool Delete(const T data) override final; // 删除
 };
 
@@ -153,14 +155,9 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
 }
 
 template <class T>
-const bool AVLTree<T>::Insert(const T data){
-    return this->insert(this->root, data);
-}
-
-template <class T>
 const bool AVLTree<T>::Delete(const T data){
     AVLN<T> * par = this->get_node(data)->parent,
-         * tmp = NULL;
+            * tmp = NULL;
     
     this->find_and_del_by_copy(data);
     this->update_balance_factor(this->root);

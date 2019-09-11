@@ -41,6 +41,8 @@ BSTN<T>::BSTN(T data, BSTN<T> * left, BSTN<T> * right){
 
 template <class T>
 BSTN<T>::~BSTN(){
+    delete left;
+    delete right;
     return;
 }
 

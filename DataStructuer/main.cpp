@@ -22,17 +22,17 @@ using namespace std;
 clock_t startTime=clock(),
         endTime;
 int main(int argc, const char * argv[]) {
-    AVLTree<int> avl(25);
-    avl.Insert(15);
-    avl.Insert(30);
-    avl.Insert(5);
-    avl.Insert(20);
-    avl.Insert(35);
-    avl.Insert(18);
+    SPYTree<int> spyt(25);
+    spyt.Insert(15);
+    spyt.Insert(30);
+    spyt.Insert(5);
+    spyt.Insert(20);
+    spyt.Insert(35);
+    spyt.Insert(18);
     
-    avl.Delete(35);
+//    spyt.Delete(35);
     
-    avl.DisplayTree();
+    spyt.DisplayTree();
     return 0;
 }
 
