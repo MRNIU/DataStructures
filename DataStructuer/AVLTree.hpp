@@ -154,6 +154,7 @@ const bool AVLTree<N, T>::Insert(const T data){
 
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::clean(N<T> * avln){
+    
     return true;
 }
 
@@ -258,7 +259,7 @@ void AVLTree<N, T>::display_tree(N<T> * avln) const {
     std::cout<<std::endl;
     
     std::cout<<"lvr"<<std::endl;
-    this->dfs_lvr(avln, [&](N<T>*bstn){
+    this->dfs_lvr(avln, [&](N<T>* avln){
         std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     

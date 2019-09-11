@@ -58,6 +58,7 @@ int main(int argc, const char * argv[]) {
     avl.Insert(5);
     avl.Insert(13);
     avl.Insert(12);
+//    avl.Delete(12);
 //    avl.Insert(1);
 //    avl.Insert(17);
 //    avl.Insert(25);

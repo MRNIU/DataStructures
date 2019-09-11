@@ -127,6 +127,27 @@ BinarySearchTree<N, T>::~BinarySearchTree(void){
 template <template<class> class N, class T>
 const bool BinarySearchTree<N, T>::clean(N<T> * bstn){
     if(bstn != NULL){
+        if(bstn != this->root){
+            N<T> * node = this->root,
+                 * prev = NULL;
+            while(node != NULL) {
+                if(node == bstn){
+                    break;
+                }
+                prev = node;
+                if(node->data < bstn->data) {
+                    node = node->right;
+                } else {
+                    node = node->left;
+                }
+            }
+            if(bstn == prev->left){
+                prev->left = NULL;
+            }
+            else {
+                prev->right = NULL;
+            }
+        }
         clean(bstn->left);
         clean(bstn->right);
         delete bstn;
@@ -135,7 +156,6 @@ const bool BinarySearchTree<N, T>::clean(N<T> * bstn){
     else{
         return false;
     }
-    
 }
 
 template <template<class> class N, class T>
