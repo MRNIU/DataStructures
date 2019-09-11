@@ -58,7 +58,8 @@ protected:
     const bool clean(N<T> * avln) override final;
     N<T> * get_balance_node(N<T> * ch, N<T> * par, N<T> * grand);
     const bool update_balance_factor(N<T> * avln);
-    const bool balance(N<T> * bn);
+    const bool balance_insert(N<T> * bn);
+    const bool balance_delete(N<T> * bn);
     void avl_rotate_lr(N<T> * ch, N<T> * par, N<T> * grand);
     void avl_rotate_rl(N<T> * ch, N<T> * par, N<T> * grand);
     void display_tree(N<T> * bstn) const override final; // 打印树结构 ok
@@ -130,7 +131,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
             ch->parent = par;
             bn = this->get_balance_node(ch, par, par->parent);
             if(bn != NULL){
-                this->balance(bn);
+                this->balance_insert(bn);
             }
         }
         else{
@@ -139,7 +140,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
             ch->parent = par;
             bn = this->get_balance_node(ch, par, par->parent);
             if(bn != NULL){
-                this->balance(bn);
+                this->balance_insert(bn);
             }
         }
         return true;
@@ -160,6 +161,24 @@ const bool AVLTree<N, T>::clean(N<T> * avln){
 
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::Delete(const T data){
+    N<T> * node = this->get_node(data)->parent,
+         * tmp = NULL;
+    this->find_and_del_by_copy(data);
+    
+    while(node != NULL) {
+        std::cout<<"node: "<<node->data<<std::endl;
+        if(node != this->root){
+            tmp = this->get_balance_node(node, node->parent, node->parent->parent);
+            this->balance_delete(tmp);
+        }
+        else{
+            this->balance_delete(this->root);
+        }
+        
+        node = node->parent;
+    }
+    
+    
     return true;
 }
 
@@ -206,7 +225,7 @@ N<T> * AVLTree<N, T>::get_balance_node(N<T> * ch, N<T> * par, N<T> * grand){
 }
 
 template <template<class> class N, class T>
-const bool AVLTree<N, T>::balance(N<T> * bn){
+const bool AVLTree<N, T>::balance_insert(N<T> * bn){
     if(bn->balance_factor == BALANCE_FACTOR){
         // 插入的节点在右子树的右子树上
         if(bn->right->balance_factor == BALANCE_FACTOR - 1){
@@ -230,6 +249,59 @@ const bool AVLTree<N, T>::balance(N<T> * bn){
             std::cout<<"lr: "<<bn->data<<std::endl;
             this->avl_rotate_lr(bn->left->right, bn->left, bn);
         }
+    }
+    this->update_balance_factor(this->root);
+    return true;
+}
+
+template <template<class> class N, class T>
+const bool AVLTree<N, T>::balance_delete(N<T> * bn){
+    if(bn->balance_factor == BALANCE_FACTOR){
+        // 情况一，d 是被删除的节点，p 为 bn，围绕 p 左旋 q
+        //         p
+        //        / \
+        //       d   q
+        //            \
+        //             n
+        if(bn->right->balance_factor == BALANCE_FACTOR - 1){
+            std::cout<<"1: "<<bn->data<<std::endl;
+            this->bsw_rotate_left(bn->right, bn, bn->parent);
+        }
+        // 情况二，围绕 p 左旋 q
+        //         p
+        //        / \
+        //       d   q
+        //          / \
+        //         n   n
+        else if(bn->right->balance_factor == 0) {
+            std::cout<<"2: "<<bn->data<<std::endl;
+            this->bsw_rotate_left(bn->right, bn, bn->parent);
+        }
+        // 情况三，围绕 q 右旋 r，围绕 p 左旋 r
+        //         p
+        //        / \
+        //       n   q
+        //      /   / \
+        //     d   r   n
+        //        /
+        //       n
+        else if(bn->right->balance_factor == -(BALANCE_FACTOR - 1) && bn->right->left->balance_factor == -(BALANCE_FACTOR - 1)){
+            std::cout<<"3: "<<bn->data<<std::endl;
+            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+        }
+        // 情况四，围绕 q 右旋 r，围绕 p 左旋 r
+        //         p
+        //        / \
+        //       n   q
+        //      /   / \
+        //     d   r   n
+        //          \
+        //           n
+        else if(bn->right->balance_factor == -(BALANCE_FACTOR - 1) && bn->right->left->balance_factor == BALANCE_FACTOR - 1){
+            std::cout<<"4: "<<bn->data<<std::endl;
+            this->avl_rotate_rl(bn->right->left, bn->right, bn);
+        }
+        // 对称情况
     }
     this->update_balance_factor(this->root);
     return true;
