@@ -13,6 +13,7 @@
 #include "Queue.hpp"
 #include "BinarySearchTree.hpp"
 #include "AVLTree.hpp"
+#include "SplayingTree.hpp"
 #include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 
@@ -21,7 +22,7 @@ using namespace std;
 clock_t startTime=clock(),
         endTime;
 int main(int argc, const char * argv[]) {
-    AVLTree<AVLN, int> avl(25);
+    AVLTree<int> avl(25);
     avl.Insert(15);
     avl.Insert(30);
     avl.Insert(5);

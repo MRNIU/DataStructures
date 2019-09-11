@@ -51,21 +51,22 @@ AVLN<T>::~AVLN(){
     return;
 }
 
-template <template<class> class N, class T>
-class AVLTree: public BinarySearchTree<N, T> {
+template <class T>
+class AVLTree: public BinarySearchTree<T, AVLN> {
 protected:
-    const bool insert(N<T> * avln, const T data) override final;
-    const bool clean(N<T> * avln) override final;
-    N<T> * get_balance_node(N<T> * ch);
-    const bool update_balance_factor(N<T> * avln);
-    const bool update_balance_factor_bottom_up(N<T> * avln);
-    const bool balance_insert(N<T> * bn);
-    const bool balance_delete(N<T> * bn);
-    void rotate_right(N<T> * ch, N<T> * par, N<T> * grand) override final; // 右旋 ok
-    void rotate_left(N<T> * ch, N<T> * par, N<T> * grand) override final; // 左旋 ok
-    void rotate_lr(N<T> * ch, N<T> * par, N<T> * grand);
-    void rotate_rl(N<T> * ch, N<T> * par, N<T> * grand);
-    void display_tree(N<T> * bstn) const override final; // 打印树结构 ok
+    const bool insert(AVLN<T> * avln, const T data) override final;
+    
+    AVLN<T> * get_balance_node(AVLN<T> * ch);
+    const bool update_balance_factor(AVLN<T> * avln);
+    const bool update_balance_factor_bottom_up(AVLN<T> * avln);
+    const bool balance_insert(AVLN<T> * bn);
+    const bool balance_delete(AVLN<T> * bn);
+    void rotate_right(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand) override final; // 右旋 ok
+    void rotate_left(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand) override final; // 左旋 ok
+    void rotate_lr(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand);
+    void rotate_rl(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand);
+    
+    void display_tree(AVLN<T> * bstn) const override final; // 打印树结构 ok
     
 public:
     AVLTree(void);
@@ -77,35 +78,35 @@ public:
     const bool Delete(const T data) override final; // 删除
 };
 
-template <template<class> class N, class T>
-AVLTree<N, T>::AVLTree(void): BinarySearchTree<N, T>::BinarySearchTree(){
+template <class T>
+AVLTree<T>::AVLTree(void): BinarySearchTree<T, AVLN>::BinarySearchTree(){
     return;
 }
 
-template <template<class> class N, class T>
-AVLTree<N, T>::AVLTree(const T data): BinarySearchTree<N, T>::BinarySearchTree(data){
+template <class T>
+AVLTree<T>::AVLTree(const T data): BinarySearchTree<T, AVLN>::BinarySearchTree(data){
     return;
 }
 
-template <template<class> class N, class T>
-AVLTree<N, T>::AVLTree(const T * arr, const size_t begin, const size_t end): BinarySearchTree<N, T>::BinarySearchTree(arr, begin, end){
+template <class T>
+AVLTree<T>::AVLTree(const T * arr, const size_t begin, const size_t end): BinarySearchTree<T, AVLN>::BinarySearchTree(arr, begin, end){
     return;
 }
 
-template <template<class> class N, class T>
-AVLTree<N, T>::~AVLTree(void){
-    this->clean(this->root);
+template <class T>
+AVLTree<T>::~AVLTree(void){
+//    this->clean(this->root);
     return;
 }
 
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
+template <class T>
+const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
     if(this->search(avln, data))
         return false;
     
     // 树为空的情况
     if(avln == NULL) {
-        avln = new N<T>(data);
+        avln = new AVLN<T>(data);
         avln->data = data;
         avln->parent = NULL;
         if(this->root == NULL){
@@ -114,7 +115,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
         return true;
     }
     else{
-        N<T> * par = NULL,
+        AVLN<T> * par = NULL,
              * ch = avln,
              * bn = NULL;
         
@@ -129,7 +130,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
         }
         
         if(data < par->data){
-            par->left = new N<T>(data);
+            par->left = new AVLN<T>(data);
             ch = par->left;
             ch->parent = par;
             bn = this->get_balance_node(ch);
@@ -138,7 +139,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
             }
         }
         else{
-            par->right = new N<T>(data);
+            par->right = new AVLN<T>(data);
             ch = par->right;
             ch->parent = par;
             bn = this->get_balance_node(ch);
@@ -151,20 +152,14 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
     return true;
 }
 
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::Insert(const T data){
+template <class T>
+const bool AVLTree<T>::Insert(const T data){
     return this->insert(this->root, data);
 }
 
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::clean(N<T> * avln){
-    
-    return true;
-}
-
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::Delete(const T data){
-    N<T> * par = this->get_node(data)->parent,
+template <class T>
+const bool AVLTree<T>::Delete(const T data){
+    AVLN<T> * par = this->get_node(data)->parent,
          * tmp = NULL;
     
     this->find_and_del_by_copy(data);
@@ -180,9 +175,9 @@ const bool AVLTree<N, T>::Delete(const T data){
 }
 
 // 更新所有节点的平衡因子信息
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::update_balance_factor(N<T> * avln){
-    this->bfs(avln, [&](N<T> * avln){
+template <class T>
+const bool AVLTree<T>::update_balance_factor(AVLN<T> * avln){
+    this->bfs(avln, [&](AVLN<T> * avln){
         avln->balance_factor = this->get_height(avln->right) - this->get_height(avln->left);
     });
 
@@ -192,9 +187,9 @@ const bool AVLTree<N, T>::update_balance_factor(N<T> * avln){
 // 更新节点平衡信息，自底向上计算方法，需要节点中包含其父节点的信息
 // 在插入节点时使用
 // avln 为刚插入的节点
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::update_balance_factor_bottom_up(N<T> * avln){
-    N<T> * par = avln->parent;
+template <class T>
+const bool AVLTree<T>::update_balance_factor_bottom_up(AVLN<T> * avln){
+    AVLN<T> * par = avln->parent;
     if(avln == par->left){
         par->balance_factor--;
     }
@@ -219,13 +214,13 @@ const bool AVLTree<N, T>::update_balance_factor_bottom_up(N<T> * avln){
     return true;
 }
 
-template <template<class> class N, class T>
-N<T> * AVLTree<N, T>::get_balance_node(N<T> * avln){
+template <class T>
+AVLN<T> * AVLTree<T>::get_balance_node(AVLN<T> * avln){
     if(avln == this->root){
         return NULL;
     }
     
-    N<T> * par = avln->parent;
+    AVLN<T> * par = avln->parent;
     if(par->balance_factor == BALANCE_FACTOR || par->balance_factor == -BALANCE_FACTOR){
         return par;
     }
@@ -233,8 +228,8 @@ N<T> * AVLTree<N, T>::get_balance_node(N<T> * avln){
     return NULL;
 }
 
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::balance_insert(N<T> * bn){
+template <class T>
+const bool AVLTree<T>::balance_insert(AVLN<T> * bn){
     if(bn->balance_factor == BALANCE_FACTOR){
         // 插入的节点在右子树的右子树上
         if(bn->right->balance_factor == BALANCE_FACTOR - 1){
@@ -263,8 +258,8 @@ const bool AVLTree<N, T>::balance_insert(N<T> * bn){
     return true;
 }
 
-template <template<class> class N, class T>
-const bool AVLTree<N, T>::balance_delete(N<T> * bn){
+template <class T>
+const bool AVLTree<T>::balance_delete(AVLN<T> * bn){
     if(bn == NULL){
         bn = this->root;
     }
@@ -372,8 +367,8 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
     return true;
 }
 
-template <template<class> class N, class T>
-void AVLTree<N, T>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
+template <class T>
+void AVLTree<T>::rotate_left(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
     if(grand == NULL){
         this->root = par->right;
         par->right->parent = NULL;
@@ -392,8 +387,8 @@ void AVLTree<N, T>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
     return;
 }
 
-template <template<class> class N, class T>
-void AVLTree<N, T>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
+template <class T>
+void AVLTree<T>::rotate_right(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
     if(grand == NULL){
         this->root = par->left;
         par->left->parent = NULL;
@@ -413,22 +408,22 @@ void AVLTree<N, T>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
 }
 
 
-template <template<class> class N, class T>
-void AVLTree<N, T>::rotate_lr(N<T> * ch, N<T> * par, N<T> * grand){
+template <class T>
+void AVLTree<T>::rotate_lr(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
     this->rotate_left(ch, par, grand);
     this->rotate_right(ch, grand, grand->parent);
     return;
 }
 
-template <template<class> class N, class T>
-void AVLTree<N, T>::rotate_rl(N<T> * ch, N<T> * par, N<T> * grand){
+template <class T>
+void AVLTree<T>::rotate_rl(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
     this->rotate_right(ch, par, grand);
     this->rotate_left(ch, grand, grand->parent);
     return;
 }
 
-template <template<class> class N, class T>
-void AVLTree<N, T>::display_tree(N<T> * avln) const {
+template <class T>
+void AVLTree<T>::display_tree(AVLN<T> * avln) const {
     std::cout<<"display_tree"<<std::endl;
     
     if(this->root != NULL)
@@ -437,21 +432,21 @@ void AVLTree<N, T>::display_tree(N<T> * avln) const {
     std::cout<<std::endl;
     
     std::cout<<"lvr"<<std::endl;
-    this->dfs_lvr(avln, [&](N<T>* avln){
+    this->dfs_lvr(avln, [&](AVLN<T>* avln){
         std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
     std::cout<<std::endl;
     
     std::cout<<"lrv"<<std::endl;
-    this->dfs_lrv(avln, [&](N<T> * avln){
+    this->dfs_lrv(avln, [&](AVLN<T> * avln){
         std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
     std::cout<<std::endl;
     
     std::cout<<"bfs"<<std::endl;
-    this->bfs(avln, [&](N<T> * avln){
+    this->bfs(avln, [&](AVLN<T> * avln){
         std::cout<<avln->data<<" factor: "<<avln->balance_factor<<std::endl;
     });
     
