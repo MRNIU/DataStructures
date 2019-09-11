@@ -348,6 +348,8 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         //           n
         else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == BALANCE_FACTOR - 1){
             std::cout<<"7: "<<bn->data<<std::endl;
+            std::cout<<"7: "<<bn->left->balance_factor<<std::endl;
+            std::cout<<"7: "<<bn->left->right->balance_factor<<std::endl;
             this->rotate_lr(bn->left->right, bn->left, bn);
         }
         // 情况八，围绕 q 左旋 r，围绕 p 右旋 r
@@ -361,6 +363,9 @@ const bool AVLTree<N, T>::balance_delete(N<T> * bn){
         else if(bn->left->balance_factor == (BALANCE_FACTOR - 1) && bn->left->right->balance_factor == -(BALANCE_FACTOR - 1)){
             std::cout<<"8: "<<bn->data<<std::endl;
             this->rotate_lr(bn->left->right, bn->left, bn);
+        }
+        else{
+            std::cout<<"000000: "<<bn->data<<std::endl;
         }
     }
     this->update_balance_factor(this->root);
