@@ -56,8 +56,9 @@ class AVLTree: public BinarySearchTree<N, T> {
 protected:
     const bool insert(N<T> * avln, const T data) override final;
     const bool clean(N<T> * avln) override final;
-    N<T> * get_balance_node(N<T> * ch, N<T> * par, N<T> * grand);
+    N<T> * get_balance_node(N<T> * ch);
     const bool update_balance_factor(N<T> * avln);
+    const bool update_balance_factor_bottom_up(N<T> * avln);
     const bool balance_insert(N<T> * bn);
     const bool balance_delete(N<T> * bn);
     void avl_rotate_lr(N<T> * ch, N<T> * par, N<T> * grand);
@@ -129,7 +130,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
             par->left = new N<T>(data);
             ch = par->left;
             ch->parent = par;
-            bn = this->get_balance_node(ch, par, par->parent);
+            bn = this->get_balance_node(ch);
             if(bn != NULL){
                 this->balance_insert(bn);
             }
@@ -138,7 +139,7 @@ const bool AVLTree<N, T>::insert(N<T> * avln, const T data){
             par->right = new N<T>(data);
             ch = par->right;
             ch->parent = par;
-            bn = this->get_balance_node(ch, par, par->parent);
+            bn = this->get_balance_node(ch);
             if(bn != NULL){
                 this->balance_insert(bn);
             }
@@ -163,24 +164,14 @@ template <template<class> class N, class T>
 const bool AVLTree<N, T>::Delete(const T data){
     N<T> * par = this->get_node(data)->parent,
          * tmp = NULL;
+    
     this->find_and_del_by_copy(data);
-//    this->update_balance_factor(this->root);
+    this->update_balance_factor(this->root);
+    
     while(par != NULL) {
         std::cout<<"node: "<<par->data<<std::endl;
-        
-        if(par->parent != NULL){
-            tmp = this->get_balance_node(par, par->parent, par->parent->parent);
-        }
-        else{
-            tmp = this->get_balance_node(par, NULL, par->parent->parent);
-        }
-        
-        if(tmp == NULL){
-            this->balance_delete(this->root);
-        }
-        else{
-            this->balance_delete(tmp);
-        }
+        tmp = this->get_balance_node(par);
+        this->balance_delete(tmp);
         par = par->parent;
     }
     return true;
@@ -196,35 +187,43 @@ const bool AVLTree<N, T>::update_balance_factor(N<T> * avln){
     return true;
 }
 
-// 自底向上计算方法，需要节点中包含其父节点的信息
+// 更新节点平衡信息，自底向上计算方法，需要节点中包含其父节点的信息
+// 在插入节点时使用
+// avln 为刚插入的节点
 template <template<class> class N, class T>
-N<T> * AVLTree<N, T>::get_balance_node(N<T> * ch, N<T> * par, N<T> * grand){
-    if(par == NULL){
-        return NULL;
-    }
-    
-    if(ch == par->left){
+const bool AVLTree<N, T>::update_balance_factor_bottom_up(N<T> * avln){
+    N<T> * par = avln->parent;
+    if(avln == par->left){
         par->balance_factor--;
     }
-    else if(ch == par->right){
+    else if(avln == par->right){
         par->balance_factor++;
     }
     
     while(par != this->root && par->balance_factor != BALANCE_FACTOR && par->balance_factor != -BALANCE_FACTOR){
-        ch = ch->parent;
+        avln = avln->parent;
         par = par->parent;
         
-        if(ch->balance_factor == 0){
-            return NULL;
+        if(avln->balance_factor == 0){
+            return true;
         }
         
-        if(ch == par->left){
+        if(avln == par->left){
             par->balance_factor--;
         } else{
             par->balance_factor++;
         }
     }
+    return true;
+}
+
+template <template<class> class N, class T>
+N<T> * AVLTree<N, T>::get_balance_node(N<T> * avln){
+    if(avln == this->root){
+        return NULL;
+    }
     
+    N<T> * par = avln->parent;
     if(par->balance_factor == BALANCE_FACTOR || par->balance_factor == -BALANCE_FACTOR){
         return par;
     }
@@ -264,6 +263,10 @@ const bool AVLTree<N, T>::balance_insert(N<T> * bn){
 
 template <template<class> class N, class T>
 const bool AVLTree<N, T>::balance_delete(N<T> * bn){
+    if(bn == NULL){
+        bn = this->root;
+    }
+    
     std::cout<<"bn: "<<bn->balance_factor<<std::endl;
     if(bn->balance_factor == BALANCE_FACTOR){
         // 情况一，d 是被删除的节点，p 为 bn，围绕 p 左旋 q
