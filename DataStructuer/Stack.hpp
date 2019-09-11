@@ -7,8 +7,8 @@
 //
 // 栈的链表实现
 
-#ifndef Stack_h
-#define Stack_h
+#ifndef STACK_HPP
+#define STACK_HPP
 #include "LinkedList.hpp"
 
 template <class T>
@@ -82,4 +82,4 @@ void Stack<T>::test(void){
     return;
 }
 
-#endif /* Stack_h */
+#endif /* STACK_HPP */

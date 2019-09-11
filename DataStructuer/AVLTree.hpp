@@ -6,8 +6,8 @@
 //  Copyright © 2019 Zone.N. All rights reserved.
 //
 
-#ifndef AVLTree_hpp
-#define AVLTree_hpp
+#ifndef AVLTREE_HPP
+#define AVLTREE_HPP
 
 #include "BinarySearchTree.hpp"
 
@@ -459,4 +459,4 @@ void AVLTree<N, T>::display_tree(N<T> * avln) const {
     return;
 }
 
-#endif /* AVLTree_hpp */
+#endif /* AVLTREE_HPP */

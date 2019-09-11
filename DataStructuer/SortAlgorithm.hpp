@@ -6,8 +6,8 @@
 //  Copyright © 2018 Zone.N. All rights reserved.
 //
 
-#ifndef SortAlgorithm_h
-#define SortAlgorithm_h
+#ifndef SORTALGORITHM_HPP
+#define SORTALGORITHM_HPP
 
 #define PASS(addr, n) (*(addr+n))
 #define EOA(addr, end) (addr==end)
@@ -142,4 +142,4 @@ void sort_bubble233(T * begin, T * end){
     return;
 }
 
-#endif /* SortAlgorithm_h */
+#endif /* SORTALGORITHM_HPP */

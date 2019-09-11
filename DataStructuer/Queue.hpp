@@ -7,8 +7,8 @@
 //
 // 队列的链表实现
 
-#ifndef Queue_h
-#define Queue_h
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 
 #include "LinkedList.hpp"
 
@@ -67,4 +67,4 @@ Queue<T>::~Queue(){
 
 
 
-#endif /* Queue_h */
+#endif /* QUEUE_HPP */

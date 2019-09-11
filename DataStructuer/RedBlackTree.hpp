@@ -6,8 +6,8 @@
 //  Copyright © 2019 Zone.N. All rights reserved.
 //
 
-#ifndef RedBlackTree_hpp
-#define RedBlackTree_hpp
+#ifndef REDBLACKTREE_HPP
+#define REDBLACKTREE_HPP
 
 
-#endif /* RedBlackTree_hpp */
+#endif /* REDBLACKTREE_HPP */

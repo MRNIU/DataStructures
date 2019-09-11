@@ -7,8 +7,8 @@
 //
 // 双向链表的实现
 
-#ifndef LinkedList_h
-#define LinkedList_h
+#ifndef LINKEDLIST_HPP
+#define LINKEDLIST_HPP
 
 template <class T>
 class LLNode {
@@ -181,4 +181,4 @@ LinkedList<T>::~LinkedList(void){
     return;
 }
 
-#endif /* LinkedList_h */
+#endif /* LINKEDLIST_HPP */

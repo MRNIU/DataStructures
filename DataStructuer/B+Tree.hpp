@@ -6,8 +6,8 @@
 //  Copyright © 2019 Zone.N. All rights reserved.
 //
 
-#ifndef B+Tree_hpp
-#define B+Tree_hpp
+#ifndef BPULSTREE_HPP
+#define BPULSTREE_HPP
 
 
-#endif /* B+Tree_hpp */
+#endif /* BPULSTREE_HPP */

@@ -6,8 +6,8 @@
 //  Copyright © 2018 Zone.N. All rights reserved.
 //
 
-#ifndef BinarySearchTree_hpp
-#define BinarySearchTree_hpp
+#ifndef BINARYSEARCHTREE_HPP
+#define BINARYSEARCHTREE_HPP
 
 #include "Queue.hpp"
 #include "math.h"
@@ -606,4 +606,4 @@ void BinarySearchTree<N, T>::display_tree(N<T> * bstn) const{
     return;
 }
 
-#endif /* BinarySearchTree_hpp */
+#endif /* BINARYSEARCHTREE_HPP */

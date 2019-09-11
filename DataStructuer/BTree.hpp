@@ -6,8 +6,8 @@
 //  Copyright © 2019 Zone.N. All rights reserved.
 //
 
-#ifndef BTree_hpp
-#define BTree_hpp
+#ifndef BTREE_HPP
+#define BTREE_HPP
 
 
 
@@ -20,4 +20,4 @@
 
 
 
-#endif /* BTree_hpp */
+#endif /* BTREE_HPP */
