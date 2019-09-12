@@ -327,7 +327,7 @@ const bool AVLTree<T>::balance_delete(AVLN<T> * bn){
         //      / \
         //     n   n
         else if(bn->left->balance_factor == 0) {
-            std::cout<<"6: "<<bn->data<<std::endl;
+                std::cout<<"6: "<<bn->data<<std::endl;
             this->rotate_right(bn->left, bn, bn->parent);
         }
         // 情况七，围绕 q 左旋 r，围绕 p 右旋 r
