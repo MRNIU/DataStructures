@@ -70,6 +70,7 @@ public:
     const bool Insert(const T data) override final;  // 插入
     const bool Delete(const T data) override final; // 删除
 //    const bool Search(const T data) const override final;
+    const bool Search_Splay(const T data);
 };
 
 template <class T>
@@ -97,11 +98,18 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
     if(ch == NULL || par == NULL){
         return false;
     }
+    
     while(ch != this->root){
-        if(par == this->root){
+        if(par == this->root) {
             // 单一 splaying，ch 围绕 par 右旋
-            std::cout<<"1: "<<ch->data<<std::endl;
-            this->rotate_right(ch, par, grand);
+            if(par->left == ch){
+                std::cout<<"1: "<<ch->data<<std::endl;
+                this->rotate_right(ch, par, grand);
+            }
+            else if(par->right == ch){
+                std::cout<<"1.5: "<<ch->data<<std::endl;
+                this->rotate_left(ch, par, grand);
+            }
         }
         // ch 与其祖先同构
         else if(grand->left == par && par->left == ch){
@@ -116,7 +124,6 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
             std::cout<<"3: "<<ch->data<<std::endl;
             this->rotate_left(ch, par, grand);
             this->rotate_right(ch, grand, grand->parent);
-            ch = ch->parent;
         }
         // 镜像情况
         else if(grand->right == par && par->right == ch){
@@ -210,11 +217,11 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
         this->root = par->left;
         par->left->parent = NULL;
     }
-    if(grand != NULL) {
+    else {
         grand->right = ch;
         ch->parent = grand;
     }
-    
+
     par->left = ch->right;
     if(ch->right != NULL){
         ch->right->parent = par;
@@ -227,14 +234,18 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
 // 搜索并做展开操作
 template <class T>
 const bool SPYTree<T>::search_and_splay(SPYN<T> * spyn, const T data) {
-    if(spyn == NULL)  return false;
+    if(spyn == NULL){
+        return false;
+    }
     if(data < spyn->data)
-        return search(spyn->left, data);
+        return search_and_splay(spyn->left, data);
     else if(data > spyn->data)
-        return search(spyn->right, data);
+        return search_and_splay(spyn->right, data);
     else{
-        this->splaying(spyn, spyn->parent, spyn->parent->parent);
-        return true;    // 找到了，返回对应节点指针。
+        if(spyn != this->root){
+            this->splaying(spyn, spyn->parent, spyn->parent->parent);
+        }
+        return true;
     }
 }
 
@@ -282,10 +293,9 @@ const bool SPYTree<T>::Delete(const T data) {
     return true;
 }
 
-//template <class T>
-//const bool SPYTree<T>::Search(const T data) const {
-//    this->search(this->root, data);
-//    return true;
-//}
+template <class T>
+const bool SPYTree<T>::Search_Splay(const T data) {
+    return this->search_and_splay(this->root, data);
+}
 
 #endif /* SPLAYINGTREE_HPP */

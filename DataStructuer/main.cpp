@@ -27,7 +27,26 @@ int main(int argc, const char * argv[]) {
     spyt.Insert(20);
     spyt.Insert(5);
     spyt.Insert(35);
+    spyt.Insert(40);
+    spyt.Insert(45);
 
+    if(spyt.Search_Splay(25))
+        std::cout<<"ok1"<<std::endl;
+//    spyt.DisplayTree();
+//    if(spyt.Search_Splay(15))
+        std::cout<<"ok2"<<std::endl;
+//    spyt.DisplayTree();
+    if(spyt.Search_Splay(20))
+        std::cout<<"ok3"<<std::endl;
+//    spyt.DisplayTree();
+    if(spyt.Search_Splay(5))
+        std::cout<<"ok4"<<std::endl;
+//    spyt.DisplayTree();
+    if(spyt.Search_Splay(45))
+        std::cout<<"ok5"<<std::endl;
+//    if(spyt.Search_Splay(25))
+//        std::cout<<"ok6"<<std::endl;
+    
 //    spyt.Insert(18);
 //    spyt.DisplayTree();
     
