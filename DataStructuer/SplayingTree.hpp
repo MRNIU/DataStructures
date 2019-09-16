@@ -69,8 +69,7 @@ public:
     
     const bool Insert(const T data) override final;  // 插入
     const bool Delete(const T data) override final; // 删除
-//    const bool Search(const T data) const override final;
-    const bool Search_Splay(const T data);
+    const bool Search_Splay(const T data);  // 带有 splay 算法的搜索操作
 };
 
 template <class T>
@@ -96,7 +95,6 @@ SPYTree<T>::~SPYTree(void){
 template <class T>
 const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
     if(ch == NULL || par == NULL){
-        std::cout<<"0"<<std::endl;
         return false;
     }
     
@@ -104,56 +102,35 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
         if(par == this->root) {
             // 单一 splaying，ch 围绕 par 右旋
             if(par->left == ch){
-                std::cout<<"1: "<<ch->data<<std::endl;
                 this->rotate_right(ch, par, grand);
             }
             // 镜像情况
             else if(par->right == ch){
-                std::cout<<"1.5: "<<ch->data<<std::endl;
                 this->rotate_left(ch, par, grand);
             }
         }
         // ch 与其祖先同构
         else if(grand->left == par && par->left == ch){
             // 同构 splaying，par 围绕 grand 右旋，ch 围绕 par 右旋
-            std::cout<<"2: "<<ch->data<<std::endl;
             this->rotate_right(par, grand, grand->parent);
             this->rotate_right(ch, par, par->parent);
-            
-            std::cout<<"ch: "<<ch->data<<std::endl;
-            std::cout<<"par: "<<par->data<<std::endl;
-            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         // ch 与其祖先异构
         else if(grand->left == par && par->right == ch){
             // 异构 splaying，ch 围绕 par 左旋，ch 围绕 grand 右旋
-            std::cout<<"3: "<<ch->data<<std::endl;
             this->rotate_left(ch, par, grand);
             this->display_tree(this->root);
             this->rotate_right(ch, grand, grand->parent);
             this->display_tree(this->root);
-            std::cout<<"ch: "<<ch->data<<std::endl;
-            std::cout<<"par: "<<par->data<<std::endl;
-            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         // 镜像情况
         else if(grand->right == par && par->right == ch){
-            std::cout<<"4: "<<ch->data<<std::endl;
             this->rotate_left(par, grand, grand->parent);
-            this->display_tree(this->root);
             this->rotate_left(ch, par, par->parent);
-            this->display_tree(this->root);
-            std::cout<<"ch: "<<ch->data<<std::endl;
-            std::cout<<"par: "<<par->data<<std::endl;
-            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         else if(grand->right == par && par->left == ch){
-            std::cout<<"5: "<<ch->data<<std::endl;
             this->rotate_right(ch, par, grand);
             this->rotate_left(ch, grand, grand->parent);
-            std::cout<<"ch: "<<ch->data<<std::endl;
-            std::cout<<"par: "<<par->data<<std::endl;
-            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         
         if(ch == this->root){
