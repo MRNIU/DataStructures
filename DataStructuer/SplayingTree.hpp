@@ -106,6 +106,7 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
                 std::cout<<"1: "<<ch->data<<std::endl;
                 this->rotate_right(ch, par, grand);
             }
+            // 镜像情况
             else if(par->right == ch){
                 std::cout<<"1.5: "<<ch->data<<std::endl;
                 this->rotate_left(ch, par, grand);
@@ -130,6 +131,7 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
             std::cout<<"4: "<<ch->data<<std::endl;
             this->rotate_left(par, grand, grand->parent);
             this->rotate_left(ch, par, par->parent);
+            this->display_tree(this->root);
         }
         else if(grand->right == par && par->left == ch){
             std::cout<<"5: "<<ch->data<<std::endl;
@@ -197,8 +199,9 @@ void SPYTree<T>::rotate_left(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
         this->root = par->right;
         par->right->parent = NULL;
     }
-    if(grand != NULL) {
-        grand->left = ch;
+    else {
+//        grand->left = ch;
+        grand->right = ch;
         ch->parent = grand;
     }
     
@@ -218,7 +221,8 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
         par->left->parent = NULL;
     }
     else {
-        grand->right = ch;
+//        grand->right = ch;
+        grand->left = ch;
         ch->parent = grand;
     }
 
@@ -237,10 +241,12 @@ const bool SPYTree<T>::search_and_splay(SPYN<T> * spyn, const T data) {
     if(spyn == NULL){
         return false;
     }
-    if(data < spyn->data)
+    if(data < spyn->data){
         return search_and_splay(spyn->left, data);
-    else if(data > spyn->data)
+    }
+    else if(data > spyn->data){
         return search_and_splay(spyn->right, data);
+    }
     else{
         if(spyn != this->root){
             this->splaying(spyn, spyn->parent, spyn->parent->parent);
@@ -274,7 +280,11 @@ void SPYTree<T>::display_tree(SPYN<T> * spyn) const {
     
     std::cout<<"bfs"<<std::endl;
     this->bfs(spyn, [&](SPYN<T> * spyn){
-        std::cout<<spyn->data<<std::endl;
+        if(spyn == this->root){
+            std::cout<<spyn->data<<" parent: NULL"<<std::endl;
+        }else{
+            std::cout<<spyn->data<<" parent: "<<spyn->parent->data<<std::endl;
+        }
     });
     
     std::cout<<std::endl;
