@@ -96,6 +96,7 @@ SPYTree<T>::~SPYTree(void){
 template <class T>
 const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
     if(ch == NULL || par == NULL){
+        std::cout<<"0"<<std::endl;
         return false;
     }
     
@@ -118,25 +119,50 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
             std::cout<<"2: "<<ch->data<<std::endl;
             this->rotate_right(par, grand, grand->parent);
             this->rotate_right(ch, par, par->parent);
+            
+            std::cout<<"ch: "<<ch->data<<std::endl;
+            std::cout<<"par: "<<par->data<<std::endl;
+            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         // ch 与其祖先异构
         else if(grand->left == par && par->right == ch){
             // 异构 splaying，ch 围绕 par 左旋，ch 围绕 grand 右旋
             std::cout<<"3: "<<ch->data<<std::endl;
             this->rotate_left(ch, par, grand);
+            this->display_tree(this->root);
             this->rotate_right(ch, grand, grand->parent);
+            this->display_tree(this->root);
+            std::cout<<"ch: "<<ch->data<<std::endl;
+            std::cout<<"par: "<<par->data<<std::endl;
+            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         // 镜像情况
         else if(grand->right == par && par->right == ch){
             std::cout<<"4: "<<ch->data<<std::endl;
             this->rotate_left(par, grand, grand->parent);
+            this->display_tree(this->root);
             this->rotate_left(ch, par, par->parent);
             this->display_tree(this->root);
+            std::cout<<"ch: "<<ch->data<<std::endl;
+            std::cout<<"par: "<<par->data<<std::endl;
+            std::cout<<"grand: "<<grand->data<<std::endl;
         }
         else if(grand->right == par && par->left == ch){
             std::cout<<"5: "<<ch->data<<std::endl;
             this->rotate_right(ch, par, grand);
             this->rotate_left(ch, grand, grand->parent);
+            std::cout<<"ch: "<<ch->data<<std::endl;
+            std::cout<<"par: "<<par->data<<std::endl;
+            std::cout<<"grand: "<<grand->data<<std::endl;
+        }
+        
+        if(ch == this->root){
+            par =  NULL;
+            grand = NULL;
+        }
+        else{
+            par = ch->parent;
+            grand = par->parent;
         }
     }
     return true;
@@ -200,8 +226,12 @@ void SPYTree<T>::rotate_left(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
         par->right->parent = NULL;
     }
     else {
-//        grand->left = ch;
-        grand->right = ch;
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
         ch->parent = grand;
     }
     
@@ -221,8 +251,12 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
         par->left->parent = NULL;
     }
     else {
-//        grand->right = ch;
-        grand->left = ch;
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
         ch->parent = grand;
     }
 
