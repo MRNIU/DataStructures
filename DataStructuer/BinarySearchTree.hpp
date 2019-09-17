@@ -19,15 +19,15 @@ public:
     BSTN<T> * left;
     BSTN<T> * right;
     BSTN(void);
-    BSTN(T data, BSTN<T> * left = NULL, BSTN<T> * right = NULL);
+    BSTN(T data, BSTN<T> * left = nullptr, BSTN<T> * right = nullptr);
     ~BSTN(void);
 };
 
 template <class T>
 BSTN<T>::BSTN(){
-    this->data = NULL;
-    this->right = NULL;
-    this->left = NULL;
+    this->data = nullptr;
+    this->right = nullptr;
+    this->left = nullptr;
     return;
 }
 
@@ -98,7 +98,7 @@ public:
 
 template <class T, template<class> class N>
 BinarySearchTree<T, N>::BinarySearchTree(void){
-    this->root = NULL;
+    this->root = nullptr;
     return;
 }
 
@@ -130,11 +130,11 @@ BinarySearchTree<T, N>::~BinarySearchTree(void){
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::clean(N<T> * bstn){
-    if(bstn != NULL){
+    if(bstn != nullptr){
         if(bstn != this->root){
             N<T> * node = this->root,
-                 * prev = NULL;
-            while(node != NULL) {
+                 * prev = nullptr;
+            while(node != nullptr) {
                 if(node == bstn){
                     break;
                 }
@@ -146,10 +146,10 @@ const bool BinarySearchTree<T, N>::clean(N<T> * bstn){
                 }
             }
             if(bstn == prev->left){
-                prev->left = NULL;
+                prev->left = nullptr;
             }
             else {
-                prev->right = NULL;
+                prev->right = nullptr;
             }
         }
         clean(bstn->left);
@@ -176,7 +176,7 @@ const bool BinarySearchTree<T, N>::Search(const T data) const{
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::search(N<T> * bstn, const T data) const{
-    if(bstn == NULL)  return false;
+    if(bstn == nullptr)  return false;
     if(data < bstn->data)
         return search(bstn->left, data);
     else if(data > bstn->data)
@@ -188,8 +188,8 @@ const bool BinarySearchTree<T, N>::search(N<T> * bstn, const T data) const{
 template <class T, template<class> class N>
 N<T> * BinarySearchTree<T, N>::get_node(const T data) const{
     N<T> * node = this->root,
-         * prev = NULL;
-    while(node != NULL){
+         * prev = nullptr;
+    while(node != nullptr){
         if(node->data == data){
             break;
         }
@@ -206,8 +206,8 @@ N<T> * BinarySearchTree<T, N>::get_node(const T data) const{
 template <class T, template<class> class N>
 N<T> * BinarySearchTree<T, N>::get_node_prev(const T data) const{
     N<T> * node = this->root,
-         * prev = NULL;
-    while(node != NULL){
+         * prev = nullptr;
+    while(node != nullptr){
         if(node->data == data){
             break;
         }
@@ -223,22 +223,22 @@ N<T> * BinarySearchTree<T, N>::get_node_prev(const T data) const{
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::Empty(void) const{
-    return this->root == NULL;
+    return this->root == nullptr;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::del_merge(N<T> * &bstn){
     N<T> * tmp = bstn;
-    if(bstn != NULL){
-        if(bstn->right == NULL){
+    if(bstn != nullptr){
+        if(bstn->right == nullptr){
             bstn = bstn->left;
         }
-        else if(bstn->left == NULL){
+        else if(bstn->left == nullptr){
             bstn = bstn->right;
         }
         else{
             tmp = bstn->left;
-            while(tmp->right != NULL){
+            while(tmp->right != nullptr){
                 tmp = tmp->right;
             }
             tmp->right = bstn->right;
@@ -274,23 +274,23 @@ const bool BinarySearchTree<T, N>::find_and_del_by_merge(const T data){
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::del_copy(N<T> * &bstn){
     N<T> * tmp = bstn,
-         * prev = NULL;
+         * prev = nullptr;
     
-    if(bstn == NULL) {
+    if(bstn == nullptr) {
         return true;
     }
     
-    if(bstn->right == NULL){
+    if(bstn->right == nullptr){
         bstn = bstn->left;
     }
-    else if(bstn->left == NULL){
+    else if(bstn->left == nullptr){
         bstn = bstn->right;
     }
     else {
         tmp = bstn->left;
         prev = bstn;
         
-        while(tmp->right != NULL){
+        while(tmp->right != nullptr){
             prev = tmp;
             tmp = tmp->right;
         }
@@ -339,17 +339,17 @@ template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data){
     if(search(bstn, data))
         return false;
-    if(bstn == NULL) {
+    if(bstn == nullptr) {
         bstn = new N<T>(data);
         bstn->data = data;
-        if(this->root == NULL){
+        if(this->root == nullptr){
             this->root = bstn;
         }
         return true;
     }
     else{
-        N<T> * tmp = NULL;
-        while(bstn != NULL){
+        N<T> * tmp = nullptr;
+        while(bstn != nullptr){
             tmp = bstn;
             if(data < bstn->data)
                 bstn = bstn->left;
@@ -399,7 +399,7 @@ const int BinarySearchTree<T, N>::get_nodes(N<T> * bstn) const{
 // 返回树高度
 template <class T, template<class> class N>
 const int BinarySearchTree<T, N>::get_height(N<T> * bstn) const{
-    if (bstn == NULL)
+    if (bstn == nullptr)
         return 0;
     int lh = get_height(bstn->left);
     int rh = get_height(bstn->right);
@@ -411,7 +411,7 @@ template <class T, template<class> class N>
 const int BinarySearchTree<T, N>::get_leaf(N<T> *bstn) const{
     int counter = 0;
     bfs(bstn, [&counter](N<T> *bstn){
-        if(bstn->left == NULL && bstn->right == NULL)
+        if(bstn->left == nullptr && bstn->right == nullptr)
             counter++;
     });
     return counter;
@@ -419,15 +419,15 @@ const int BinarySearchTree<T, N>::get_leaf(N<T> *bstn) const{
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::bfs(N<T> *bstn, std::function<void (N<T>*)> fun) const{
-    if(bstn != NULL){
+    if(bstn != nullptr){
         Queue<N<T>*> queue;
         queue.EnQueue(bstn);
         while(!queue.Empty()){
             N<T> * bstn_tmp = queue.DeQueue();
             fun(bstn_tmp);
-            if(bstn_tmp->left != NULL)
+            if(bstn_tmp->left != nullptr)
                 queue.EnQueue(bstn_tmp->left);
-            if(bstn_tmp->right != NULL)
+            if(bstn_tmp->right != nullptr)
                 queue.EnQueue(bstn_tmp->right);
         }
     }
@@ -436,7 +436,7 @@ void BinarySearchTree<T, N>::bfs(N<T> *bstn, std::function<void (N<T>*)> fun) co
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::dfs_lrv(N<T> *bstn, std::function<void (N<T>*)> fun) const{
-    if(bstn != NULL){
+    if(bstn != nullptr){
         dfs_lrv(bstn->left, fun);
         dfs_lrv(bstn->right, fun);
         fun(bstn);
@@ -448,7 +448,7 @@ void BinarySearchTree<T, N>::dfs_lrv(N<T> *bstn, std::function<void (N<T>*)> fun
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::dfs_lvr(N<T> *bstn, std::function<void (N<T>*)> fun) const{
-    if(bstn != NULL){
+    if(bstn != nullptr){
         dfs_lvr(bstn->left, fun);
         fun(bstn);
         dfs_lvr(bstn->right, fun);
@@ -459,7 +459,7 @@ void BinarySearchTree<T, N>::dfs_lvr(N<T> *bstn, std::function<void (N<T>*)> fun
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::dfs_vlr(N<T> *bstn, std::function<void (N<T>*)> fun) const{
-    if(bstn != NULL){
+    if(bstn != nullptr){
         fun(bstn);
         dfs_vlr(bstn->left, fun);
         dfs_vlr(bstn->right, fun);
@@ -470,16 +470,16 @@ void BinarySearchTree<T, N>::dfs_vlr(N<T> *bstn, std::function<void (N<T>*)> fun
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::balance_dsw(N<T> * bstn){   // DSW 平衡算法
-    this->dsw_create_backbone(this->root->left, this->root, NULL);
-    this->dsw_recreate_tree(this->root->right, this->root, NULL);
+    this->dsw_create_backbone(this->root->left, this->root, nullptr);
+    this->dsw_recreate_tree(this->root->right, this->root, nullptr);
     return;
 }
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::dsw_create_backbone(N<T> * ch, N<T> * par, N<T> * grand){
-    while(par != NULL) {
+    while(par != nullptr) {
         ch = par->left;
-        if(ch != NULL) {
+        if(ch != nullptr) {
             this->rotate_right(ch, par, grand);
             par = ch;
         }
@@ -511,7 +511,7 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
         grand = ch;
         par = grand->right;
         
-        if (par != NULL) {
+        if (par != nullptr) {
             ch = par->right;
         } else {
             break;
@@ -521,7 +521,7 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
     // 第二阶段，剩余的节点可以组成一颗完全平衡的二叉树
     while(m > 1){
         m /= 2;
-        grand = NULL;
+        grand = nullptr;
         par = this->root;
         ch = this->root->right;
         
@@ -530,7 +530,7 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
             grand = ch;
             par = grand->right;
             
-            if (par != NULL) {
+            if (par != nullptr) {
                 ch = par->right;
             } else {
                 break;
@@ -543,10 +543,10 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->left;
     }
-    if(grand != NULL) {
+    if(grand != nullptr) {
         grand->right = ch;
     }
     
@@ -557,10 +557,10 @@ void BinarySearchTree<T, N>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
 
 template <class T, template<class> class N>
 void BinarySearchTree<T, N>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->right;
     }
-    if(grand != NULL) {
+    if(grand != nullptr) {
         grand->left = ch;
     }
     
@@ -579,7 +579,7 @@ template <class T, template<class> class N>
 void BinarySearchTree<T, N>::display_tree(N<T> * bstn) const{
     std::cout<<"display_tree"<<std::endl;
     
-    if(this->root != NULL)
+    if(this->root != nullptr)
         std::cout<<"root: "<<this->root->data<<std::endl;
     
     std::cout<<std::endl;

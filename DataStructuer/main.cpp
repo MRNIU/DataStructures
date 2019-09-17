@@ -14,6 +14,7 @@
 #include "BinarySearchTree.hpp"
 #include "AVLTree.hpp"
 #include "SplayingTree.hpp"
+#include "Heap.hpp"
 #include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 

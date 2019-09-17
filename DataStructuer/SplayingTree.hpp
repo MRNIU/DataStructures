@@ -21,23 +21,23 @@ public:
     SPYN<T> * left;
     SPYN<T> * right;
     SPYN(void);
-    SPYN(T data, SPYN<T> * left = NULL, SPYN<T> * right = NULL);
+    SPYN(T data, SPYN<T> * left = nullptr, SPYN<T> * right = nullptr);
     ~SPYN(void);
 };
 
 template <class T>
 SPYN<T>::SPYN() {
     this->data = 0;
-    this->parent = NULL;
-    this->right = NULL;
-    this->left = NULL;
+    this->parent = nullptr;
+    this->right = nullptr;
+    this->left = nullptr;
     return;
 }
 
 template <class T>
 SPYN<T>::SPYN(T data, SPYN<T> * left, SPYN<T> * right) {
     this->data = data;
-    this->parent = NULL;
+    this->parent = nullptr;
     this->left = left;
     this->right = right;
     return;
@@ -94,7 +94,7 @@ SPYTree<T>::~SPYTree(void){
 
 template <class T>
 const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
-    if(ch == NULL || par == NULL){
+    if(ch == nullptr || par == nullptr){
         return false;
     }
     
@@ -134,8 +134,8 @@ const bool SPYTree<T>::splaying(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand) {
         }
         
         if(ch == this->root){
-            par =  NULL;
-            grand = NULL;
+            par =  nullptr;
+            grand = nullptr;
         }
         else{
             par = ch->parent;
@@ -153,20 +153,20 @@ const bool SPYTree<T>::insert(SPYN<T> * spyn, const T data) {
         return false;
     
     // 树为空的情况
-    if(spyn == NULL) {
+    if(spyn == nullptr) {
         spyn = new SPYN<T>(data);
         spyn->data = data;
-        spyn->parent = NULL;
-        if(this->root == NULL){
+        spyn->parent = nullptr;
+        if(this->root == nullptr){
             this->root = spyn;
         }
         return true;
     }
     else{
-        SPYN<T> * par = NULL,
+        SPYN<T> * par = nullptr,
                 * ch = spyn;
         
-        while(ch != NULL){
+        while(ch != nullptr){
             par = ch;
             if(data < ch->data){
                 ch = ch->left;
@@ -198,9 +198,9 @@ const bool SPYTree<T>::insert(SPYN<T> * spyn, const T data) {
 
 template <class T>
 void SPYTree<T>::rotate_left(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->right;
-        par->right->parent = NULL;
+        par->right->parent = nullptr;
     }
     else {
         if(grand->left == par){
@@ -213,7 +213,7 @@ void SPYTree<T>::rotate_left(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
     }
     
     par->right = ch->left;
-    if(ch->left != NULL){
+    if(ch->left != nullptr){
         ch->left->parent = par;
     }
     ch->left = par;
@@ -223,9 +223,9 @@ void SPYTree<T>::rotate_left(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
 
 template <class T>
 void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->left;
-        par->left->parent = NULL;
+        par->left->parent = nullptr;
     }
     else {
         if(grand->left == par){
@@ -238,7 +238,7 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
     }
 
     par->left = ch->right;
-    if(ch->right != NULL){
+    if(ch->right != nullptr){
         ch->right->parent = par;
     }
     ch->right = par;
@@ -249,7 +249,7 @@ void SPYTree<T>::rotate_right(SPYN<T> * ch, SPYN<T> * par, SPYN<T> * grand){
 // 搜索并做展开操作
 template <class T>
 const bool SPYTree<T>::search_and_splay(SPYN<T> * spyn, const T data) {
-    if(spyn == NULL){
+    if(spyn == nullptr){
         return false;
     }
     if(data < spyn->data){
@@ -270,7 +270,7 @@ template <class T>
 void SPYTree<T>::display_tree(SPYN<T> * spyn) const {
     std::cout<<"display_tree"<<std::endl;
     
-    if(this->root != NULL)
+    if(this->root != nullptr)
         std::cout<<"root: "<<this->root->data<<std::endl;
     
     std::cout<<std::endl;
@@ -292,7 +292,7 @@ void SPYTree<T>::display_tree(SPYN<T> * spyn) const {
     std::cout<<"bfs"<<std::endl;
     this->bfs(spyn, [&](SPYN<T> * spyn){
         if(spyn == this->root){
-            std::cout<<spyn->data<<" parent: NULL"<<std::endl;
+            std::cout<<spyn->data<<" parent: nullptr"<<std::endl;
         }else{
             std::cout<<spyn->data<<" parent: "<<spyn->parent->data<<std::endl;
         }

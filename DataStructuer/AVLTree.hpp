@@ -22,7 +22,7 @@ public:
     AVLN<T> * left;
     AVLN<T> * right;
     AVLN(void);
-    AVLN(T data, int factor = 0, AVLN<T> * left = NULL, AVLN<T> * right = NULL);
+    AVLN(T data, int factor = 0, AVLN<T> * left = nullptr, AVLN<T> * right = nullptr);
     ~AVLN(void);
 };
 
@@ -30,9 +30,9 @@ template <class T>
 AVLN<T>::AVLN() {
     this->data = 0;
     this->balance_factor = 0;
-    this->parent = NULL;
-    this->right = NULL;
-    this->left = NULL;
+    this->parent = nullptr;
+    this->right = nullptr;
+    this->left = nullptr;
     return;
 }
 
@@ -40,7 +40,7 @@ template <class T>
 AVLN<T>::AVLN(T data, int factor, AVLN<T> * left, AVLN<T> * right) {
     this->data = data;
     this->balance_factor = factor;
-    this->parent = NULL;
+    this->parent = nullptr;
     this->left = left;
     this->right = right;
     return;
@@ -107,21 +107,21 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
         return false;
     
     // 树为空的情况
-    if(avln == NULL) {
+    if(avln == nullptr) {
         avln = new AVLN<T>(data);
         avln->data = data;
-        avln->parent = NULL;
-        if(this->root == NULL){
+        avln->parent = nullptr;
+        if(this->root == nullptr){
             this->root = avln;
         }
         return true;
     }
     else{
-        AVLN<T> * par = NULL,
+        AVLN<T> * par = nullptr,
              * ch = avln,
-             * bn = NULL;
+             * bn = nullptr;
         
-        while(ch != NULL){
+        while(ch != nullptr){
             par = ch;
             if(data < ch->data)
                 ch = ch->left;
@@ -136,7 +136,7 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
             ch = par->left;
             ch->parent = par;
             bn = this->get_balance_node(ch);
-            if(bn != NULL){
+            if(bn != nullptr){
                 this->balance_insert(bn);
             }
         }
@@ -145,7 +145,7 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
             ch = par->right;
             ch->parent = par;
             bn = this->get_balance_node(ch);
-            if(bn != NULL){
+            if(bn != nullptr){
                 this->balance_insert(bn);
             }
         }
@@ -157,12 +157,12 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
 template <class T>
 const bool AVLTree<T>::Delete(const T data){
     AVLN<T> * par = this->get_node(data)->parent,
-            * tmp = NULL;
+            * tmp = nullptr;
     
     this->find_and_del_by_copy(data);
     this->update_balance_factor(this->root);
     
-    while(par != NULL) {
+    while(par != nullptr) {
         std::cout<<"node: "<<par->data<<std::endl;
         tmp = this->get_balance_node(par);
         this->balance_delete(tmp);
@@ -214,7 +214,7 @@ const bool AVLTree<T>::update_balance_factor_bottom_up(AVLN<T> * avln){
 template <class T>
 AVLN<T> * AVLTree<T>::get_balance_node(AVLN<T> * avln){
     if(avln == this->root){
-        return NULL;
+        return nullptr;
     }
     
     AVLN<T> * par = avln->parent;
@@ -222,7 +222,7 @@ AVLN<T> * AVLTree<T>::get_balance_node(AVLN<T> * avln){
         return par;
     }
     
-    return NULL;
+    return nullptr;
 }
 
 template <class T>
@@ -257,7 +257,7 @@ const bool AVLTree<T>::balance_insert(AVLN<T> * bn){
 
 template <class T>
 const bool AVLTree<T>::balance_delete(AVLN<T> * bn){
-    if(bn == NULL){
+    if(bn == nullptr){
         bn = this->root;
     }
     
@@ -366,17 +366,17 @@ const bool AVLTree<T>::balance_delete(AVLN<T> * bn){
 
 template <class T>
 void AVLTree<T>::rotate_left(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->right;
-        par->right->parent = NULL;
+        par->right->parent = nullptr;
     }
-    if(grand != NULL) {
+    if(grand != nullptr) {
         grand->left = ch;
         ch->parent = grand;
     }
     
     par->right = ch->left;
-    if(ch->left != NULL){
+    if(ch->left != nullptr){
         ch->left->parent = par;
     }
     ch->left = par;
@@ -386,17 +386,17 @@ void AVLTree<T>::rotate_left(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
 
 template <class T>
 void AVLTree<T>::rotate_right(AVLN<T> * ch, AVLN<T> * par, AVLN<T> * grand){
-    if(grand == NULL){
+    if(grand == nullptr){
         this->root = par->left;
-        par->left->parent = NULL;
+        par->left->parent = nullptr;
     }
-    if(grand != NULL) {
+    if(grand != nullptr) {
         grand->right = ch;
         ch->parent = grand;
     }
     
     par->left = ch->right;
-    if(ch->right != NULL){
+    if(ch->right != nullptr){
         ch->right->parent = par;
     }
     ch->right = par;
@@ -423,7 +423,7 @@ template <class T>
 void AVLTree<T>::display_tree(AVLN<T> * avln) const {
     std::cout<<"display_tree"<<std::endl;
     
-    if(this->root != NULL)
+    if(this->root != nullptr)
         std::cout<<"root: "<<this->root->data<<std::endl;
     
     std::cout<<std::endl;
