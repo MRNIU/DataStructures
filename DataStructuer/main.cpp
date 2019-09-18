@@ -25,6 +25,16 @@ clock_t startTime = clock(),
 
 int main(int argc, const char * argv[]) {
     Heap<int> heap;
+    heap.Push(2);
+    heap.Push(8);
+    heap.Push(6);
+    heap.Push(1);
+    heap.Push(10);
+    heap.Push(15);
+    heap.Push(3);
+    heap.Push(12);
+    heap.Push(11);
+    heap.Display();
     return 0;
 }
 
