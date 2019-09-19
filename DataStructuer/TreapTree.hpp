@@ -61,6 +61,7 @@ private:
     void display_tree(TREN<T> * tren) const;
     void rotate_left(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
     void rotate_right(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
+    const int generate_random_priority(void) const;
     
 public:
     TreapTree(void);
@@ -92,13 +93,18 @@ TreapTree<T>::~TreapTree(){
 }
 
 template <class T>
+const int TreapTree<T>::generate_random_priority() const{
+    return  (rand() % (1000-0+1))+ 0;
+}
+
+template <class T>
 const bool TreapTree<T>::insert(TREN<T> * tren, const T data, const int priority){
     if(this->search(tren, data))
         return false;
     
     // 树为空的情况
     if(tren == nullptr) {
-        tren = new TREN<T>(data, 0);
+        tren = new TREN<T>(data, priority);
         this->root = tren;
         return true;
     }
@@ -117,22 +123,22 @@ const bool TreapTree<T>::insert(TREN<T> * tren, const T data, const int priority
         }
         
         if(data < par->data){
-            par->left = new TREN<T>(data, 0, par);
+            par->left = new TREN<T>(data, priority, par);
             ch = par->left;
             if(par->priority < ch->priority){
                 this->rotate_right(ch, par, par->parent);
             }
         }
         else{
-            par->right = new TREN<T>(data, 0, par);
+            par->right = new TREN<T>(data, priority, par);
             ch = par->right;
             if(par->priority < ch->priority){
                 this->rotate_left(ch, par, par->parent);
             }
         }
+        this->display_tree(this->root);
         return true;
     }
-    return true;
 }
 
 template <class T>
@@ -141,8 +147,13 @@ void TreapTree<T>::rotate_left(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
         this->root = par->right;
         par->right->parent = nullptr;
     }
-    if(grand != nullptr) {
-        grand->left = ch;
+    else {
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
         ch->parent = grand;
     }
     
@@ -161,8 +172,13 @@ void TreapTree<T>::rotate_right(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
         this->root = par->left;
         par->left->parent = nullptr;
     }
-    if(grand != nullptr) {
-        grand->right = ch;
+    else {
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
         ch->parent = grand;
     }
     
@@ -209,7 +225,7 @@ void TreapTree<T>::display_tree(TREN<T> * tren) const {
 
 template <class T>
 const bool TreapTree<T>::Insert(const T data){
-    return this->insert(this->root, data, 0);
+    return this->insert(this->root, data, this->generate_random_priority());
 }
 
 template <class T>
