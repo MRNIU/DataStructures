@@ -20,7 +20,7 @@ private:
     virtual const bool push_min(const T data);
     virtual const T pop_max(void);
     virtual const T pop_min(void);
-    virtual const Heap<T> merge(const Heap<T> * des, const Heap<T> * src) const;
+    virtual const T get_top(void);  // 获取堆顶元素
     virtual const bool swap(T * x, T * y);
 public:
     Heap(void);
@@ -29,7 +29,6 @@ public:
     virtual const bool Push(const T data);    // 插入元素
     virtual const T Pop(void);  // 弹出堆顶元素
     virtual const T GetTop(void);  // 获取堆顶元素
-    virtual const Heap<T> Merge(const Heap<T> * des, const Heap<T> * src);   // 合并两个堆，返回新的堆
     virtual void Display(void) const;
 };
 
@@ -173,8 +172,8 @@ const T Heap<T>::pop_min(void){
 }
 
 template <class T>
-const Heap<T> Heap<T>::merge(const Heap<T> * des, const Heap<T> * src) const {
-    return Heap<T>();
+const T Heap<T>::get_top(){
+    return this->ves[1];
 }
 
 template <class T>
@@ -190,12 +189,7 @@ const T Heap<T>::Pop(){
 
 template <class T>
 const T Heap<T>::GetTop(){
-    return 0;
-}
-
-template <class T>
-const Heap<T> Heap<T>::Merge(const Heap<T> * des, const Heap<T> * src){
-    return this->merge(des, src);
+    return this->get_top();
 }
 
 template <class T>
