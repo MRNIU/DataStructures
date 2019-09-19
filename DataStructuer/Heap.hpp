@@ -9,7 +9,7 @@
 #ifndef HEAP_HPP
 #define HEAP_HPP
 
-// Max Heap
+// 二叉堆的数组实现
 template <class T>
 class Heap {
 private:
@@ -201,5 +201,7 @@ void Heap<T>::Display(void) const {
     std::cout<<std::endl;
     return;
 }
+
+// 二叉堆的树实现
 
 #endif /* HEAP_HPP */

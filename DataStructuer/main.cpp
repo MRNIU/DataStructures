@@ -15,6 +15,7 @@
 #include "AVLTree.hpp"
 #include "SplayingTree.hpp"
 #include "Heap.hpp"
+#include "TreapTree.hpp"
 #include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 
@@ -24,17 +25,16 @@ clock_t startTime = clock(),
         endTime = 0;
 
 int main(int argc, const char * argv[]) {
-    Heap<int> heap1;
-    heap1.Push(2);
-    heap1.Push(8);
-    heap1.Push(6);
-    heap1.Push(1);
-    heap1.Push(10);
-    heap1.Push(15);
-    heap1.Push(3);
-    heap1.Push(12);
-    heap1.Push(11);
-    heap1.Display();
+    TreapTree<int> trep1;
+    trep1.Insert(50);
+    trep1.Insert(40);
+    trep1.Insert(60);
+    trep1.Insert(30);
+    trep1.Insert(55);
+    trep1.Insert(70);
+    trep1.Insert(20);
+    
+    trep1.DisplayTree();
     return 0;
 }
 

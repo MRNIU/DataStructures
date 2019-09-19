@@ -6,6 +6,10 @@
 //  Copyright © 2018 Zone.N. All rights reserved.
 //
 
+// TODO
+// 补齐各种操作的迭代与递归形式，目前计划有这些操作
+// insert, search, clean, bfs, dfs, delete by merge
+
 #ifndef BINARYSEARCHTREE_HPP
 #define BINARYSEARCHTREE_HPP
 
@@ -124,7 +128,8 @@ BinarySearchTree<T, N>::BinarySearchTree(const T * arr, const size_t begin, cons
 
 template <class T, template<class> class N>
 BinarySearchTree<T, N>::~BinarySearchTree(void){
-    this->clean(this->root);
+//    this->clean(this->root);
+//    delete this->root;
     return;
 }
 
@@ -337,7 +342,7 @@ const bool BinarySearchTree<T, N>::Delete(const T data){
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data){
-    if(search(bstn, data))
+    if(this->search(bstn, data))
         return false;
     if(bstn == nullptr) {
         bstn = new N<T>(data);
