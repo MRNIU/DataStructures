@@ -34,6 +34,8 @@ int main(int argc, const char * argv[]) {
     heap.Push(3);
     heap.Push(12);
     heap.Push(11);
+    int tmp = heap.Pop();
+    cout<<"tmp: "<<tmp<<endl;
     heap.Display();
     return 0;
 }

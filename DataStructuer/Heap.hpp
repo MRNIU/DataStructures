@@ -94,21 +94,7 @@ const bool Heap<T>::push_max(const T data){
             this->swap(&this->ves[i], &this->ves[i/2]);
             i /= 2;
         }
-        // 自顶向下方法
-//        T tmp = data;
-//        T ch;
-//        for(int i = 1;i < this->curr_size;){
-//            ch = i * 2;
-//            if(ch + 1 < this->curr_size && this->ves[ch + 1] > this->ves[ch]){
-//                ch++;
-//            }
-//            if(this->ves[ch] <= this->ves[i]){
-//                break;
-//            }
-//            this->swap(&this->ves[i], &this->ves[ch]);
-//            i = ch;
-//        }
-        }
+    }
     
     return true;
 }
@@ -144,14 +130,46 @@ const bool Heap<T>::push_min(const T data){
 
 template <class T>
 const T Heap<T>::pop_max(void){
+    T top = this->ves[1];
+    this->ves[1] = this->ves[this->curr_size];
+    this->ves[this->curr_size] = 0;
+    this->curr_size--;
     
-    return 0;
+    for(int i = 1, ch = i * 2; ch <= this->curr_size; i = ch, ch *= 2){
+        // 第二个子节点较大
+        if(ch + 1 <= this->curr_size && this->ves[ch] < this->ves[ch + 1]){
+            ch++;
+        }
+        if(this->ves[ch] < this->ves[i]){
+            break;
+        }
+        // 与子节点交换位置
+        this->swap(&this->ves[i], &this->ves[ch]);
+    }
+
+    return top;
 }
 
 template <class T>
 const T Heap<T>::pop_min(void){
+    T top = this->ves[1];
+    this->ves[1] = this->ves[this->curr_size];
+    this->ves[this->curr_size] = 0;
+    this->curr_size--;
     
-    return 0;
+    for(int i = 1, ch = i * 2; ch <= this->curr_size; i = ch, ch *= 2){
+        // 第二个子节点较小
+        if(ch + 1 <= this->curr_size && this->ves[ch] > this->ves[ch + 1]){
+            ch++;
+        }
+        if(this->ves[ch] > this->ves[i]){
+            break;
+        }
+        // 与子节点交换位置
+        this->swap(&this->ves[i], &this->ves[ch]);
+    }
+    
+    return top;
 }
 
 template <class T>
