@@ -59,6 +59,7 @@ private:
     const bool insert(TREN<T> * tren, const T data, const int priority);
 //    const bool search(const TREN<T> * tren, const T data) const;
     void display_tree(TREN<T> * tren) const;
+    void rotate(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
     void rotate_left(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
     void rotate_right(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
     const int generate_random_priority(void) const;
@@ -105,52 +106,61 @@ const bool TreapTree<T>::insert(TREN<T> * tren, const T data, const int priority
     // 树为空的情况
     if(tren == nullptr) {
         tren = new TREN<T>(data, priority);
-        this->root = tren;
+        if(this->root == nullptr){
+            this->root = tren;
+        }
         return true;
+    }
+
+    TREN<T> * ch = tren,
+    * par = nullptr;
+    
+    while(ch != nullptr){
+        par = ch;
+        if(data < ch->data)
+            ch = ch->left;
+        else if(data > ch->data)
+            ch = ch->right;
+        else
+            return false;
+    }
+    
+    if(data < par->data){
+        par->left = new TREN<T>(data, priority, par);
+        ch = par->left;
+        this->rotate(ch, ch->parent, ch->parent->parent);
+        
     }
     else{
-        TREN<T> * par = nullptr,
-                * ch = tren,
-                * grand = nullptr;
-        
-        while(ch != nullptr){
-            par = ch;
-            if(data < ch->data)
-                ch = ch->left;
-            else if(data > ch->data)
-                ch = ch->right;
-            else
-                return false;
-        }
-        
-        if(data < par->data){
-            par->left = new TREN<T>(data, priority, par);
-            ch = par->left;
-            grand = par->parent;
-            while(ch != this->root && par->priority < ch->priority){
-                std::cout<<"ch: "<<ch->data<<" p: "<<ch->priority<<std::endl;
-                this->rotate_right(ch, par, grand);
-                std::cout<<"ch: "<<ch->data<<" p: "<<par->data<<std::endl;
+        par->right = new TREN<T>(data, priority, par);
+        ch = par->right;
+        this->rotate(ch, ch->parent, ch->parent->parent);
+    }
+    this->display_tree(this->root);
+    return true;
 
-                ch = ch->parent;
-                par = ch->parent;
-                grand = par->parent;
-            }
+}
+
+template <class T>
+void TreapTree<T>::rotate(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
+    while(ch != this->root && par->priority < ch->priority){
+        if(par->left == ch){
+            this->rotate_right(ch, par, grand);
         }
         else{
-            par->right = new TREN<T>(data, priority, par);
-            ch = par->right;
-            grand = par->parent;
-            while(ch != this->root && par->priority < ch->priority){
-                this->rotate_left(ch, par, grand);
-                ch = ch->parent;
-                par = ch->parent;
-                grand = par->parent;
-            }
+            this->rotate_left(ch, par, grand);
         }
-        this->display_tree(this->root);
-        return true;
+        
+        if(ch == this->root){
+            par =  nullptr;
+            grand = nullptr;
+        }
+        else{
+            par = ch->parent;
+            grand = par->parent;
+        }
     }
+    return;
 }
 
 template <class T>
@@ -181,7 +191,7 @@ void TreapTree<T>::rotate_left(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
 template <class T>
 void TreapTree<T>::rotate_right(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
     if(grand == nullptr){
-        std::cout<<"222222"<<std::endl;
+        this->display_tree(this->root);
         this->root = par->left;
         par->left->parent = nullptr;
     }
