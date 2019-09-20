@@ -57,6 +57,7 @@ template <class T>
 class TreapTree : public BinarySearchTree<T, TREN>{
 private:
     const bool insert(TREN<T> * tren, const T data, const int priority);
+    const bool del(TREN<T> * tren, const T data);
 //    const bool search(const TREN<T> * tren, const T data) const;
     void display_tree(TREN<T> * tren) const;
     void rotate(TREN<T> * ch, TREN<T> * par, TREN<T> * grand);
@@ -96,6 +97,50 @@ TreapTree<T>::~TreapTree(){
 template <class T>
 const int TreapTree<T>::generate_random_priority() const{
     return  (rand() % (1000-0+1))+ 0;
+}
+
+template <class T>
+const bool TreapTree<T>::del(TREN<T> * tren, const T data){
+    if(tren == nullptr){
+        return false;
+    }
+    
+    // 要删除的节点是叶节点
+    if(tren->left == nullptr && tren->right == nullptr){
+        if(tren->parent->left == tren){
+            tren->parent->left = nullptr;
+        }
+        else{
+            tren->parent->right = nullptr;
+        }
+        delete tren;
+    }
+    // 有左子树，没有右子树
+    else if(tren->left != nullptr && tren->right == nullptr){
+        
+    }
+    // 有右子树，没有左子树
+    else if(tren->right != nullptr && tren->left == nullptr){
+        
+    }
+    // 有两个子树
+    else{
+        
+    }
+    
+    
+    while (tren != nullptr) {
+        if(tren->left->priority < tren->right->priority){
+            this->rotate_right(tren->right, tren, tren->parent);
+            tren = tren->right;
+        }
+        else{
+            this->rotate_left(tren->left, tren, tren->parent);
+            tren = tren->left;
+        }
+    }
+    
+    return true;
 }
 
 template <class T>
@@ -253,7 +298,7 @@ const bool TreapTree<T>::Insert(const T data){
 
 template <class T>
 const bool TreapTree<T>::Delete(const T data){
-    return true;
+    return this->del(this->root, data);
 }
 
 

@@ -34,6 +34,8 @@ int main(int argc, const char * argv[]) {
     trep1.Insert(70);
     trep1.Insert(20);
     
+    trep1.Delete(55);
+    
     trep1.DisplayTree();
     return 0;
 }
