@@ -110,7 +110,8 @@ const bool TreapTree<T>::insert(TREN<T> * tren, const T data, const int priority
     }
     else{
         TREN<T> * par = nullptr,
-                * ch = tren;
+                * ch = tren,
+                * grand = nullptr;
         
         while(ch != nullptr){
             par = ch;
@@ -125,15 +126,26 @@ const bool TreapTree<T>::insert(TREN<T> * tren, const T data, const int priority
         if(data < par->data){
             par->left = new TREN<T>(data, priority, par);
             ch = par->left;
-            if(par->priority < ch->priority){
-                this->rotate_right(ch, par, par->parent);
+            grand = par->parent;
+            while(ch != this->root && par->priority < ch->priority){
+                std::cout<<"ch: "<<ch->data<<" p: "<<ch->priority<<std::endl;
+                this->rotate_right(ch, par, grand);
+                std::cout<<"ch: "<<ch->data<<" p: "<<par->data<<std::endl;
+
+                ch = ch->parent;
+                par = ch->parent;
+                grand = par->parent;
             }
         }
         else{
             par->right = new TREN<T>(data, priority, par);
             ch = par->right;
-            if(par->priority < ch->priority){
-                this->rotate_left(ch, par, par->parent);
+            grand = par->parent;
+            while(ch != this->root && par->priority < ch->priority){
+                this->rotate_left(ch, par, grand);
+                ch = ch->parent;
+                par = ch->parent;
+                grand = par->parent;
             }
         }
         this->display_tree(this->root);
@@ -169,6 +181,7 @@ void TreapTree<T>::rotate_left(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
 template <class T>
 void TreapTree<T>::rotate_right(TREN<T> * ch, TREN<T> * par, TREN<T> * grand){
     if(grand == nullptr){
+        std::cout<<"222222"<<std::endl;
         this->root = par->left;
         par->left->parent = nullptr;
     }
