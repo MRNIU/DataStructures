@@ -19,6 +19,10 @@
 #include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 
+// TODO:
+// Use mode C++ features in project
+// Improve existing code
+
 using namespace std;
 
 clock_t startTime = clock(),
