@@ -156,7 +156,7 @@ const bool AVLTree<T>::insert(AVLN<T> * avln, const T data){
 
 template <class T>
 const bool AVLTree<T>::Delete(const T data){
-    AVLN<T> * par = this->get_node(data)->parent,
+    AVLN<T> * par = this->get_node_prev(this->root, data),
             * tmp = nullptr;
     
     this->find_and_del_by_copy(data);
