@@ -317,7 +317,7 @@ template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_copy(const T data){
     N<T> * node = this->get_node(this->root, data),
          * prev = this->get_node_prev(this->root, data);
-    if(node != 0 && node->data == data) {
+    if(node != nullptr && node->data == data) {
         if(node == this->root){
             this->del_copy(this->root);
         }
@@ -551,8 +551,13 @@ void BinarySearchTree<T, N>::rotate_right(N<T> * ch, N<T> * par, N<T> * grand){
     if(grand == nullptr){
         this->root = par->left;
     }
-    if(grand != nullptr) {
-        grand->right = ch;
+    else {
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
     }
     
     par->left = ch->right;
@@ -565,8 +570,13 @@ void BinarySearchTree<T, N>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand){
     if(grand == nullptr){
         this->root = par->right;
     }
-    if(grand != nullptr) {
-        grand->left = ch;
+    else {
+        if(grand->left == par){
+            grand->left = ch;
+        }
+        else if(grand->right == par){
+            grand->right = ch;
+        }
     }
     
     par->right = ch->left;

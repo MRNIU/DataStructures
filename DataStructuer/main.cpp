@@ -12,11 +12,11 @@
 #include "LinkedList.hpp"
 #include "Queue.hpp"
 #include "BinarySearchTree.hpp"
-#include "AVLTree.hpp"
-#include "SplayingTree.hpp"
-#include "Heap.hpp"
-#include "TreapTree.hpp"
-#include "RedBlackTree.hpp"
+//#include "AVLTree.hpp"
+//#include "SplayingTree.hpp"
+//#include "Heap.hpp"
+//#include "TreapTree.hpp"
+//#include "RedBlackTree.hpp"
 #include "SortAlgorithm.hpp"
 
 // TODO:
@@ -29,19 +29,19 @@ clock_t startTime = clock(),
         endTime = 0;
 
 int main(int argc, const char * argv[]) {
-    TreapTree<int> trep1;
-    trep1.Insert(50);
-    trep1.Insert(40);
-    trep1.Insert(60);
-    trep1.Insert(30);
-    trep1.Insert(55);
-    trep1.Insert(70);
-    trep1.Insert(20);
+    BinarySearchTree<int> bst1;
+    bst1.Insert(50);
+    bst1.Insert(40);
+    bst1.Insert(60);
+    bst1.Insert(30);
+    bst1.Insert(55);
+    bst1.Insert(70);
+    bst1.Insert(20);
     
-    trep1.Delete(55);
-    trep1.Delete(40);
+//    bst1.Delete(55);
+//    bst1.Delete(40);
     
-    trep1.DisplayTree();
+    bst1.DisplayTree();
     return 0;
 }
 
