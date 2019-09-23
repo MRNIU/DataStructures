@@ -56,7 +56,7 @@ protected:
     N<T> * root; // 保存树根节点
     
     virtual const bool insert(N<T> * bstn, const T data);  // 插入 ok
-    virtual const bool del_merge(N<T> * &bstn);    // 合并删除 ok
+    virtual const bool del_merge(N<T> * bstn, N<T> * par);    // 合并删除 ok
     virtual const bool find_and_del_by_merge(const T data); // ok
     virtual const bool del_copy(N<T> * &bstn);    // 复制删除 ok
     virtual const bool find_and_del_by_copy(const T data); // ok
@@ -231,49 +231,69 @@ const bool BinarySearchTree<T, N>::Empty(void) const{
     return this->root == nullptr;
 }
 
+// 合并删除
+// 将删除后剩下的子树合并成一棵树
 template <class T, template<class> class N>
-const bool BinarySearchTree<T, N>::del_merge(N<T> * &bstn){
-    N<T> * tmp = bstn;
-    if(bstn != nullptr){
-        if(bstn->right == nullptr){
-            bstn = bstn->left;
-        }
-        else if(bstn->left == nullptr){
-            bstn = bstn->right;
-        }
-        else{
-            tmp = bstn->left;
-            while(tmp->right != nullptr){
-                tmp = tmp->right;
-            }
-            tmp->right = bstn->right;
-            tmp = bstn;
-            bstn = bstn->left;
-        }
-        delete tmp;
+const bool BinarySearchTree<T, N>::del_merge(N<T> * bstn, N<T> * par){
+    if(bstn == nullptr){
+        return true;
     }
+    
+    N<T> * tmp = bstn;
+    
+//    if(par->left == bstn){
+//        par->left = nullptr;
+//    }
+//    else{
+//        par->right = nullptr;
+//    }
+    
+    // bstn 为叶结点
+    if(bstn->left == nullptr && bstn->right == nullptr){
+        delete bstn;
+    }
+    
+    if(bstn->right == nullptr){
+        bstn = bstn->left;
+    }
+    else if(bstn->left == nullptr){
+        bstn = bstn->right;
+    }
+    else{
+        tmp = bstn->left;
+        while(tmp->right != nullptr){
+            tmp = tmp->right;
+        }
+        tmp->right = bstn->right;
+        tmp = bstn;
+        bstn = bstn->left;
+    }
+    delete tmp;
+    
     return true;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_merge(const T data){
-    N<T> * node = this->get_node(this->root, data),
-         * prev = this->get_node_prev(this->root, data);
-    if(node != 0 && node->data == data){
-        if(node == this->root){
-            this->del_merge(this->root);
-        }
-        else if(prev->left == node){
-            this->del_merge(prev->left);
-        }
-        else if(prev->right == node){
-            this->del_merge(prev->right);
-        }
-        else {
-            return false;
-        }
+    N<T> * node = this->get_node(this->root, data);
+//         * prev = this->get_node_prev(this->root, data);
+    
+    if(node == nullptr){
+        return true;
     }
-    return true;
+    return this->del_merge(node);
+//    if(node == this->root){
+//        return this->del_merge(this->root);
+//    }
+//    else if(prev->left == node){
+//        return this->del_merge(prev->left);
+//    }
+//    else if(prev->right == node){
+//        return this->del_merge(prev->right);
+//    }
+//    else {
+//        return false;
+//    }
 }
 
 template <class T, template<class> class N>

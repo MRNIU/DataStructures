@@ -37,9 +37,10 @@ int main(int argc, const char * argv[]) {
     bst1.Insert(55);
     bst1.Insert(70);
     bst1.Insert(20);
+    bst1.DisplayTree();
     
 //    bst1.Delete(55);
-//    bst1.Delete(40);
+    bst1.Delete(40);
     
     bst1.DisplayTree();
     return 0;
