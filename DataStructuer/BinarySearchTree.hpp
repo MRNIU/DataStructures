@@ -235,128 +235,27 @@ const bool BinarySearchTree<T, N>::Empty(void) const{
 // 将删除后剩下的子树合并成一棵树
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::del_merge(N<T> * bstn, N<T> * par){
-    if(bstn == nullptr){
-        return true;
-    }
-    
-    N<T> * tmp = bstn;
-    
-//    if(par->left == bstn){
-//        par->left = nullptr;
-//    }
-//    else{
-//        par->right = nullptr;
-//    }
-    
-    // bstn 为叶结点
-    if(bstn->left == nullptr && bstn->right == nullptr){
-        delete bstn;
-    }
-    
-    if(bstn->right == nullptr){
-        bstn = bstn->left;
-    }
-    else if(bstn->left == nullptr){
-        bstn = bstn->right;
-    }
-    else{
-        tmp = bstn->left;
-        while(tmp->right != nullptr){
-            tmp = tmp->right;
-        }
-        tmp->right = bstn->right;
-        tmp = bstn;
-        bstn = bstn->left;
-    }
-    delete tmp;
-    
     return true;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_merge(const T data){
-    N<T> * node = this->get_node(this->root, data);
-//         * prev = this->get_node_prev(this->root, data);
-    
-    if(node == nullptr){
-        return true;
-    }
-    return this->del_merge(node);
-//    if(node == this->root){
-//        return this->del_merge(this->root);
-//    }
-//    else if(prev->left == node){
-//        return this->del_merge(prev->left);
-//    }
-//    else if(prev->right == node){
-//        return this->del_merge(prev->right);
-//    }
-//    else {
-//        return false;
-//    }
+    return true;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::del_copy(N<T> * &bstn){
-    N<T> * tmp = bstn,
-         * prev = nullptr;
-    
-    if(bstn == nullptr) {
-        return true;
-    }
-    
-    if(bstn->right == nullptr){
-        bstn = bstn->left;
-    }
-    else if(bstn->left == nullptr){
-        bstn = bstn->right;
-    }
-    else {
-        tmp = bstn->left;
-        prev = bstn;
-        
-        while(tmp->right != nullptr){
-            prev = tmp;
-            tmp = tmp->right;
-        }
-        
-        bstn->data = tmp->data;
-        
-        if(prev == bstn){
-            prev->left = tmp->left;
-        }
-        else {
-            prev->right = tmp->left;
-        }
-    }
-    delete tmp;
     return true;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_copy(const T data){
-    N<T> * node = this->get_node(this->root, data),
-         * prev = this->get_node_prev(this->root, data);
-    if(node != nullptr && node->data == data) {
-        if(node == this->root){
-            this->del_copy(this->root);
-        }
-        else if(prev->left == node) {
-            this->del_copy(prev->left);
-        }
-        else if(prev->right == node) {
-            this->del_copy(prev->right);
-        }
-        else{
-            return false;
-        }
-    }
     return true;
 }
 
 template <class T, template<class> class N>
 const bool BinarySearchTree<T, N>::Delete(const T data){
-    this->find_and_del_by_copy(data);
+    this->find_and_del_by_merge(data);
     return true;
 }
 
