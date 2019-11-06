@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
 //    bst2.DisplayTree();
 //    bst1.DisplayTree();
     
-    BTree<int> bt1(233);     
+    BTree<int> bt1(233);
     
     return 0;
 }
