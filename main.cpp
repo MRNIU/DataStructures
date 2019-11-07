@@ -18,6 +18,7 @@
 //#include "TreapTree.hpp"
 //#include "RedBlackTree.hpp"
 #include "BTree.hpp"
+#include "KDTree.hpp"
 #include "SortAlgorithm.hpp"
 
 // TODO:
@@ -43,7 +44,11 @@ int main(int argc, const char * argv[]) {
 //    bst2.DisplayTree();
 //    bst1.DisplayTree();
     
-    BTree<int> bt1(233);
+//    BTree<int> bt1(233);
+    
+    string data[2] = {"111", "aaaa"};
+    KDTree<> kdt1(data, 2);
+    kdt1.DisplayTree();
     
     return 0;
 }

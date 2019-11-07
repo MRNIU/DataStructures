@@ -24,22 +24,16 @@ public:
     BSTN<T> * right;
     BSTN(void);
     BSTN(T data, BSTN<T> * left = nullptr, BSTN<T> * right = nullptr);
-    ~BSTN(void);
+    virtual ~BSTN(void);
 };
 
 template <class T>
-BSTN<T>::BSTN(){
-    this->data = nullptr;
-    this->right = nullptr;
-    this->left = nullptr;
+BSTN<T>::BSTN(): data(nullptr), left(nullptr), right(nullptr){
     return;
 }
 
 template <class T>
-BSTN<T>::BSTN(T data, BSTN<T> * left, BSTN<T> * right){
-    this->data = data;
-    this->left = left;
-    this->right = right;
+BSTN<T>::BSTN(T data, BSTN<T> * left, BSTN<T> * right): data(data), left(left), right(right){
     return;
 }
 
@@ -101,15 +95,12 @@ public:
 };
 
 template <class T, template<class> class N>
-BinarySearchTree<T, N>::BinarySearchTree(void){
-    this->root = nullptr;
+BinarySearchTree<T, N>::BinarySearchTree(void): root(nullptr){
     return;
 }
 
 template <class T, template<class> class N>
-BinarySearchTree<T, N>::BinarySearchTree(const T data){
-    this->root = new N<T>(data);
-    this->root->data = data;
+BinarySearchTree<T, N>::BinarySearchTree(const T data): root(new N<T>(data)){
     return;
 }
 
