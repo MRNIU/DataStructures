@@ -32,7 +32,6 @@ bool test_LinkedList(void) {
     return true;
 }
 
-
 bool test_Queue(void) {
     return true;
 }
