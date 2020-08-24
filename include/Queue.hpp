@@ -11,6 +11,7 @@
 #define QUEUE_HPP
 
 #include "LinkedList.hpp"
+#include "iostream"
 
 template <class T>
 class Queue{
@@ -24,6 +25,9 @@ public:
     T DeQueue(void);
     bool Empty(void) const;
     T GetFirst(void) const;
+    const size_t to_Array(T arr[]) const;
+    const size_t to_Vector(std::vector<T> &vect) const;
+    void Display(void) const;
 };
 
 template <class T>
@@ -33,19 +37,25 @@ Queue<T>::Queue(){
 
 template <class T>
 Queue<T>::Queue(const T data){
-    LL.AddtoHead(data);
+    LL.AddtoTail(data);
+    return;
+}
+
+template <class T>
+Queue<T>::~Queue(){
+    LL.~LinkedList<T>();
     return;
 }
 
 template <class T>
 void Queue<T>::EnQueue(const T data){
-    LL.AddtoHead(data);
+    LL.AddtoTail(data);
     return;
 }
 
 template <class T>
 T Queue<T>::DeQueue(){
-    return LL.RemoveFromTail();
+    return LL.RemoveFromHead();
 }
 
 template <class T>
@@ -59,12 +69,19 @@ T Queue<T>::GetFirst() const{
 }
 
 template <class T>
-Queue<T>::~Queue(){
-    LL.~LinkedList<T>();
-    return;
+const size_t Queue<T>::to_Array(T arr[]) const {
+    return LL.to_Array(arr);
 }
 
+template <class T>
+const size_t Queue<T>::to_Vector(std::vector<T> &vect) const {
+    return LL.to_Vector(vect);
+}
 
-
+template <class T>
+void Queue<T>::Display(void) const {
+    LL.Display();
+    return;
+}
 
 #endif /* QUEUE_HPP */

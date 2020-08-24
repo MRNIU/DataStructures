@@ -54,6 +54,34 @@ bool test_LinkedList(void) {
 }
 
 bool test_Queue(void) {
+    Queue<int> queue(233);
+    queue.EnQueue(0);
+    queue.EnQueue(1);
+    queue.EnQueue(4);
+    queue.EnQueue(2);
+    
+    int a[10] = { 0 };
+    auto n = queue.to_Array(a);
+    assert(n == 5);
+    assert(a[0] == 233);
+    assert(a[1] == 0);
+    assert(a[2] == 1);
+    assert(a[3] == 4);
+    assert(a[4] == 2);
+    assert(a[5] == 0);
+    
+    std::vector<int> v(0);
+    size_t m = queue.to_Vector(v);
+    assert(m == 5);
+    assert(v[0] == 233);
+    assert(v[1] == 0);
+    assert(v[2] == 1);
+    assert(v[3] == 4);
+    assert(v[4] == 2);
+    
+    queue.DeQueue();
+    int i = queue.GetFirst();
+    assert(i == 0);
     return true;
 }
 
