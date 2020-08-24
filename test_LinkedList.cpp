@@ -19,16 +19,37 @@
 #include "Stack.hpp"
 #include "SplayingTree.hpp"
 
-
+#include "iostream"
+#include "vector"
+#include "assert.h"
 
 bool test_LinkedList(void) {
-    LinkedList<int>LL(233);
+    LinkedList<int> LL(233);
     LL.AddtoHead(0);
     LL.AddtoHead(1);
     LL.AddtoHead(4);
     LL.AddtoHead(2);
     LL.Sort();
-    LL.Display();
+//    LL.Display();
+    
+    int a[10] = { 0 };
+    auto n = LL.to_Array(a);
+    assert(n == 5);
+    assert(a[0] == 0);
+    assert(a[1] == 1);
+    assert(a[2] == 2);
+    assert(a[3] == 4);
+    assert(a[4] == 233);
+    assert(a[5] == 0);
+    
+    std::vector<int> v(0);
+    size_t m = LL.to_Vector(v);
+    assert(m == 5);
+    assert(v[0] == 0);
+    assert(v[1] == 1);
+    assert(v[2] == 2);
+    assert(v[3] == 4);
+    assert(v[4] == 233);
     return true;
 }
 

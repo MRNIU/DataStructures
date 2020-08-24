@@ -47,6 +47,7 @@ private:
 public:
     LinkedList(void);
     LinkedList(const T data);
+    ~LinkedList(void);
     // 添加到头部
     void AddtoHead(const T data);
     // 添加到尾部
@@ -70,10 +71,9 @@ public:
     // 排序
     void Sort(void);
     // 将链表转换为数组，返回原素数量
-    size_t to_Array(T arr[]);
+    const size_t to_Array(T arr[]) const;
     // 将链表转换为 vector，返回 vector 大小
-    size_t to_Vector(std::vector<T> &vect);
-    ~LinkedList(void);
+    const size_t to_Vector(std::vector<T> &vect) const;
 };
 
 template <class T>
@@ -85,6 +85,16 @@ LinkedList<T>::LinkedList(){
 template <class T>
 LinkedList<T>::LinkedList(const T data){
     head=tail=new LLNode<T>(data);
+    return;
+}
+
+template <class T>
+LinkedList<T>::~LinkedList(void){
+    while(!Empty()){
+        LLNode<T> * tmp = head->next;
+        head = nullptr;
+        head = tmp;
+    }
     return;
 }
 
@@ -187,12 +197,12 @@ bool LinkedList<T>::Search(const T key) const{
 template <class T>
 bool LinkedList<T>::Empty(void) const{
     // 如果头指针为空，则链表为空
-    return head== nullptr;
+    return head == nullptr;
 }
 
 template <class T>
 int LinkedList<T>::size() const{
-    if(head==nullptr){
+    if(head == nullptr){
         return 0;
     }
     else{
@@ -209,8 +219,8 @@ int LinkedList<T>::size() const{
 template <class T>
 void LinkedList<T>::Display(void) const{
     auto tmp = head;
-    while(tmp!=nullptr){
-        std::cout<<tmp->data<<std::endl;
+    while(tmp != nullptr){
+        std::cout << tmp->data << std::endl;
         tmp = tmp->next;
     }
     return;
@@ -220,7 +230,7 @@ void LinkedList<T>::Display(void) const{
 template <typename T>
 static LLNode<T> * get_nth_entry(LLNode<T> * head, size_t n){
     auto entry = head;
-    for (auto i=0; i<n; i++) {
+    for (size_t i = 0; i < n; i++) {
         if (entry == nullptr) {
             return nullptr;
         }
@@ -252,14 +262,39 @@ void LinkedList<T>::Sort(void){
     return;
 }
 
+// 将链表转换为数组，返回原素数量
 template <class T>
-LinkedList<T>::~LinkedList(void){
-    while(!Empty()){
-        LLNode<T> * tmp = head->next;
-        head = nullptr;
-        head = tmp;
+const size_t LinkedList<T>::to_Array(T arr[]) const {
+    // head == tail == nullptr
+    if(Empty()){
+        return 0;
     }
-    return;
+    LLNode<T> * node = head;
+    size_t i = 0;
+    do {
+        arr[i] = node->data;
+        node = node->next;
+        i++;
+    } while(node != nullptr);
+    
+    return i;
+}
+
+// 将链表转换为 vector，返回 vector 大小
+template <class T>
+const size_t LinkedList<T>::to_Vector(std::vector<T> &vect) const {
+    // head == tail == nullptr
+    if(Empty()){
+        return 0;
+    }
+    LLNode<T> * node = head;
+    size_t i = 0;
+    do {
+        vect.push_back(node->data);
+        node = node->next;
+        i++;
+    } while(node != nullptr);
+    return i;
 }
 
 #endif /* LINKEDLIST_HPP */
