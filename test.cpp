@@ -9,9 +9,9 @@
 #include "LinkedList.hpp"
 #include "Queue.hpp"
 #include "Stack.hpp"
+#include "BinarySearchTree.hpp"
 #include "AVLTree.hpp"
 #include "B+Tree.hpp"
-#include "BinarySearchTree.hpp"
 #include "BTree.hpp"
 #include "Heap.hpp"
 #include "KDTree.hpp"
@@ -44,17 +44,17 @@ bool test_LinkedList(void) {
     std::vector<int> v(0);
     n = LL.ToVector(v);
     assert(n == 5);
-    assert(v[0] == 0);
-    assert(v[1] == 1);
-    assert(v[2] == 2);
-    assert(v[3] == 4);
-    assert(v[4] == 233);
+    assert(v.at(0) == 0);
+    assert(v.at(1) == 1);
+    assert(v.at(2) == 2);
+    assert(v.at(3) == 4);
+    assert(v.at(4) == 233);
 
     LL.AddtoTail(666);
     v.clear();
     n = LL.ToVector(v);
     assert(n == 6);
-    assert(v[5] == 666);
+    assert(v.at(5) == 666);
 
     assert(LL.RemoveFromHead() == 0);
     assert(LL.RemoveFromTail() == 666);
@@ -74,11 +74,11 @@ bool test_LinkedList(void) {
     n = LL.ToVector(v);
     assert(n == 5);
     assert(LL.Size() == 5);
-    assert(v[4] == 233);
-    assert(v[3] == 0);
-    assert(v[2] == 4);
-    assert(v[1] == 1);
-    assert(v[0] == 2);
+    assert(v.at(4) == 233);
+    assert(v.at(3) == 0);
+    assert(v.at(2) == 4);
+    assert(v.at(1) == 1);
+    assert(v.at(0) == 2);
 
     assert(LL.Search(0) == true);
     assert(LL.Search(1) == true);
@@ -109,11 +109,11 @@ bool test_Queue(void) {
     std::vector<int> v(0);
     size_t m = queue.ToVector(v);
     assert(m == 5);
-    assert(v[0] == 233);
-    assert(v[1] == 0);
-    assert(v[2] == 1);
-    assert(v[3] == 4);
-    assert(v[4] == 2);
+    assert(v.at(0) == 233);
+    assert(v.at(1) == 0);
+    assert(v.at(2) == 1);
+    assert(v.at(3) == 4);
+    assert(v.at(4) == 2);
 
     queue.DeQueue();
     int i = queue.GetFirst();
@@ -142,15 +142,48 @@ bool test_Stack(void) {
     std::vector<int> v(0);
     size_t m = stack.ToVector(v);
     assert(m == 5);
-    assert(v[0] == 2);
-    assert(v[1] == 4);
-    assert(v[2] == 1);
-    assert(v[3] == 0);
-    assert(v[4] == 233);
+    assert(v.at(0) == 2);
+    assert(v.at(1) == 4);
+    assert(v.at(2) == 1);
+    assert(v.at(3) == 0);
+    assert(v.at(4) == 233);
 
     stack.Pop();
     int i = stack.Top();
     assert(i == 4);
+    
+    return true;
+}
+
+bool test_BinarySearchTree(void) {
+    BinarySearchTree<int> bst(233);
+    
+    bst.Insert(0);
+    bst.Insert(1);
+    bst.Insert(4);
+    bst.Insert(2);
+    assert(bst.GetHeight() == 5);
+    assert(bst.GetNodes() == 5);
+    assert(bst.GetLeaf() == 1);
+    
+    int a[10] = { 0 };
+    size_t n = bst.ToArrayLVR(a);
+    assert(n == 5);
+    assert(a[0] == 0);
+    assert(a[1] == 1);
+    assert(a[2] == 2);
+    assert(a[3] == 4);
+    assert(a[4] == 233);
+    assert(a[5] == 0);
+    
+    std::vector<int> v;
+    size_t m = bst.ToVectorBFS(v);
+    assert(m == 5);
+    assert(v.at(0) == 233);
+    assert(v.at(1) == 0);
+    assert(v.at(2) == 1);
+    assert(v.at(3) == 4);
+    assert(v.at(4) == 2);
     
     return true;
 }

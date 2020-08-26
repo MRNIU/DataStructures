@@ -39,8 +39,8 @@ BSTN<T>::BSTN(T data, BSTN<T> * left, BSTN<T> * right) : data(data), left(left),
 
 template <class T>
 BSTN<T>::~BSTN() {
-    delete left;
-    delete right;
+    left = nullptr;
+    right = nullptr;
     return;
 }
 
@@ -90,7 +90,13 @@ public:
     virtual const int GetHeight(void) const;  // 返回树高
     virtual const int GetLeaf(void) const;  // 返回树叶子节点数量
     virtual const int GetNodes(void) const;   // 返回树节点数量
-    virtual void DisplayTree(void) const;   // 打印树结构
+    virtual void Display(void) const;   // 打印树结构
+    virtual const size_t ToArrayLVR(T arr[]) const;
+    virtual const size_t ToArrayLRV(T arr[]) const;
+    virtual const size_t ToArrayBFS(T arr[]) const;
+    virtual const size_t ToVectorLVR(std::vector<T> &vect) const;
+    virtual const size_t ToVectorLRV(std::vector<T> &vect) const;
+    virtual const size_t ToVectorBFS(std::vector<T> &vect) const;
 
 };
 
@@ -119,8 +125,7 @@ BinarySearchTree<T, N>::BinarySearchTree(const T * arr, const size_t begin, cons
 
 template <class T, template <class> class N>
 BinarySearchTree<T, N>::~BinarySearchTree(void) {
-    //    this->clean(this->root);
-    //    delete this->root;
+    this->clean(this->root);
     return;
 }
 
@@ -495,7 +500,7 @@ void BinarySearchTree<T, N>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand) {
 }
 
 template <class T, template <class> class N>
-void BinarySearchTree<T, N>::DisplayTree() const {
+void BinarySearchTree<T, N>::Display() const {
     display_tree(this->root);
     return;
 }
@@ -531,6 +536,66 @@ void BinarySearchTree<T, N>::display_tree(N<T> * bstn) const {
     std::cout << std::endl;
 
     return;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToArrayLVR(T arr[]) const {
+    size_t i = 0;
+    this->dfs_lvr(this->root, [&](N<T> * bstn) {
+        arr[i] = bstn->data;
+        i++;
+    });
+    return i;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToArrayLRV(T arr[]) const {
+    size_t i = 0;
+    this->dfs_lrv(this->root, [&](N<T> * bstn) {
+        arr[i] = bstn->data;
+        i++;
+    });
+    return i;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToArrayBFS(T arr[]) const {
+    size_t i = 0;
+    this->bfs(this->root, [&](N<T> * bstn) {
+        arr[i] = bstn->data;
+        i++;
+    });
+    return i;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToVectorLVR(std::vector<T> &vect) const {
+    size_t i = 0;
+    this->dfs_lvr(this->root, [&](N<T> * bstn) {
+        vect.push_back(bstn->data);
+        i++;
+    });
+    return i;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToVectorLRV(std::vector<T> &vect) const {
+    size_t i = 0;
+    this->dfs_lrv(this->root, [&](N<T> * bstn) {
+        vect.push_back(bstn->data);
+        i++;
+    });
+    return i;
+}
+
+template <class T, template <class> class N>
+const size_t BinarySearchTree<T, N>::ToVectorBFS(std::vector<T> &vect) const {
+    size_t i = 0;
+    this->bfs(this->root, [&](N<T> * bstn) {
+        vect.push_back(bstn->data);
+        i++;
+    });
+    return i;
 }
 
 #endif /* BINARYSEARCHTREE_HPP */

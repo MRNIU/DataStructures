@@ -11,14 +11,13 @@
 
 bool test_LinkedList(void);
 bool test_Queue(void);
+bool test_Stack(void);
+bool test_BinarySearchTree(void);
 bool test_AVLTree(void);
 bool test_BPlusTree(void);
 bool test_Heap(void);
 bool test_KDTree(void);
 bool test_SplayingTree(void);
-bool test_Stack(void);
 bool test_TreapTree(void);
-bool test_(void);
-bool test_(void);
 
 #endif /* TEST_H */
