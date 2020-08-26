@@ -26,6 +26,7 @@ public:
     T DeQueue(void);
     bool Empty(void) const;
     T GetFirst(void) const;
+    const size_t Size(void) const;
     const size_t ToArray(T arr[]) const;
     const size_t ToVector(std::vector<T> &vect) const;
     void Display(void) const;
@@ -67,6 +68,11 @@ bool Queue<T>::Empty() const {
 template <class T>
 T Queue<T>::GetFirst() const {
     return LL.GetHead();
+}
+
+template <class T>
+const size_t Queue<T>::Size(void) const {
+    return LL.Size();
 }
 
 template <class T>

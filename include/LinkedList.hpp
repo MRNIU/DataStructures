@@ -69,7 +69,7 @@ public:
     // 判断链表是否为空
     bool Empty(void) const;
     // 返回链表大小
-    int size(void) const;
+    const size_t Size(void) const;
     // 输出元素
     void Display(void) const;
     // 排序
@@ -205,7 +205,7 @@ bool LinkedList<T>::Empty(void) const {
 }
 
 template <class T>
-int LinkedList<T>::size() const {
+const size_t LinkedList<T>::Size() const {
     if(head == nullptr) {
         return 0;
     }
@@ -262,7 +262,7 @@ void LinkedList<T>::insert_sort(LLNode<T> * node, size_t n) {
 
 template <class T>
 void LinkedList<T>::Sort(void) {
-    insert_sort(head, size() );
+    insert_sort(head, Size() );
     return;
 }
 

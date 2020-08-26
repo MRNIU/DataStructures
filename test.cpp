@@ -7,6 +7,8 @@
 //
 
 #include "LinkedList.hpp"
+#include "Queue.hpp"
+#include "Stack.hpp"
 #include "AVLTree.hpp"
 #include "B+Tree.hpp"
 #include "BinarySearchTree.hpp"
@@ -14,9 +16,7 @@
 #include "Heap.hpp"
 #include "KDTree.hpp"
 #include "RedBlackTree.hpp"
-#include "Queue.hpp"
 #include "TreapTree.hpp"
-#include "Stack.hpp"
 #include "SplayingTree.hpp"
 
 #include "iostream"
@@ -73,7 +73,7 @@ bool test_LinkedList(void) {
     v.clear();
     n = LL.ToVector(v);
     assert(n == 5);
-    assert(LL.size() == 5);
+    assert(LL.Size() == 5);
     assert(v[4] == 233);
     assert(v[3] == 0);
     assert(v[2] == 4);
@@ -118,6 +118,40 @@ bool test_Queue(void) {
     queue.DeQueue();
     int i = queue.GetFirst();
     assert(i == 0);
+    
+    return true;
+}
+
+bool test_Stack(void) {
+    Stack<int> stack(233);
+    stack.Push(0);
+    stack.Push(1);
+    stack.Push(4);
+    stack.Push(2);
+    
+    int a[10] = { 0 };
+    auto n = stack.ToArray(a);
+    assert(n == 5);
+    assert(a[0] == 2);
+    assert(a[1] == 4);
+    assert(a[2] == 1);
+    assert(a[3] == 0);
+    assert(a[4] == 233);
+    assert(a[5] == 0);
+
+    std::vector<int> v(0);
+    size_t m = stack.ToVector(v);
+    assert(m == 5);
+    assert(v[0] == 2);
+    assert(v[1] == 4);
+    assert(v[2] == 1);
+    assert(v[3] == 0);
+    assert(v[4] == 233);
+
+    stack.Pop();
+    int i = stack.Top();
+    assert(i == 4);
+    
     return true;
 }
 
@@ -138,10 +172,6 @@ bool test_KDTree(void) {
 }
 
 bool test_SplayingTree(void) {
-    return true;
-}
-
-bool test_Stack(void) {
     return true;
 }
 

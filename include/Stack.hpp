@@ -27,6 +27,9 @@ public:
     void Push(const T data);  // 压栈
     int Size(void) const; // 返回栈的大小
     bool Empty(void) const;   // 判断栈是否为空
+    const size_t ToArray(T arr[]) const;
+    const size_t ToVector(std::vector<T> &vect) const;
+    void Display(void) const;
 };
 
 template <class T>
@@ -37,6 +40,12 @@ Stack<T>::Stack(const T data) {
 
 template <class T>
 Stack<T>::Stack() {
+    return;
+}
+
+template <class T>
+Stack<T>::~Stack() {
+    LL.~LinkedList<T>();
     return;
 }
 
@@ -68,18 +77,22 @@ bool Stack<T>::Empty() const {
 
 template <class T>
 int Stack<T>::Size() const {
-    return LL.size();
+    return LL.Size();
 }
 
 template <class T>
-Stack<T>::~Stack() {
-    LL.~LinkedList<T>();
-    return;
+const size_t Stack<T>::ToArray(T arr[]) const {
+    return LL.ToArray(arr);
 }
 
 template <class T>
-void Stack<T>::test(void) {
-    LL.test();
+const size_t Stack<T>::ToVector(std::vector<T> &vect) const {
+    return LL.ToVector(vect);
+}
+
+template <class T>
+void Stack<T>::Display(void) const {
+    LL.Display();
     return;
 }
 

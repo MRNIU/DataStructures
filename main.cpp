@@ -11,5 +11,6 @@
 int main(int argc, const char * argv[]) {
     test_LinkedList();
     test_Queue();
+    test_Stack();
     return 0;
 }
