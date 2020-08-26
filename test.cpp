@@ -19,11 +19,13 @@
 #include "TreapTree.hpp"
 #include "SplayingTree.hpp"
 
+#include "test.h"
+
 #include "iostream"
 #include "vector"
 #include "assert.h"
 
-bool test_LinkedList(void) {
+bool Test::TestLinkedList(void) {
     LinkedList<int> LL(233);
     LL.AddtoHead(0);
     LL.AddtoHead(1);
@@ -89,7 +91,7 @@ bool test_LinkedList(void) {
     return true;
 }
 
-bool test_Queue(void) {
+bool Test::TestQueue(void) {
     Queue<int> queue(233);
     queue.EnQueue(0);
     queue.EnQueue(1);
@@ -122,7 +124,7 @@ bool test_Queue(void) {
     return true;
 }
 
-bool test_Stack(void) {
+bool Test::TestStack(void) {
     Stack<int> stack(233);
     stack.Push(0);
     stack.Push(1);
@@ -155,7 +157,7 @@ bool test_Stack(void) {
     return true;
 }
 
-bool test_BinarySearchTree(void) {
+bool Test::TestBinarySearchTree(void) {
     BinarySearchTree<int> bst(233);
     
     bst.Insert(0);
@@ -207,26 +209,26 @@ bool test_BinarySearchTree(void) {
     return true;
 }
 
-bool test_AVLTree(void) {
+bool Test::TestAVLTree(void) {
     return true;
 }
 
-bool test_BPlusTree(void) {
+bool Test::TestBPlusTree(void) {
     return true;
 }
 
-bool test_Heap(void) {
+bool Test::TestHeap(void) {
     return true;
 }
 
-bool test_KDTree(void) {
+bool Test::TestKDTree(void) {
     return true;
 }
 
-bool test_SplayingTree(void) {
+bool Test::TestSplayingTree(void) {
     return true;
 }
 
-bool test_TreapTree(void) {
+bool Test::TestTreapTree(void) {
     return true;
 }

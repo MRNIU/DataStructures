@@ -9,9 +9,10 @@
 #include "test.h"
 
 int main(int argc, const char * argv[]) {
-    test_LinkedList();
-    test_Queue();
-    test_Stack();
-    test_BinarySearchTree();
+    Test test;
+    test.TestLinkedList();
+    test.TestQueue();
+    test.TestStack();
+    test.TestBinarySearchTree();
     return 0;
 }
