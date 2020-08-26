@@ -6,8 +6,8 @@
 //  Copyright © 2020 Zone.N. All rights reserved.
 //
 
-#ifndef test_h
-#define test_h
+#ifndef TEST_H
+#define TEST_H
 
 bool test_LinkedList(void);
 bool test_Queue(void);
@@ -21,4 +21,4 @@ bool test_TreapTree(void);
 bool test_(void);
 bool test_(void);
 
-#endif /* test_h */
+#endif /* TEST_H */

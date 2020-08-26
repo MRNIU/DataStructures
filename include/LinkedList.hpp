@@ -26,7 +26,7 @@ public:
 };
 
 template <class T>
-LLNode<T>::LLNode(T data){
+LLNode<T>::LLNode(T data) {
     this->data = data;
     next = nullptr;
     prev = nullptr;
@@ -34,7 +34,7 @@ LLNode<T>::LLNode(T data){
 }
 
 template <class T>
-LLNode<T>::LLNode(){
+LLNode<T>::LLNode() {
     data = nullptr;
     next = nullptr;
     prev = nullptr;
@@ -47,6 +47,7 @@ private:
     LLNode<T> * head;
     LLNode<T> * tail;
     void insert_sort(LLNode<T> * node, size_t n);
+
 public:
     LinkedList(void);
     LinkedList(const T data);
@@ -80,20 +81,20 @@ public:
 };
 
 template <class T>
-LinkedList<T>::LinkedList(){
+LinkedList<T>::LinkedList() {
     head = tail = nullptr;
     return;
 }
 
 template <class T>
-LinkedList<T>::LinkedList(const T data){
+LinkedList<T>::LinkedList(const T data) {
     head = tail = new LLNode<T>(data);
     return;
 }
 
 template <class T>
-LinkedList<T>::~LinkedList(void){
-    while(!Empty()){
+LinkedList<T>::~LinkedList(void) {
+    while(!Empty() ) {
         LLNode<T> * tmp = head->next;
         head = nullptr;
         head = tmp;
@@ -102,14 +103,14 @@ LinkedList<T>::~LinkedList(void){
 }
 
 template <class T>
-void LinkedList<T>::AddtoHead(const T data){
+void LinkedList<T>::AddtoHead(const T data) {
     // 如果链表为空
-    if(Empty()){
+    if(Empty() ) {
         // 则使头尾指针均指向 new 的节点
         head = tail = new LLNode<T>(data);
     }
     // 否则将头指针换成 new 的节点
-    else{
+    else {
         head->prev = new LLNode<T>(data);
         head->prev->next = head;
         head = head->prev;
@@ -118,31 +119,31 @@ void LinkedList<T>::AddtoHead(const T data){
 }
 
 template <class T>
-void LinkedList<T>::AddtoTail(const T data){
+void LinkedList<T>::AddtoTail(const T data) {
     // 如果链表为空
-    if(Empty()){
+    if(Empty() ) {
         // 则使头尾指针均指向 new 的节点
         head = tail = new LLNode<T>(data);
-    } else{
+    } else {
         tail->next = new LLNode<T>(data);
         tail->next->prev = tail;
-        tail=tail->next;
+        tail = tail->next;
     }
     return;
 }
 
 template <class T>
-T LinkedList<T>::RemoveFromHead(void){
+T LinkedList<T>::RemoveFromHead(void) {
     // 如果链表为空
-    if(Empty()){
+    if(Empty() ) {
         throw("Linked List is empty!");
     }
     // 仅有一个元素
-    else if ((head == tail)&&(head != nullptr)){
+    else if( (head == tail) && (head != nullptr) ) {
         T tmp = head->data;
         head = tail = nullptr;
         return tmp;
-    } else{
+    } else {
         head = head->next;
         T tmp = head->prev->data;
         head->prev = nullptr;
@@ -151,17 +152,17 @@ T LinkedList<T>::RemoveFromHead(void){
 }
 
 template <class T>
-T LinkedList<T>::RemoveFromTail(void){
+T LinkedList<T>::RemoveFromTail(void) {
     // 如果链表为空
-    if(Empty()){
+    if(Empty() ) {
         return 0;
     }
     // 仅有一个元素
-    else if ((head == tail)&&(tail != nullptr)){
+    else if( (head == tail) && (tail != nullptr) ) {
         T tmp = tail->data;
-        head=tail = nullptr;
+        head = tail = nullptr;
         return tmp;
-    } else{
+    } else {
         tail = tail->prev;
         T tmp = tail->next->data;
         tail->next = nullptr;
@@ -170,16 +171,16 @@ T LinkedList<T>::RemoveFromTail(void){
 }
 
 template <class T>
-T LinkedList<T>::GetHead() const{
-    if(Empty())
+T LinkedList<T>::GetHead() const {
+    if(Empty() )
         throw("Linked List is empty!");
     else
         return head->data;
 }
 
 template <class T>
-T LinkedList<T>::GetTail() const{
-    if(Empty())
+T LinkedList<T>::GetTail() const {
+    if(Empty() )
         throw("Linked List is empty!");
     else
         return tail->data;
@@ -187,9 +188,9 @@ T LinkedList<T>::GetTail() const{
 
 
 template <class T>
-bool LinkedList<T>::Search(const T key) const{
+bool LinkedList<T>::Search(const T key) const {
     LLNode<T> * tmp = head;
-    while (tmp != nullptr) {
+    while(tmp != nullptr) {
         if(tmp->data == key)
             return true;
         tmp = tmp->next;
@@ -198,20 +199,20 @@ bool LinkedList<T>::Search(const T key) const{
 }
 
 template <class T>
-bool LinkedList<T>::Empty(void) const{
+bool LinkedList<T>::Empty(void) const {
     // 如果头指针为空，则链表为空
     return head == nullptr;
 }
 
 template <class T>
-int LinkedList<T>::size() const{
-    if(head == nullptr){
+int LinkedList<T>::size() const {
+    if(head == nullptr) {
         return 0;
     }
-    else{
-        int count=  1;
+    else {
+        int count =  1;
         LLNode<T> * tmp = head;
-        while(tmp->next != nullptr){
+        while(tmp->next != nullptr) {
             count += 1;
             tmp = tmp->next;
         }
@@ -220,9 +221,9 @@ int LinkedList<T>::size() const{
 }
 
 template <class T>
-void LinkedList<T>::Display(void) const{
+void LinkedList<T>::Display(void) const {
     LLNode<T> * tmp = head;
-    while(tmp != nullptr){
+    while(tmp != nullptr) {
         std::cout << tmp->data << std::endl;
         tmp = tmp->next;
     }
@@ -231,10 +232,10 @@ void LinkedList<T>::Display(void) const{
 
 // 获取链表的第 x 个元素
 template <typename T>
-static LLNode<T> * get_nth_entry(LLNode<T> * head, size_t n){
+static LLNode<T> * get_nth_entry(LLNode<T> * head, size_t n) {
     LLNode<T> * entry = head;
-    for (size_t i = 0; i < n; i++) {
-        if (entry == nullptr) {
+    for(size_t i = 0 ; i < n ; i++) {
+        if(entry == nullptr) {
             return nullptr;
         }
         entry = entry->next;
@@ -247,7 +248,7 @@ static LLNode<T> * get_nth_entry(LLNode<T> * head, size_t n){
 // 插入排序
 template <class T>
 void LinkedList<T>::insert_sort(LLNode<T> * node, size_t n) {
-    for(int j = 0; j< n; j++){
+    for(int j = 0 ; j < n ; j++) {
         T key = GET_DATA(node, j);
         int i = j - 1;
         while(i >= 0 && GET_DATA(node, i) > key) {
@@ -260,15 +261,15 @@ void LinkedList<T>::insert_sort(LLNode<T> * node, size_t n) {
 }
 
 template <class T>
-void LinkedList<T>::Sort(void){
-    insert_sort(head, size());
+void LinkedList<T>::Sort(void) {
+    insert_sort(head, size() );
     return;
 }
 
 // 将链表转换为数组，返回原素数量
 template <class T>
 const size_t LinkedList<T>::ToArray(T arr[]) const {
-    if(Empty()){
+    if(Empty() ) {
         return 0;
     }
     LLNode<T> * node = head;
@@ -278,14 +279,14 @@ const size_t LinkedList<T>::ToArray(T arr[]) const {
         node = node->next;
         i++;
     } while(node != nullptr);
-    
+
     return i;
 }
 
 // 将链表转换为 vector，返回 vector 大小
 template <class T>
 const size_t LinkedList<T>::ToVector(std::vector<T> &vect) const {
-    if(Empty()){
+    if(Empty() ) {
         return 0;
     }
     LLNode<T> * node = head;

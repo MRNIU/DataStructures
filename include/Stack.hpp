@@ -15,6 +15,7 @@ template <class T>
 class Stack {
 private:
     LinkedList<T> LL;
+
 public:
     void test(void);    // 测试函数
     Stack(void);
@@ -29,55 +30,55 @@ public:
 };
 
 template <class T>
-Stack<T>::Stack(const T data){
+Stack<T>::Stack(const T data) {
     LL.AddtoHead(data);
     return;
 }
 
 template <class T>
-Stack<T>::Stack(){
+Stack<T>::Stack() {
     return;
 }
 
 template <class T>
-T Stack<T>::Top() const{
+T Stack<T>::Top() const {
     return LL.GetHead();
 }
 
 template <class T>
-T Stack<T>::Bottom() const{
+T Stack<T>::Bottom() const {
     return LL.GetTail();
 }
 
 template <class T>
-T Stack<T>::Pop(){
+T Stack<T>::Pop() {
     return LL.RemoveFromHead();
 }
 
 template <class T>
-void Stack<T>::Push(const T data_input){
+void Stack<T>::Push(const T data_input) {
     LL.AddtoHead(data_input);
     return;
 }
 
 template <class T>
-bool Stack<T>::Empty() const{
+bool Stack<T>::Empty() const {
     return LL.Empty();
 }
 
 template <class T>
-int Stack<T>::Size() const{
+int Stack<T>::Size() const {
     return LL.size();
 }
 
 template <class T>
-Stack<T>::~Stack(){
+Stack<T>::~Stack() {
     LL.~LinkedList<T>();
     return;
 }
 
 template <class T>
-void Stack<T>::test(void){
+void Stack<T>::test(void) {
     LL.test();
     return;
 }
