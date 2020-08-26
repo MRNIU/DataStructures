@@ -14,38 +14,11 @@
 #define BINARYSEARCHTREE_HPP
 
 #include "Queue.hpp"
+#include "BinaryTree.hpp"
 #include "math.h"
 
-template <class T>
-class BSTN {
-public:
-    T data;
-    BSTN<T> * left;
-    BSTN<T> * right;
-    BSTN(void);
-    BSTN(T data, BSTN<T> * left = nullptr, BSTN<T> * right = nullptr);
-    virtual ~BSTN(void);
-};
-
-template <class T>
-BSTN<T>::BSTN() : data(nullptr), left(nullptr), right(nullptr) {
-    return;
-}
-
-template <class T>
-BSTN<T>::BSTN(T data, BSTN<T> * left, BSTN<T> * right) : data(data), left(left), right(right) {
-    return;
-}
-
-template <class T>
-BSTN<T>::~BSTN() {
-    left = nullptr;
-    right = nullptr;
-    return;
-}
-
 template <class T, template <class> class N = BSTN>
-class BinarySearchTree {
+class BinarySearchTree : public BinaryTree<T, N> {
 protected:
     // 保存树根节点
     N<T> * root;
@@ -67,15 +40,6 @@ protected:
     // 返回包含指定数据的节点的父节点
     virtual N<T> * get_node_prev(N<T> * bstn, const T data) const;
 
-    // 广度优先遍历 ok
-    void bfs(N<T> * bstn, std::function<void (N<T> *)> fun) const;
-    // VLR 遍历 ok
-    void dfs_vlr(N<T> * bstn, std::function<void (N<T> *)> fun) const;
-    // LVR 遍历 ok
-    void dfs_lvr(N<T> * bstn, std::function<void (N<T> *)> fun) const;
-    // LRV 遍历 ok
-    void dfs_lrv(N<T> * bstn, std::function<void (N<T> *)> fun) const; 
-
     // 平衡树
     void balance(N<T> * bstn);
     // DSW 平衡算法 ok
@@ -88,17 +52,6 @@ protected:
     virtual void rotate_right(N<T> * ch, N<T> * par, N<T> * grand);
     // 左旋 ok
     virtual void rotate_left(N<T> * ch, N<T> * par, N<T> * grand);
-
-    // 打印树结构 ok
-    virtual void display_tree(N<T> * bstn) const;
-    // Internal Path Length 内部路径长度
-    const int ipl(N<T> * bstn) const;
-    // 返回指定树的树高 ok
-    virtual const int get_height(N<T> * bstn) const;
-    // 返回以指定节点为根的树的叶子结点数量 ok
-    virtual const int get_leaf(N<T> * bstn) const;
-    // 返回以指定节点为根的树的结点数量 ok
-    virtual const int get_nodes(N<T> * bstn) const;
     // 在指定子树中搜索 data ok
     virtual const bool search(N<T> * bstn, const T data) const;
 
@@ -116,26 +69,6 @@ public:
     virtual const bool Delete(const T data);
     // 平衡
     virtual void Balance(void);
-
-    // 返回是否为空 ok
-    virtual const bool Empty(void) const;
-    // 返回树高
-    virtual const int GetHeight(void) const;
-    // 返回树叶子节点数量
-    virtual const int GetLeaf(void) const;
-    // 返回树节点数量
-    virtual const int GetNodes(void) const;
-    // 打印树结构
-    virtual void Display(void) const;
-    // 转换为数组
-    virtual const size_t ToArrayLVR(T arr[]) const;
-    virtual const size_t ToArrayLRV(T arr[]) const;
-    virtual const size_t ToArrayBFS(T arr[]) const;
-    // 转换为 vector
-    virtual const size_t ToVectorLVR(std::vector<T> &vect) const;
-    virtual const size_t ToVectorLRV(std::vector<T> &vect) const;
-    virtual const size_t ToVectorBFS(std::vector<T> &vect) const;
-
 };
 
 template <class T, template <class> class N>
@@ -202,18 +135,6 @@ const bool BinarySearchTree<T, N>::clean(N<T> * bstn) {
 }
 
 template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::ipl(N<T> * bstn) const {
-    int ipl = 0;
-    // TODO
-    return ipl;
-}
-
-template <class T, template <class> class N>
-const bool BinarySearchTree<T, N>::Search(const T data) const {
-    return search(this->root, data);
-}
-
-template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::search(N<T> * bstn, const T data) const {
     if(bstn == nullptr) {
         return false;
@@ -228,6 +149,11 @@ const bool BinarySearchTree<T, N>::search(N<T> * bstn, const T data) const {
         // 找到了，返回对应节点指针。
         return true;
     }
+}
+
+template <class T, template <class> class N>
+const bool BinarySearchTree<T, N>::Search(const T data) const {
+    return search(this->root, data);
 }
 
 template <class T, template <class> class N>
@@ -251,44 +177,6 @@ N<T> * BinarySearchTree<T, N>::get_node(N<T> * bstn, const T data) const {
 
 template <class T, template <class> class N>
 N<T> * BinarySearchTree<T, N>::get_node_prev(N<T> * bstn, const T data) const {
-//    Stack<N<T> *> stack;
-//    N<T> * par = nullptr;
-//    N<T> * node = this->root;
-//    // 节点不为空或栈不为空
-//    while(node || stack.Empty() == false) {
-//        // 节点不为空时
-//        if(node) {
-//            // 根节点
-//            if((node != nullptr) && (node->data == data)) {
-//                break;
-//            }
-//            // 如果左子节点符合要求
-//            else if((node->left != nullptr) && (node->left->data == data)) {
-//                par = node;
-//                node = node->left;
-//                break;
-//            }
-//            // 如果右子节点符合要求
-//            else if((node->left != nullptr) && (node->right->data == data)) {
-//                par = node;
-//                node = node->right;
-//                break;
-//            }
-//            // 都不符合
-//            // 将当前节点入栈
-//            // node 指向左子节点
-//            else {
-//                stack.Push(node);
-//                node = node->left;
-//            }
-//        }
-//        // 节点为空
-//        else {
-//            // 将上一个节点出栈
-//            node = stack.Pop();
-//            node = node->right;
-//        }
-//    }
     N<T> * node = bstn,
         * prev = nullptr;
     while(node != nullptr) {
@@ -304,11 +192,6 @@ N<T> * BinarySearchTree<T, N>::get_node_prev(N<T> * bstn, const T data) const {
         }
     }
     return prev;
-}
-
-template <class T, template <class> class N>
-const bool BinarySearchTree<T, N>::Empty(void) const {
-    return this->root == nullptr;
 }
 
 // 合并删除
@@ -358,7 +241,7 @@ const bool BinarySearchTree<T, N>::del_merge(N<T> * bstn, N<T> * par) {
 
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_merge(const T data) {
-    return del_merge(node, get_node_prev(this->root, data));
+    return del_merge(get_node(this->root, data), get_node_prev(this->root, data));
 }
 
 template <class T, template <class> class N>
@@ -375,12 +258,6 @@ template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::Delete(const T data) {
     this->find_and_del_by_merge(data);
     return true;
-}
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::Balance(void) {
-    this->balance(this->root);
-    return;
 }
 
 template <class T, template <class> class N>
@@ -423,107 +300,6 @@ const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data) {
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::Insert(const T data) {
     return this->insert(this->root, data);
-}
-
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::GetHeight() const {
-    return get_height(this->root);
-}
-
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::GetLeaf() const {
-    return get_leaf(this->root);
-}
-
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::GetNodes() const {
-    return get_nodes(this->root);
-}
-
-// 返回树节点数量
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::get_nodes(N<T> * bstn) const {
-    int counter = 0;
-    bfs(bstn, [&counter](N<T> * bstn) {
-        counter++;
-    });
-    return counter;
-}
-
-// 返回树高度
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::get_height(N<T> * bstn) const {
-    if(bstn == nullptr) {
-        return 0;
-    }
-    int lh = get_height(bstn->left);
-    int rh = get_height(bstn->right);
-    return lh >= rh ? ++lh : ++rh;
-}
-
-// 返回叶子结点数量
-template <class T, template <class> class N>
-const int BinarySearchTree<T, N>::get_leaf(N<T> * bstn) const {
-    int counter = 0;
-    bfs(bstn, [&counter](N<T> * bstn) {
-        if(bstn->left == nullptr && bstn->right == nullptr) {
-            counter++;
-        }
-    });
-    return counter;
-}
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::bfs(N<T> * bstn, std::function<void (N<T> *)> fun) const {
-    if(bstn != nullptr) {
-        Queue<N<T> *> queue;
-        queue.EnQueue(bstn);
-        while(!queue.Empty() ) {
-            N<T> * bstn_tmp = queue.DeQueue();
-            fun(bstn_tmp);
-            if(bstn_tmp->left != nullptr) {
-                queue.EnQueue(bstn_tmp->left);
-            }
-            if(bstn_tmp->right != nullptr) {
-                queue.EnQueue(bstn_tmp->right);
-            }
-        }
-    }
-    return;
-}
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::dfs_lrv(N<T> * bstn, std::function<void (N<T> *)> fun) const {
-    if(bstn != nullptr) {
-        dfs_lrv(bstn->left, fun);
-        dfs_lrv(bstn->right, fun);
-        fun(bstn);
-        return;
-    }
-    return;
-}
-
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::dfs_lvr(N<T> * bstn, std::function<void (N<T> *)> fun) const {
-    if(bstn != nullptr) {
-        dfs_lvr(bstn->left, fun);
-        fun(bstn);
-        dfs_lvr(bstn->right, fun);
-        return;
-    }
-    return;
-}
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::dfs_vlr(N<T> * bstn, std::function<void (N<T> *)> fun) const {
-    if(bstn != nullptr) {
-        fun(bstn);
-        dfs_vlr(bstn->left, fun);
-        dfs_vlr(bstn->right, fun);
-        return;
-    }
-    return;
 }
 
 template <class T, template <class> class N>
@@ -646,102 +422,9 @@ void BinarySearchTree<T, N>::rotate_left(N<T> * ch, N<T> * par, N<T> * grand) {
 }
 
 template <class T, template <class> class N>
-void BinarySearchTree<T, N>::Display() const {
-    display_tree(this->root);
+void BinarySearchTree<T, N>::Balance(void) {
+    this->balance(this->root);
     return;
-}
-
-template <class T, template <class> class N>
-void BinarySearchTree<T, N>::display_tree(N<T> * bstn) const {
-    std::cout << "display_tree" << std::endl;
-
-    if(this->root != nullptr)
-        std::cout << "root: " << this->root->data << std::endl;
-
-    std::cout << std::endl;
-
-    std::cout << "lvr" << std::endl;
-    this->dfs_lvr(bstn, [&](N<T> * bstn) {
-        std::cout << bstn->data << std::endl;
-    });
-
-    std::cout << std::endl;
-
-    std::cout << "lrv" << std::endl;
-    this->dfs_lrv(bstn, [&](N<T> * bstn) {
-        std::cout << bstn->data << std::endl;
-    });
-
-    std::cout << std::endl;
-
-    std::cout << "bfs" << std::endl;
-    this->bfs(bstn, [&](N<T> * bstn) {
-        std::cout << bstn->data << std::endl;
-    });
-
-    std::cout << std::endl;
-
-    return;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToArrayLVR(T arr[]) const {
-    size_t i = 0;
-    this->dfs_lvr(this->root, [&](N<T> * bstn) {
-        arr[i] = bstn->data;
-        i++;
-    });
-    return i;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToArrayLRV(T arr[]) const {
-    size_t i = 0;
-    this->dfs_lrv(this->root, [&](N<T> * bstn) {
-        arr[i] = bstn->data;
-        i++;
-    });
-    return i;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToArrayBFS(T arr[]) const {
-    size_t i = 0;
-    this->bfs(this->root, [&](N<T> * bstn) {
-        arr[i] = bstn->data;
-        i++;
-    });
-    return i;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToVectorLVR(std::vector<T> &vect) const {
-    size_t i = 0;
-    this->dfs_lvr(this->root, [&](N<T> * bstn) {
-        vect.push_back(bstn->data);
-        i++;
-    });
-    return i;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToVectorLRV(std::vector<T> &vect) const {
-    size_t i = 0;
-    this->dfs_lrv(this->root, [&](N<T> * bstn) {
-        vect.push_back(bstn->data);
-        i++;
-    });
-    return i;
-}
-
-template <class T, template <class> class N>
-const size_t BinarySearchTree<T, N>::ToVectorBFS(std::vector<T> &vect) const {
-    size_t i = 0;
-    this->bfs(this->root, [&](N<T> * bstn) {
-        vect.push_back(bstn->data);
-        i++;
-    });
-    return i;
 }
 
 #endif /* BINARYSEARCHTREE_HPP */

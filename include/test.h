@@ -16,6 +16,7 @@ public:
     bool TestLinkedList(void);
     bool TestQueue(void);
     bool TestStack(void);
+    bool TestBinaryTree(void);
     bool TestBinarySearchTree(void);
     bool TestAVLTree(void);
     bool TestBPlusTree(void);

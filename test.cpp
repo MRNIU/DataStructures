@@ -9,6 +9,7 @@
 #include "LinkedList.hpp"
 #include "Queue.hpp"
 #include "Stack.hpp"
+#include "BinaryTree.hpp"
 #include "BinarySearchTree.hpp"
 #include "AVLTree.hpp"
 #include "B+Tree.hpp"
@@ -157,6 +158,10 @@ bool Test::TestStack(void) {
     return true;
 }
 
+bool Test::TestBinaryTree(void) {
+    return true;
+}
+
 bool Test::TestBinarySearchTree(void) {
     BinarySearchTree<int> bst(233);
     
@@ -166,7 +171,7 @@ bool Test::TestBinarySearchTree(void) {
     bst.Insert(2);
     assert(bst.GetHeight() == 5);
     assert(bst.GetNodes() == 5);
-    assert(bst.GetLeaf() == 1);
+    assert(bst.GetLeaves() == 1);
     
     int a[10] = { 0 };
     size_t n = bst.ToArrayLVR(a);

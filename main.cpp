@@ -13,6 +13,6 @@ int main(int argc, const char * argv[]) {
     test.TestLinkedList();
     test.TestQueue();
     test.TestStack();
-    test.TestBinarySearchTree();
+    test.TestBinaryTree();
     return 0;
 }
