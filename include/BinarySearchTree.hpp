@@ -47,34 +47,58 @@ BSTN<T>::~BSTN() {
 template <class T, template <class> class N = BSTN>
 class BinarySearchTree {
 protected:
-    N<T> * root; // 保存树根节点
+    // 保存树根节点
+    N<T> * root;
 
-    virtual const bool insert(N<T> * bstn, const T data);  // 插入 ok
-    virtual const bool del_merge(N<T> * bstn, N<T> * par);    // 合并删除 ok
-    virtual const bool find_and_del_by_merge(const T data); // ok
-    virtual const bool del_copy(N<T> * &bstn);    // 复制删除 ok
-    virtual const bool find_and_del_by_copy(const T data); // ok
-    virtual const bool clean(N<T> * bstn);  // 删除以指定节点为根的树 ok
-    virtual N<T> * get_node(N<T> * bstn, const T data) const; // 返回包含指定数据的节点
-    virtual N<T> * get_node_prev(N<T> * bstn, const T data) const; // 返回包含指定数据的节点的父节点
+    // 插入 ok
+    virtual const bool insert(N<T> * bstn, const T data);
+    // 合并删除 ok
+    virtual const bool del_merge(N<T> * bstn, N<T> * par);
+    // 查找并合并删除 ok
+    virtual const bool find_and_del_by_merge(const T data);
+    // 复制删除 ok
+    virtual const bool del_copy(N<T> * &bstn);
+    // 查找并复制删除 ok
+    virtual const bool find_and_del_by_copy(const T data);
+    // 删除以指定节点为根的树 ok
+    virtual const bool clean(N<T> * bstn);
+    // 返回包含指定数据的节点
+    virtual N<T> * get_node(N<T> * bstn, const T data) const;
+    // 返回包含指定数据的节点的父节点
+    virtual N<T> * get_node_prev(N<T> * bstn, const T data) const;
 
-    void bfs(N<T> * bstn, std::function<void (N<T> *)> fun) const;  // 广度优先遍历 ok
-    void dfs_vlr(N<T> * bstn, std::function<void (N<T> *)> fun) const; // VLR 遍历 ok
-    void dfs_lvr(N<T> * bstn, std::function<void (N<T> *)> fun) const; // LVR 遍历 ok
-    void dfs_lrv(N<T> * bstn, std::function<void (N<T> *)> fun) const; // LRV 遍历 ok
+    // 广度优先遍历 ok
+    void bfs(N<T> * bstn, std::function<void (N<T> *)> fun) const;
+    // VLR 遍历 ok
+    void dfs_vlr(N<T> * bstn, std::function<void (N<T> *)> fun) const;
+    // LVR 遍历 ok
+    void dfs_lvr(N<T> * bstn, std::function<void (N<T> *)> fun) const;
+    // LRV 遍历 ok
+    void dfs_lrv(N<T> * bstn, std::function<void (N<T> *)> fun) const; 
 
-    void balance_dsw(N<T> * bstn);   // DSW 平衡算法 ok
-    void dsw_create_backbone(N<T> * ch, N<T> * bstn, N<T> * par); // dsw 算法，创建主链 ok
-    void dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * grand);   // dsw 算法，重新生成树 ok
-    virtual void rotate_right(N<T> * ch, N<T> * par, N<T> * grand); // 右旋 ok
-    virtual void rotate_left(N<T> * ch, N<T> * par, N<T> * grand); // 左旋 ok
+    // DSW 平衡算法 ok
+    void balance_dsw(N<T> * bstn);
+    // dsw 算法，创建主链 ok
+    void dsw_create_backbone(N<T> * ch, N<T> * bstn, N<T> * par);
+    // dsw 算法，重新生成树 ok
+    void dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * grand);
+    // 右旋 ok
+    virtual void rotate_right(N<T> * ch, N<T> * par, N<T> * grand);
+    // 左旋 ok
+    virtual void rotate_left(N<T> * ch, N<T> * par, N<T> * grand);
 
-    virtual void display_tree(N<T> * bstn) const; // 打印树结构 ok
-    const int ipl(N<T> * bstn) const; // Internal Path Length 内部路径长度
-    virtual const int get_height(N<T> * bstn) const; // 返回指定树的树高 ok
-    virtual const int get_leaf(N<T> * bstn) const;  // 返回以指定节点为根的树的叶子结点数量 ok
-    virtual const int get_nodes(N<T> * bstn) const;    // 返回以指定节点为根的树的结点数量 ok
-    virtual const bool search(N<T> * bstn, const T data) const;   // 在指定子树中搜索 data ok
+    // 打印树结构 ok
+    virtual void display_tree(N<T> * bstn) const;
+    // Internal Path Length 内部路径长度
+    const int ipl(N<T> * bstn) const;
+    // 返回指定树的树高 ok
+    virtual const int get_height(N<T> * bstn) const;
+    // 返回以指定节点为根的树的叶子结点数量 ok
+    virtual const int get_leaf(N<T> * bstn) const;
+    // 返回以指定节点为根的树的结点数量 ok
+    virtual const int get_nodes(N<T> * bstn) const;
+    // 在指定子树中搜索 data ok
+    virtual const bool search(N<T> * bstn, const T data) const;
 
 public:
     BinarySearchTree(void);
@@ -82,18 +106,28 @@ public:
     BinarySearchTree(const T * arr, const size_t begin, const size_t end);
     virtual ~BinarySearchTree(void);
 
-    virtual const bool Search(const T data) const;   // 搜索 data ok
-    virtual const bool Insert(const T data);  // 插入 ok
-    virtual const bool Delete(const T data);   // 删除 ok
+    // 搜索 data ok
+    virtual const bool Search(const T data) const;
+    // 插入 ok
+    virtual const bool Insert(const T data);
+    // 删除 ok
+    virtual const bool Delete(const T data);
 
-    virtual const bool Empty(void) const; // 返回是否为空 ok
-    virtual const int GetHeight(void) const;  // 返回树高
-    virtual const int GetLeaf(void) const;  // 返回树叶子节点数量
-    virtual const int GetNodes(void) const;   // 返回树节点数量
-    virtual void Display(void) const;   // 打印树结构
+    // 返回是否为空 ok
+    virtual const bool Empty(void) const;
+    // 返回树高
+    virtual const int GetHeight(void) const;
+    // 返回树叶子节点数量
+    virtual const int GetLeaf(void) const;
+    // 返回树节点数量
+    virtual const int GetNodes(void) const;
+    // 打印树结构
+    virtual void Display(void) const;
+    // 转换为数组
     virtual const size_t ToArrayLVR(T arr[]) const;
     virtual const size_t ToArrayLRV(T arr[]) const;
     virtual const size_t ToArrayBFS(T arr[]) const;
+    // 转换为 vector
     virtual const size_t ToVectorLVR(std::vector<T> &vect) const;
     virtual const size_t ToVectorLRV(std::vector<T> &vect) const;
     virtual const size_t ToVectorBFS(std::vector<T> &vect) const;
@@ -177,13 +211,19 @@ const bool BinarySearchTree<T, N>::Search(const T data) const {
 
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::search(N<T> * bstn, const T data) const {
-    if(bstn == nullptr) return false;
-    if(data < bstn->data)
+    if(bstn == nullptr) {
+        return false;
+    }
+    if(data < bstn->data) {
         return search(bstn->left, data);
-    else if(data > bstn->data)
+    }
+    else if(data > bstn->data) {
         return search(bstn->right, data);
-    else
-        return true;                          // 找到了，返回对应节点指针。
+    }
+    else {
+        // 找到了，返回对应节点指针。
+        return true;
+    }
 }
 
 template <class T, template <class> class N>
@@ -197,7 +237,8 @@ N<T> * BinarySearchTree<T, N>::get_node(N<T> * bstn, const T data) const {
         prev = node;
         if(node->data < data) {
             node = node->right;
-        } else {
+        }
+        else {
             node = node->left;
         }
     }
@@ -215,7 +256,8 @@ N<T> * BinarySearchTree<T, N>::get_node_prev(N<T> * bstn, const T data) const {
         prev = node;
         if(node->data < data) {
             node = node->right;
-        } else {
+        }
+        else {
             node = node->left;
         }
     }
@@ -257,8 +299,9 @@ const bool BinarySearchTree<T, N>::Delete(const T data) {
 
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data) {
-    if(this->search(bstn, data) )
+    if(this->search(bstn, data) ) {
         return false;
+    }
     if(bstn == nullptr) {
         bstn = new N<T>(data);
         bstn->data = data;
@@ -271,17 +314,22 @@ const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data) {
         N<T> * tmp = nullptr;
         while(bstn != nullptr) {
             tmp = bstn;
-            if(data < bstn->data)
+            if(data < bstn->data) {
                 bstn = bstn->left;
-            else if(data > bstn->data)
+            }
+            else if(data > bstn->data) {
                 bstn = bstn->right;
-            else
+            }
+            else {
                 return false;
+            }
         }
-        if(data < tmp->data)
+        if(data < tmp->data) {
             tmp->left = new N<T>(data);
-        else
+        }
+        else {
             tmp->right = new N<T>(data);
+        }
         return true;
     }
 }
@@ -319,8 +367,9 @@ const int BinarySearchTree<T, N>::get_nodes(N<T> * bstn) const {
 // 返回树高度
 template <class T, template <class> class N>
 const int BinarySearchTree<T, N>::get_height(N<T> * bstn) const {
-    if(bstn == nullptr)
+    if(bstn == nullptr) {
         return 0;
+    }
     int lh = get_height(bstn->left);
     int rh = get_height(bstn->right);
     return lh >= rh ? ++lh : ++rh;
@@ -331,8 +380,9 @@ template <class T, template <class> class N>
 const int BinarySearchTree<T, N>::get_leaf(N<T> * bstn) const {
     int counter = 0;
     bfs(bstn, [&counter](N<T> * bstn) {
-        if(bstn->left == nullptr && bstn->right == nullptr)
+        if(bstn->left == nullptr && bstn->right == nullptr) {
             counter++;
+        }
     });
     return counter;
 }
@@ -345,10 +395,12 @@ void BinarySearchTree<T, N>::bfs(N<T> * bstn, std::function<void (N<T> *)> fun) 
         while(!queue.Empty() ) {
             N<T> * bstn_tmp = queue.DeQueue();
             fun(bstn_tmp);
-            if(bstn_tmp->left != nullptr)
+            if(bstn_tmp->left != nullptr) {
                 queue.EnQueue(bstn_tmp->left);
-            if(bstn_tmp->right != nullptr)
+            }
+            if(bstn_tmp->right != nullptr) {
                 queue.EnQueue(bstn_tmp->right);
+            }
         }
     }
     return;
@@ -433,7 +485,8 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
 
         if(par != nullptr) {
             ch = par->right;
-        } else {
+        }
+        else {
             break;
         }
     }
@@ -452,7 +505,8 @@ void BinarySearchTree<T, N>::dsw_recreate_tree(N<T> * ch, N<T> * par, N<T> * gra
 
             if(par != nullptr) {
                 ch = par->right;
-            } else {
+            }
+            else {
                 break;
             }
         }
