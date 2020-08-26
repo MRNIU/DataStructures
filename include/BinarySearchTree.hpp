@@ -251,6 +251,44 @@ N<T> * BinarySearchTree<T, N>::get_node(N<T> * bstn, const T data) const {
 
 template <class T, template <class> class N>
 N<T> * BinarySearchTree<T, N>::get_node_prev(N<T> * bstn, const T data) const {
+//    Stack<N<T> *> stack;
+//    N<T> * par = nullptr;
+//    N<T> * node = this->root;
+//    // 节点不为空或栈不为空
+//    while(node || stack.Empty() == false) {
+//        // 节点不为空时
+//        if(node) {
+//            // 根节点
+//            if((node != nullptr) && (node->data == data)) {
+//                break;
+//            }
+//            // 如果左子节点符合要求
+//            else if((node->left != nullptr) && (node->left->data == data)) {
+//                par = node;
+//                node = node->left;
+//                break;
+//            }
+//            // 如果右子节点符合要求
+//            else if((node->left != nullptr) && (node->right->data == data)) {
+//                par = node;
+//                node = node->right;
+//                break;
+//            }
+//            // 都不符合
+//            // 将当前节点入栈
+//            // node 指向左子节点
+//            else {
+//                stack.Push(node);
+//                node = node->left;
+//            }
+//        }
+//        // 节点为空
+//        else {
+//            // 将上一个节点出栈
+//            node = stack.Pop();
+//            node = node->right;
+//        }
+//    }
     N<T> * node = bstn,
         * prev = nullptr;
     while(node != nullptr) {
@@ -275,14 +313,52 @@ const bool BinarySearchTree<T, N>::Empty(void) const {
 
 // 合并删除
 // 将删除后剩下的子树合并成一棵树
+// 需要相应节点的父节点
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::del_merge(N<T> * bstn, N<T> * par) {
+    if(bstn == nullptr) {
+        return false;
+    }
+    // 首先处理左右子树
+    N<T> * node = bstn;
+    // 左子树为空
+    if(node->left == nullptr) {
+        node = node->right;
+    }
+    // 右子树为空
+    else if(node->right == nullptr) {
+        node = node->left;
+    }
+    // 左右子树都不为空
+    // 合并两颗子树
+    else {
+        node = bstn->left;
+        while(node->right != nullptr) {
+            node = node->right;
+        }
+        node->right = bstn->right;
+        node = bstn;
+        bstn = bstn->left;
+    }
+    // 处理父节点
+    if(par == nullptr) {
+        this->root = node;
+    }
+    else if((par->left != nullptr) && (par->left == node)) {
+        par->left = bstn;
+        std::cout<<"par->left->data: "<< par->left->data<<std::endl;
+    }
+    else if((par->right != nullptr) && (par->left == node)) {
+        par->right = bstn;
+        std::cout<<"par->right->data: "<< par->right->data<<std::endl;
+    }
+    delete bstn;
     return true;
 }
 
 template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::find_and_del_by_merge(const T data) {
-    return true;
+    return del_merge(node, get_node_prev(this->root, data));
 }
 
 template <class T, template <class> class N>
