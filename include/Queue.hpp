@@ -25,8 +25,8 @@ public:
     T DeQueue(void);
     bool Empty(void) const;
     T GetFirst(void) const;
-    const size_t to_Array(T arr[]) const;
-    const size_t to_Vector(std::vector<T> &vect) const;
+    const size_t ToArray(T arr[]) const;
+    const size_t ToVector(std::vector<T> &vect) const;
     void Display(void) const;
 };
 
@@ -69,13 +69,13 @@ T Queue<T>::GetFirst() const{
 }
 
 template <class T>
-const size_t Queue<T>::to_Array(T arr[]) const {
-    return LL.to_Array(arr);
+const size_t Queue<T>::ToArray(T arr[]) const {
+    return LL.ToArray(arr);
 }
 
 template <class T>
-const size_t Queue<T>::to_Vector(std::vector<T> &vect) const {
-    return LL.to_Vector(vect);
+const size_t Queue<T>::ToVector(std::vector<T> &vect) const {
+    return LL.ToVector(vect);
 }
 
 template <class T>

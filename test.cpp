@@ -30,10 +30,9 @@ bool test_LinkedList(void) {
     LL.AddtoHead(4);
     LL.AddtoHead(2);
     LL.Sort();
-//    LL.Display();
     
     int a[10] = { 0 };
-    auto n = LL.to_Array(a);
+    auto n = LL.ToArray(a);
     assert(n == 5);
     assert(a[0] == 0);
     assert(a[1] == 1);
@@ -43,13 +42,51 @@ bool test_LinkedList(void) {
     assert(a[5] == 0);
     
     std::vector<int> v(0);
-    size_t m = LL.to_Vector(v);
-    assert(m == 5);
+    n = LL.ToVector(v);
+    assert(n == 5);
     assert(v[0] == 0);
     assert(v[1] == 1);
     assert(v[2] == 2);
     assert(v[3] == 4);
     assert(v[4] == 233);
+    
+    LL.AddtoTail(666);
+    v.clear();
+    n = LL.ToVector(v);
+    assert(n == 6);
+    assert(v[5] == 666);
+    
+    assert(LL.RemoveFromHead() == 0);
+    assert(LL.RemoveFromTail() == 666);
+    assert(LL.RemoveFromTail() == 233);
+    assert(LL.RemoveFromTail() == 4);
+    assert(LL.RemoveFromTail() == 2);
+    assert(LL.RemoveFromTail() == 1);
+    assert(LL.RemoveFromTail() == 0);
+    assert(LL.Empty() == true);
+    
+    LL.AddtoHead(233);
+    LL.AddtoHead(0);
+    LL.AddtoHead(4);
+    LL.AddtoHead(1);
+    LL.AddtoHead(2);
+    v.clear();
+    n = LL.ToVector(v);
+    assert(n == 5);
+    assert(LL.size() == 5);
+    assert(v[4] == 233);
+    assert(v[3] == 0);
+    assert(v[2] == 4);
+    assert(v[1] == 1);
+    assert(v[0] == 2);
+    
+    assert(LL.Search(0) == true);
+    assert(LL.Search(1) == true);
+    assert(LL.Search(2) == true);
+    assert(LL.Search(4) == true);
+    assert(LL.Search(233) == true);
+    
+    
     return true;
 }
 
@@ -61,7 +98,7 @@ bool test_Queue(void) {
     queue.EnQueue(2);
     
     int a[10] = { 0 };
-    auto n = queue.to_Array(a);
+    auto n = queue.ToArray(a);
     assert(n == 5);
     assert(a[0] == 233);
     assert(a[1] == 0);
@@ -71,7 +108,7 @@ bool test_Queue(void) {
     assert(a[5] == 0);
     
     std::vector<int> v(0);
-    size_t m = queue.to_Vector(v);
+    size_t m = queue.ToVector(v);
     assert(m == 5);
     assert(v[0] == 233);
     assert(v[1] == 0);
