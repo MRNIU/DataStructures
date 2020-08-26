@@ -185,6 +185,25 @@ bool test_BinarySearchTree(void) {
     assert(v.at(3) == 4);
     assert(v.at(4) == 2);
     
+    bst.Balance();
+    v.clear();
+    bst.ToVectorBFS(v);
+    assert(v.at(0) == 4);
+    assert(v.at(1) == 1);
+    assert(v.at(2) == 233);
+    assert(v.at(3) == 0);
+    assert(v.at(4) == 2);
+    v.clear();
+    bst.ToVectorLRV(v);
+    assert(v.at(0) == 0);
+    assert(v.at(1) == 2);
+    assert(v.at(2) == 1);
+    assert(v.at(3) == 233);
+    assert(v.at(4) == 4);
+    
+    bst.Delete(4);
+    bst.Display();
+    
     return true;
 }
 

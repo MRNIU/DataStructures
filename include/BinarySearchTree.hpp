@@ -76,6 +76,8 @@ protected:
     // LRV 遍历 ok
     void dfs_lrv(N<T> * bstn, std::function<void (N<T> *)> fun) const; 
 
+    // 平衡树
+    void balance(N<T> * bstn);
     // DSW 平衡算法 ok
     void balance_dsw(N<T> * bstn);
     // dsw 算法，创建主链 ok
@@ -112,6 +114,8 @@ public:
     virtual const bool Insert(const T data);
     // 删除 ok
     virtual const bool Delete(const T data);
+    // 平衡
+    virtual void Balance(void);
 
     // 返回是否为空 ok
     virtual const bool Empty(void) const;
@@ -298,6 +302,12 @@ const bool BinarySearchTree<T, N>::Delete(const T data) {
 }
 
 template <class T, template <class> class N>
+void BinarySearchTree<T, N>::Balance(void) {
+    this->balance(this->root);
+    return;
+}
+
+template <class T, template <class> class N>
 const bool BinarySearchTree<T, N>::insert(N<T> * bstn, const T data) {
     if(this->search(bstn, data) ) {
         return false;
@@ -437,6 +447,12 @@ void BinarySearchTree<T, N>::dfs_vlr(N<T> * bstn, std::function<void (N<T> *)> f
         dfs_vlr(bstn->right, fun);
         return;
     }
+    return;
+}
+
+template <class T, template <class> class N>
+void BinarySearchTree<T, N>::balance(N<T> * bstn) {
+    this->balance_dsw(this->root);
     return;
 }
 
